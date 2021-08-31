@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style >
+      div{
+        border: 1px solid gray;
+      }
+      #grid_{
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+         grid-template-rows: 1fr 1fr 8fr 1fr 1fr 2fr;
+      }
+      .jumun{
+        grid-column-start: 1;
+      	grid-column-end: 3;
+      	grid-row-start: 1;
+      	grid-row-end: 2;
+      }
+      .star{
+        grid-column-start: 3;
+      	grid-column-end: 5;
+      	grid-row-start: 1;
+      	grid-row-end: 2;
+      }
+      .jangbi{
+        grid-column-start: 5;
+      	grid-column-end: 7;
+      	grid-row-start: 1;
+      	grid-row-end: 2;
+      }
+      .mesorel{
+        grid-column-start: 1;
+      	grid-column-end: 7;
+      	grid-row-start: 2;
+      	grid-row-end: 3;
+      }
+      .sajin{
+        grid-column-start: 1;
+      	grid-column-end: 3;
+      	grid-row-start: 3;
+      	grid-row-end: 4;
+      }
+      .gangwhajeong{
+        grid-column-start: 3;
+      	grid-column-end: 7;
+      	grid-row-start: 3;
+      	grid-row-end: 4;
+      }
+      .starcatch{
+        grid-column-start: 1;
+      	grid-column-end: 4;
+      	grid-row-start: 4;
+      	grid-row-end: 5;
+      }
+      .pagae{
+        grid-column-start: 4;
+      	grid-column-end: 7;
+      	grid-row-start: 4;
+      	grid-row-end: 5;
+      }
+      .pilyo{
+        grid-column-start: 1;
+      	grid-column-end: 7;
+      	grid-row-start: 5;
+      	grid-row-end: 6;
+      }
+      .gangwha{
+        grid-column-start: 2;
+      	grid-column-end: 4;
+      	grid-row-start: 6;
+      	grid-row-end: 7;
+      }
+      .cancel{
+        grid-column-start: 4;
+      	grid-column-end: 6;
+      	grid-row-start: 6;
+      	grid-row-end: 7;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="grid_">
+      <div class="jumun">
+             주문서
+      </div>
+      <div class="star">
+        스타포스 강화
+      </div>
+      <div class="jangbi">
+        장비전승
+      </div>
+      <div class="mesorel">
+        메소를 사용하여 장비를 강화합니다
+      </div>
+      <div class="sajin">
+        사진
+      </div>
+      <div class="gangwhajeong">
+      <div id="jengbo">0성 > 1성<br>성공확률: 95.0%<br>실패(유지)확률: 5.0%</div>
+
+      <script>
+        var a = 0;
+       function starforce(star){
+           var nextStar = star + 1;
+           var failPercentage = 5 * nextStar;
+           var successPercentage = 100 - failPercentage;
+           var rsp = successPercentage / 100;
+           if(star < 9){
+         if(Math.random() < rsp){
+           console.log('강화 성공 ^^');
+           star += 1;
+           nextStar += 1;
+           failPercentage += 5;
+           successPercentage -= 5;
+           a += 1;
+           document.getElementById("jengbo").innerHTML = star + '성' + ' > ' + nextStar + '성' + '<br>' + '성공확률: ' + successPercentage + '%' + '<br>' + '실패(유지)확률:' + failPercentage + '%';
+           return a;
+         }
+         else {
+           console.log('강화 실패 ^^');
+           document.getElementById("jengbo").innerHTML = star + '성' + ' > ' + nextStar + '성' + '<br>' + '성공확률: ' + successPercentage + '%' + '<br>' + '실패(유지)확률:' + failPercentage + '%';
+           return a;
+         }
+           }
+         }
+      </script>
+      </div>
+      <div class="starcatch">
+             스타캐치해제
+      </div>
+      <div class="pagae">
+             파괴방지
+      </div>
+      <div class="pilyo">
+             필요한메소
+      </div>
+      <div class="gangwha">
+             <input type = "button" value = "강화" onclick = "starforce(a)">
+      </div>
+      <div class="cancel">
+             취소
+      </div>
+    </div>
+  </body>
+</html>
