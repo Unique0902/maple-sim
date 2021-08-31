@@ -51,6 +51,9 @@
      .item{
 
      }
+     #itemimg{
+       cursor: move;
+     }
     </style>
     <script>
 
@@ -63,22 +66,42 @@
   <body>
   <a href="index.html"><h1>메이플 시뮬레이터 모음</h1></a>
 
+  <script>
+  function dragOver_(e){
+      e.preventDefault();
+        console.log('dragOver');
+    }
+  function drop_(e){
+      e.preventDefault();
+      console.log("drop");
+      var targetId = e.dataTransfer.getData('targetImg');
+      document.getElementById('dropblock').appendChild(document.getElementById(targetId));
+      document.getElementById('itemimg').insertAdjacentHTML("afterend","<div id='itemname_'>안녕하세요?</div>");
+  }
+  function hide(){
+    const div = document.getElementById('dropHide');
+    div.style.display = 'none';
+  }
+  </script>
   <div id="grid">
   <div class="enhance">
-    <div id="dropblock" >
-    <img src="drag.png" width="40%" >
-    <p> 강화할 장비를 올려주세요 </p>
-    </div>
+
+    <div id="dropblock" droppable="true" ondragover="dragOver_(event)" ondrop="drop_(event); hide();">
+    <div id="dropHide">
+      <img src="drag.png" width="40%" >
+    <p> 강화할 장비를 올려주세요 </p> </div>
   </div>
+  </div>
+
   <div class="item">
   <h3> 아이템 목록 </h3>
 
   <select id="type" onchange="whereChange_a();
   whereChange_b();jobChange();">
 <option>-종류-</option>
-<option value="clothes">방어구</option>
-<option value="accessory">장신구</option>
-<option value="weapon">무기</option>
+<option value="방어구">방어구</option>
+<option value="장신구">장신구</option>
+<option value="무기">무기</option>
 </select>
 <select id="where" onchange="jobChange()">
 <option>-부위-</option>
@@ -91,9 +114,9 @@ var accessory_b = ["어깨장식", "귀고리", "반지", "벨트", "펜던트",
 var weapon_c = ["무기",];
 var target = document.getElementById("where");
 target.options.length = 1;
-if(document.getElementById('type').value == "clothes") var d = clothes_a;
-else if(document.getElementById('type').value == "accessory") var d = accessory_b;
-else if(document.getElementById('type').value == "weapon") var d = weapon_c;
+if(document.getElementById('type').value == "방어구") var d = clothes_a;
+else if(document.getElementById('type').value == "장신구") var d = accessory_b;
+else if(document.getElementById('type').value == "무기") var d = weapon_c;
 
 
 
@@ -123,9 +146,9 @@ function whereChange_b() {
          "아델", "일리움", "호영", "라라", "제로", "키네시스"];
   var target = document.getElementById("job");
   target.options.length = 1;
-  if(document.getElementById('type').value == "clothes") var d = clothes_a;
-  else if(document.getElementById('type').value == "accessory") var d = accessory_b;
-  else if(document.getElementById('type').value == "weapon") var d = weapon_c;
+  if(document.getElementById('type').value == "방어구") var d = clothes_a;
+  else if(document.getElementById('type').value == "장신구") var d = accessory_b;
+  else if(document.getElementById('type').value == "무기") var d = weapon_c;
 
 
 
@@ -157,7 +180,57 @@ for (x in d) {
 }
 </script>
 
+<!-- <script> -->
+  <!-- // var typenum = ["방어구", "장신구", "무기"];
+  // var clothes_wherenum = ["모자", "상의", "하의", "장갑", "신발", "망토"];
+  // var accessory_wherenum = ["어깨장식", "귀고리", "반지", "벨트", "펜던트", "눈장식", "얼굴장식", "기계심장"];
+  // var weapon_weaponnum = ["무기",];
+  // var clothes_jobnum = ["전사", "궁수", "마법사", "도적", "해적"];
+  // var accessory_jobnum = ["전체"];
+  // var weapon_jobnum = ["히어로", "팔라딘", "다크나이트", "아크메이지(불,독)",
+  //  "아크메이지(썬,콜)", "비숍", "보우마스터", "신궁", "패스파인더",
+  //   "나이트로드", "섀도어", "듀얼블레이드", "바이퍼", "캡틴", "캐논슈터",
+  //    "소울마스터", "플레임위자드", "윈드브레이커", "나이트워커", "호크아이",
+  //     "미하일", "블래스터", "배틀메이지", "와일드헌터", "메카닉", "제논",
+  //      "데몬슬레이어", "데몬어벤져", "메르세데스", "아란", "팬텀", "루미너스",
+  //       "에반", "은월", "카데나", "카이저", "엔젤릭버스터", "카인", "아크",
+  //        "아델", "일리움", "호영", "라라", "제로", "키네시스"];
+  // var clothes_levellimnum = ["150", "160", "200"];
+  // var accessory_shoulder_levellimnum
+  // var accessory_ear_levellimnum
+  // var accessory_sring_levellimnum
+  // var accessory_belt_levellimnum
+  // var accessory_neck_levellimnum
+  // var accessory_eye_levellimnum
+  // var accessory_face_levellimnum -->
+<input type="button" value="검색" onclick="levLimClick();">
+<script>
+  function levLimClick(){
+
+if (document.getElementById('type').value == "방어구" &&
+  document.getElementById('where').value == "상의" &&
+document.getElementById('job').value === "전사" &&
+document.getElementById('levellimit').value === "150"){
+   document.getElementById("img_out").innerHTML =
+   "<img id= 'itemimg' src = 'shirts.jpg' style='width: 100px; height: 80px;'>";
+   document.getElementById("itemname").innerHTML = "이글아이 워리어아머";
+
+}
+}
+</script>
+
+<script>
+  function dragStart_(e){
+    e.dataTransfer.setData('targetImg',e.currentTarget.id);
+  }
+</script>
+
+<div id = "img_out" draggable="true" ondragstart="dragStart_(event)"></div>
+<div id = "itemname"></div>
+
   </div>
+
+
   <div class="money">
   <h3> 메소 </h3>
   </div>
