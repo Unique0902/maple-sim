@@ -131,7 +131,13 @@
        grid-row-start: 6;
        grid-row-end: 7;
      }
-
+     #nodrag{
+   -ms-user-select: none;
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   user-select: none;
+ }
 
     </style>
     <script src="starForceLogic.js"></script>
@@ -142,7 +148,7 @@
 
   <script>
   function dragOver_(e){
-      e.preventDefault();
+        e.preventDefault();
         console.log('dragOver');
     }
   function drop_(e){
@@ -164,7 +170,14 @@
       document.getElementById('gangwha').insertAdjacentHTML('afterbegin','<input type = "button" value = "강화" onclick = "starforce(a)">');
       document.getElementById('grid_').insertAdjacentHTML('beforeend','<div id="cancel">취소</div>');
       document.getElementById('sajin').appendChild(document.getElementById(targetId));
+
   }
+ function dragenter_(){
+  console.log("dragenter");
+}
+function dragend(){
+  console.log("dragend");
+}
   function hide(){
     const div = document.getElementById('dropHide');
     div.style.display = 'none';
@@ -173,10 +186,10 @@
   <div id="grid">
   <div class="enhance">
 
-    <div id="dropblock" droppable="true" ondragover="dragOver_(event)" ondrop="drop_(event); hide();">
-    <div id="dropHide">
-      <img src="drag.png" width="40%" >
-    <p> 강화할 장비를 올려주세요 </p> </div>
+    <div id="dropblock" droppable="true" ondragover="dragOver_(event)" ondrop="drop_(event); hide();" ondragenter="dragenter_()" ondragend="dragend()">
+    <div id="dropHide" draggable="false">
+      <img src="drag.png" draggable="false" width="40%" >
+    <p id="nodrag"> 강화할 장비를 올려주세요 </p> </div>
     <div id="grid_">
 
     </div>
@@ -317,7 +330,7 @@ document.getElementById('levellimit').value === "150"){
   }
 </script>
 
-<div id = "img_out" draggable="true" ondragstart="dragStart_(event)"></div>
+<div id = 'img_out' draggable='true' ondragstart='dragStart_(event)'></div>
 <div id = "itemname"></div>
 
   </div>
