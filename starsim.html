@@ -164,7 +164,7 @@
       document.getElementById('gangwha').insertAdjacentHTML('afterbegin','<input type = "button" value = "강화" onclick = "starforce(a)">');
       document.getElementById('grid_').insertAdjacentHTML('beforeend','<div id="cancel">취소</div>');
       document.getElementById('sajin').appendChild(document.getElementById(targetId));
-
+      this.onclick=null; //한번만 진행되게 해줌.
   }
   function hide(){
     const div = document.getElementById('dropHide');
