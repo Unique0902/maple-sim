@@ -19,7 +19,7 @@
      }
      #grid  {
        display: grid;
-       grid-template-columns: repeat(2, 1fr);
+       grid-template-columns: 2fr 1fr;
         grid-template-rows: 3fr 1fr;
         gap: 100px 250px;
      }
@@ -42,11 +42,10 @@
       align-items: center;
      }
      #dropblock{
-       display: block;
+       display: inline-block;
        text-align: center;
        background-color: skyblue;
-       width: 300px;
-       height: 300px;
+
      }
      .item{
 
@@ -131,7 +130,7 @@
        grid-row-start: 6;
        grid-row-end: 7;
      }
-     #nodrag{
+     #nodrag, .enhance, h1, .item, .money{
    -ms-user-select: none;
    -moz-user-select: -moz-none;
    -khtml-user-select: none;
@@ -209,7 +208,7 @@ function dragend(){
 <option value="무기">무기</option>
 </select>
 <select id="where" onchange="jobChange()">
-<option>-부위-</option>
+<option>-부위-</option>``
 </select>
 <script>
 function whereChange_a() {
