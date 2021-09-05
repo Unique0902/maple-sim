@@ -59,7 +59,7 @@
        border: 1px solid gray;
      }
      #grid_{
-       display: none;
+       display: grid;
        grid-template-columns: repeat(6, 1fr);
         grid-template-rows: 1fr 1fr 8fr 1fr 1fr 2fr;
         border: 1px solid gray;
@@ -130,16 +130,14 @@
        grid-row-start: 6;
        grid-row-end: 7;
      }
-     #nodrag, .enhance, h1, .item, .money #itemimgTaking{
+     #nodrag, .enhance, h1, .item, .money{
    -ms-user-select: none;
    -moz-user-select: -moz-none;
    -khtml-user-select: none;
    -webkit-user-select: none;
    user-select: none;
  }
- #ninjaImg{
-   display: none;
- }
+
     </style>
     <script src="starForceLogic.js"></script>
   </head>
@@ -156,8 +154,24 @@
   function drop_(e){
       e.preventDefault();
       console.log("drop");
+      const img_out_clone = document.getElementById('img_out').cloneNode(true);
       dropCount += 1;
+
       if(dropCount==1){
+      document.getElementById('grid_').insertAdjacentHTML('afterbegin','<div id="jumun">주문서</div>');
+      document.getElementById('jumun').insertAdjacentHTML('afterend','<div id="star">스타포스 강화</div>');
+      document.getElementById('star').insertAdjacentHTML('afterend','<div id="jangbi">장비전승</div>');
+      document.getElementById('jangbi').insertAdjacentHTML('afterend','<div id="mesorel">메소를 사용하여 장비를 강화합니다</div>');
+      document.getElementById('mesorel').insertAdjacentHTML('afterend','<div id="sajin"></div>');
+      document.getElementById('sajin').insertAdjacentHTML('afterend','<div id="gangwhajeong"></div>');
+      document.getElementById('gangwhajeong').insertAdjacentHTML('afterbegin','<div id="jeongbo"></div>');
+      document.getElementById('jeongbo').insertAdjacentHTML('afterbegin','0성 > 1성<br>성공확률: 95.0%<br>실패(유지)확률: 5.0%');
+      document.getElementById('gangwhajeong').insertAdjacentHTML('afterend','<div id="starcatch">스타캐치해제</div>');
+      document.getElementById('starcatch').insertAdjacentHTML('afterend','<div id="pagae">파괴방지</div>');
+      document.getElementById('pagae').insertAdjacentHTML('afterend','<div id="pilyo">필요한메소</div>');
+      document.getElementById('pilyo').insertAdjacentHTML('afterend','<div id="gangwha"></div>');
+      document.getElementById('gangwha').insertAdjacentHTML('afterbegin','<input type = "button" value = "강화" onclick = "starforce(a); jangbiExplain();">');
+      document.getElementById('grid_').insertAdjacentHTML('beforeend','<div id="cancel">취소</div>');
     }
     else{
       // document.getElementById('sajin').setAttribute("type", "reset"); /* 이거 안해도되나?*/
@@ -166,7 +180,7 @@
       a = 0;
         }
         // document.getElementById('sajin').removeChild(); 삭제 안해도되나?
-        document.getElementById('sajin').appendChild(document.getElementById('itemimgTaking'));
+        document.getElementById('sajin').appendChild(img_out_clone);
   }
  function dragenter_(){
   console.log("dragenter");
@@ -174,50 +188,20 @@
 function dragend(){
   console.log("dragend");
 }
-  function dropHide_Hide(){
+  function hide(){
     const div = document.getElementById('dropHide');
-    div.style.display = 'none';
-  }
-  function dropHide_Make(){
-    const div = document.getElementById('dropHide');
-    div.style.display = 'block';
-  }
-  function grid_Make(){
-    const div = document.getElementById('grid_');
-    div.style.display = 'grid';
-  }
-  function grid_Hide(){
-    const div = document.getElementById('grid_');
     div.style.display = 'none';
   }
   </script>
   <div id="grid">
   <div class="enhance">
 
-    <div id="dropblock" droppable="true" ondragover="dragOver_(event)" ondrop="drop_(event); dropHide_Hide(); grid_Make(); jangbiExplain(); levLimClick();" ondragenter="dragenter_()" ondragend="dragend()">
+    <div id="dropblock" droppable="true" ondragover="dragOver_(event)" ondrop="drop_(event); hide(); jangbiExplain();" ondragenter="dragenter_()" ondragend="dragend()">
     <div id="dropHide" draggable="false">
       <img src="drag.png" draggable="false" width="40%" >
     <p id="nodrag"> 강화할 장비를 올려주세요 </p> </div>
     <div id="grid_">
-      <div id="jumun">주문서</div>
-      <div id="star">스타포스 강화</div>
-      <div id="jangbi">장비전승</div>
-      <div id="mesorel">메소를 사용하여 장비를 강화합니다</div>
-      <div id="sajin"></div>
-      <div id="gangwhajeong">
-      <div id="jeongbo">
-      0성 > 1성<br>성공확률: 95.0%<br>실패(유지)확률: 5.0%
-      </div>
-      </div>
-      <div id="starcatch">스타캐치해제</div>
-      <div id="pagae">파괴방지</div>
-      <div id="pilyo">필요한메소</div>
-      <div id="gangwha">
-      <input type = "button" value = "강화" onclick = "starforce(a); jangbiExplain();">
-      </div>
-      <div id="cancel">
-        <input type="button" value="취소" onclick="grid_Hide(); dropHide_Make();">
-      </div>
+
     </div>
   </div>
 
@@ -347,8 +331,6 @@ document.getElementById('job').value === "전사" &&
 document.getElementById('levellimit').value === "150"){
    document.getElementById("img_out").innerHTML =
    "<img id= 'itemimg' src = 'shirts.jpg' style='width: 100px; height: 80px;'>";
-   document.getElementById("ninjaImg").innerHTML =
-   "<img id= 'itemimgTaking' draggable='false' src = 'shirts.jpg' style='width: 100px; height: 80px;'>";
    document.getElementById("itemname").innerHTML = "이글아이 워리어아머";
 }
 else if (document.getElementById('type').value == "방어구" &&
@@ -357,8 +339,6 @@ document.getElementById('job').value === "전사" &&
 document.getElementById('levellimit').value === "150"){
    document.getElementById("img_out").innerHTML =
    "<img id= 'itemimg' src = 'warrior_pants_150.jpg' style='width: 100px; height: 80px;'>";
-   document.getElementById("ninjaImg").innerHTML =
-   "<img id= 'itemimgTaking' draggable='false' src = 'warrior_pants_150.jpg' style='width: 100px; height: 80px;'>";
    document.getElementById("itemname").innerHTML = "트릭스터 워리어팬츠";
 }
 }
@@ -366,7 +346,6 @@ document.getElementById('levellimit').value === "150"){
 
 
 <div id = 'img_out' draggable='true'></div>
-<div id = "ninjaImg"> </div>
 <div id = "itemname"></div>
 
 
