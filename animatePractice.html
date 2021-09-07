@@ -37,7 +37,7 @@
     width:40px;
     height:40px;
     margin-left:-90px;
-    animation: move 1s alternate forwards infinite running;
+    animation: move 50ms alternate forwards infinite running;
 
   }
   .targetZone{
@@ -93,11 +93,11 @@
 </div>
     <script>
     function onclick__(){
-      document.getElementById('starstar').style.animation = 'move 1s alternate forwards infinite paused';
+      document.getElementById('starstar').style.animation = 'move 50ms alternate forwards infinite paused';
     }
       document.addEventListener('keydown', function(e){
         if(e.keyCode === 32){
-          document.getElementById('starstar').style.animation = 'move 1s alternate forwards infinite paused';
+          document.getElementById('starstar').style.animation = 'move 50ms alternate forwards infinite paused';
         }
       })
     </script>
