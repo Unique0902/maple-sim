@@ -7,7 +7,34 @@ var chancetime_SuccessPercentage = 100;
 var chancetime_FailPercentage = 0;
 var nextStar
 var chanceTimeCheckNum = 0;
+var starCatchNum = 0;
+var starCatchSuccess ;
 
+function makeStarCatchLogic(){
+  var checkBox = document.getElementById("starCatchHaeJae");
+  if(checkBox.checked == true){
+  starCatchNum = 1;
+}
+else if (checkBox.checked == false){
+  starCatchNum = 0;
+}
+}
+
+function onclickStop(){
+  document.getElementById('starstar').style.animation = 'move 1s alternate forwards infinite paused';
+  var absoluteTop = window.pageXOffset + document.getElementById('starstar').getBoundingClientRect().left;
+  if (absoluteTop > 210 && absoluteTop < 270){
+    starCatchSuccess = 1;
+    console.log("스타캐치 성공");
+    removeStarCatch()
+    makeStarFoceLogic(a)
+}
+else{ starCatchSuccess = 0;
+  console.log("스타캐치 실패");
+  removeStarCatch()
+  makeStarFoceLogic(a)
+}
+}
 
 function ifSuccessActivate(){
   console.log(successPerArr[star]);
@@ -16,6 +43,19 @@ function ifSuccessActivate(){
   nextStar += 1;
   failPercentage = 100 - successPerArr[star] - destroyPerArr[star];
   a += 1;
+}
+function makeStarCatch(){
+  document.getElementById('starCatchGrid').insertAdjacentHTML('afterbegin', '<div id="description"> 별을 정확한 곳에 멈추면 강화 성공률이 증가하며 연속해서 강화를 시도하면 난이도가 증가합니다.</div>');
+  document.getElementById('description').insertAdjacentHTML('afterend', '<div id="backback"></div>');
+  document.getElementById('backback').insertAdjacentHTML('afterbegin', '<img id=picturesajin src="picture/shirts.jpg">');
+  document.getElementById('backback').insertAdjacentHTML('afterend', '<div id="tel"></div>');
+  document.getElementById('tel').insertAdjacentHTML('afterbegin', '<div id="targetZone"></div>');
+  document.getElementById('tel').insertAdjacentHTML('beforeend', '<img id="starstar" src="picture/starcatch.png">');
+  document.getElementById('tel').insertAdjacentHTML('afterend', '<div id="stopButtonBox"></div>');
+  document.getElementById('stopButtonBox').insertAdjacentHTML('afterbegin', '<input type="button" id="button" value="STOP!" onclick="onclickStop()">');
+}
+function removeStarCatch(){
+  document.getElementById('starCatchGrid').innerHTML = "";
 }
 
 function jeongboPrint_0to11(){
@@ -27,12 +67,24 @@ function jeongboPrint_12to25(){
 function chancetime_Print(){
   document.getElementById("jeongbo").innerHTML = a + '성' + ' > ' + nextStar + '성' + '<br>' + '성공확률: ' + chancetime_SuccessPercentage + '%' + '<br>' + '실패확률:' + chancetime_FailPercentage + '%';
 }// 찬스타임때 성공확률 100
-function starforce(star){
-   nextStar = star + 1;
-   var rsp = successPerArr[star] / 100;
-   tryNumber += 1;
-   console.log('실행 횟수: ' + tryNumber);
+function starForce(){
 
+if(starCatchNum == 0){
+  console.log("스타캐치 실행");
+  makeStarCatch()
+}
+else if(starCatchNum == 1){
+  console.log("스타캐치 실행 X");
+    makeStarFoceLogic(a)
+}
+}
+
+
+function makeStarFoceLogic(star){
+nextStar = star + 1;
+var rsp = successPerArr[star] / 100;
+tryNumber += 1;
+console.log('실행 횟수: ' + tryNumber);
 
    if(star < 10){
  if(Math.random() < rsp){

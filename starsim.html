@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="starCatchFrame.css">
     <title>스타포스 시뮬레이터 </title>
     <style>
       h1{
@@ -196,10 +197,10 @@ function dragend(){
 
     <div id="dropblock" droppable="true" ondragover="dragOver_(event)" ondrop="drop_(event); dropHide_Hide(); grid_Make(); jangbiExplain(); levLimClick();" ondragenter="dragenter_()" ondragend="dragend()">
     <div id="dropHide" draggable="false">
-      <img src="drag.png" draggable="false" width="40%" >
+      <img src="picture/drag.png" draggable="false" width="40%" >
     <p id="nodrag"> 강화할 장비를 올려주세요 </p> </div>
-    <div id="grid_">
-      <div id="jumun">주문서</div>
+    <div id="grid_" style="position: relative; z-index: 1;">
+      <div id="jumun"><a href = "magicalsim.html">주문서</a></div>
       <div id="star">스타포스 강화</div>
       <div id="jangbi">장비전승</div>
       <div id="mesorel">메소를 사용하여 장비를 강화합니다</div>
@@ -209,18 +210,33 @@ function dragend(){
       0성 > 1성<br>성공확률: 95.0%<br>실패(유지)확률: 5.0%
       </div>
       </div>
-      <div id="starcatch">스타캐치해제</div>
-      <div id="pagae">파괴방지</div>
+      <div id="starcatch">스타캐치해제<input type='checkbox' id="starCatchHaeJae"onclick = 'makeStarCatchLogic()' > </div>
+      <div id="pagae">파괴방지<input type='checkbox' ></div>
       <div id="pilyo">필요한메소</div>
       <div id="gangwha">
-      <input type = "button" value = "강화" onclick = "starforce(a); jangbiExplain();">
+      <input type = "button" value = "강화" onclick = "starForce(); jangbiExplain();">
       </div>
       <div id="cancel">
         <input type="button" value="취소" onclick="grid_Hide(); dropHide_Make();">
       </div>
     </div>
-  </div>
+    <div id="starCatchGrid">
 
+    </div>
+    <script>
+
+  // document.addEventListener('keydown', function(e){
+  //         if(e.keyCode === 32){
+  //           document.getElementById('starstar').style.animation = 'move 1s alternate forwards infinite paused';
+  //           var absoluteTop = window.pageXOffset + document.getElementById('starstar').getBoundingClientRect().left;
+  //           if (absoluteTop > 210 && absoluteTop < 270){
+  //           document.getElementById('starCatchGrid').style.display = 'none';
+  //         }
+  //         else{document.getElementById('starCatchGrid').style.display = 'none';}
+  //         }
+  //       })
+    </script>
+  </div>
 
   </div>
 
@@ -346,9 +362,9 @@ if (document.getElementById('type').value == "방어구" &&
 document.getElementById('job').value === "전사" &&
 document.getElementById('levellimit').value === "150"){
    document.getElementById("img_out").innerHTML =
-   "<img id= 'itemimg' src = 'shirts.jpg' style='width: 100px; height: 80px;'>";
+   "<img id= 'itemimg' src = 'picture/shirts.jpg' style='width: 100px; height: 80px;'>";
    document.getElementById("ninjaImg").innerHTML =
-   "<img id= 'itemimgTaking' draggable='false' src = 'shirts.jpg' style='width: 100px; height: 80px;'>";
+   "<img id= 'itemimgTaking' draggable='false' src = 'picture/shirts.jpg' style='width: 100px; height: 80px;'>";
    document.getElementById("itemname").innerHTML = "이글아이 워리어아머";
 }
 else if (document.getElementById('type').value == "방어구" &&
@@ -356,9 +372,9 @@ else if (document.getElementById('type').value == "방어구" &&
 document.getElementById('job').value === "전사" &&
 document.getElementById('levellimit').value === "150"){
    document.getElementById("img_out").innerHTML =
-   "<img id= 'itemimg' src = 'warrior_pants_150.jpg' style='width: 100px; height: 80px;'>";
+   "<img id= 'itemimg' src = 'picture/warrior_pants_150.jpg' style='width: 100px; height: 80px;'>";
    document.getElementById("ninjaImg").innerHTML =
-   "<img id= 'itemimgTaking' draggable='false' src = 'warrior_pants_150.jpg' style='width: 100px; height: 80px;'>";
+   "<img id= 'itemimgTaking' draggable='false' src = 'picture/warrior_pants_150.jpg' style='width: 100px; height: 80px;'>";
    document.getElementById("itemname").innerHTML = "트릭스터 워리어팬츠";
 }
 }
