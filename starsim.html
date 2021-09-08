@@ -24,7 +24,7 @@
         grid-template-rows: 3fr 1fr;
         gap: 100px 250px;
      }
-     #grid div{
+     #grid .enhance,#dropHide,.item,.money,#itemname{
        border: 2px solid gray;
      }
      .money {
@@ -41,12 +41,14 @@
       display: grid;
       justify-content: center;
       align-items: center;
+      background-color: black;
      }
      #dropblock{
        display: inline-block;
        text-align: center;
        background-color: skyblue;
-
+       width: 500px;
+       height: 330px;
      }
      .item{
 
@@ -124,12 +126,18 @@
        grid-column-end: 4;
        grid-row-start: 6;
        grid-row-end: 7;
+       margin-right: 10px;
      }
      #cancel{
        grid-column-start: 4;
        grid-column-end: 6;
        grid-row-start: 6;
        grid-row-end: 7;
+       margin-left: 10px;
+     }
+     #gangwhaButton, #cancelButton {
+       width: 154px;
+       height: 45px;
      }
      #nodrag, .enhance, h1, .item, .money #itemimgTaking{
    -ms-user-select: none;
@@ -138,8 +146,15 @@
    -webkit-user-select: none;
    user-select: none;
  }
- #ninjaImg{
+ #ninjaImg, #samuraiImg{
    display: none;
+ }
+ #dropHide{
+   margin-top: 60px;
+   width: 495px;
+ }
+ #itemimg{
+   margin-left: 105px;
  }
     </style>
     <script src="starForceLogic.js"></script>
@@ -214,10 +229,10 @@ function dragend(){
       <div id="pagae">파괴방지<input type='checkbox' ></div>
       <div id="pilyo">필요한메소</div>
       <div id="gangwha">
-      <input type = "button" value = "강화" onclick = "starForce(); jangbiExplain();">
+      <input type = "button" id="gangwhaButton" value = "강화" onclick = "starForce(); jangbiExplain();">
       </div>
       <div id="cancel">
-        <input type="button" value="취소" onclick="grid_Hide(); dropHide_Make();">
+        <input type="button" id="cancelButton" value="취소" onclick="grid_Hide(); dropHide_Make();">
       </div>
     </div>
     <div id="starCatchGrid">
@@ -365,6 +380,8 @@ document.getElementById('levellimit').value === "150"){
    "<img id= 'itemimg' src = 'picture/shirts.jpg' style='width: 100px; height: 80px;'>";
    document.getElementById("ninjaImg").innerHTML =
    "<img id= 'itemimgTaking' draggable='false' src = 'picture/shirts.jpg' style='width: 100px; height: 80px;'>";
+   document.getElementById("samuraiImg").innerHTML =
+   "<img id= 'itemimgTakingByStarCatch' draggable='false' src = 'picture/shirts.jpg' style='width: 300px; height: 300px;'>";
    document.getElementById("itemname").innerHTML = "이글아이 워리어아머";
 }
 else if (document.getElementById('type').value == "방어구" &&
@@ -375,6 +392,8 @@ document.getElementById('levellimit').value === "150"){
    "<img id= 'itemimg' src = 'picture/warrior_pants_150.jpg' style='width: 100px; height: 80px;'>";
    document.getElementById("ninjaImg").innerHTML =
    "<img id= 'itemimgTaking' draggable='false' src = 'picture/warrior_pants_150.jpg' style='width: 100px; height: 80px;'>";
+   document.getElementById("samuraiImg").innerHTML =
+   "<img id= 'itemimgTakingByStarCatch' draggable='false' src = 'picture/warrior_pants_150.jpg' style='width: 300px; height: 300px;'>";
    document.getElementById("itemname").innerHTML = "트릭스터 워리어팬츠";
 }
 }
@@ -383,6 +402,7 @@ document.getElementById('levellimit').value === "150"){
 
 <div id = 'img_out' draggable='true'></div>
 <div id = "ninjaImg"> </div>
+<div id="samuraiImg"> </div>
 <div id = "itemname"></div>
 
 

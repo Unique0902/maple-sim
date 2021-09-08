@@ -1,10 +1,10 @@
 @-webkit-keyframes move{
   from{
-    top: 410px;
+    top: 345px;
     left: 140px;
   }
   to{
-    top: 410px;
+    top: 345px;
     left: 490px;
   }
 }
@@ -36,10 +36,10 @@
 
 }
 #targetZone{
-  margin-left: 175px;
+  margin-left: 155px;
   background-color: #FFAA28;
   height: 40px;
-  width: 60px;
+  width: 80px;
 }
 .stop{
   animation-play-star: paused;
@@ -65,5 +65,4 @@
 #button{
   width: 116px;
       height: 46px;
-      margin-left: 200px;
 }

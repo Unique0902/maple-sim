@@ -45,14 +45,15 @@ function ifSuccessActivate(){
   a += 1;
 }
 function makeStarCatch(){
+  var itemimgTakingByStarCatchClone = document.getElementById('itemimgTakingByStarCatch').cloneNode();
   document.getElementById('starCatchGrid').insertAdjacentHTML('afterbegin', '<div id="description"> 별을 정확한 곳에 멈추면 강화 성공률이 증가하며 연속해서 강화를 시도하면 난이도가 증가합니다.</div>');
   document.getElementById('description').insertAdjacentHTML('afterend', '<div id="backback"></div>');
-  document.getElementById('backback').insertAdjacentHTML('afterbegin', '<img id=picturesajin src="picture/shirts.jpg">');
   document.getElementById('backback').insertAdjacentHTML('afterend', '<div id="tel"></div>');
   document.getElementById('tel').insertAdjacentHTML('afterbegin', '<div id="targetZone"></div>');
   document.getElementById('tel').insertAdjacentHTML('beforeend', '<img id="starstar" src="picture/starcatch.png">');
   document.getElementById('tel').insertAdjacentHTML('afterend', '<div id="stopButtonBox"></div>');
   document.getElementById('stopButtonBox').insertAdjacentHTML('afterbegin', '<input type="button" id="button" value="STOP!" onclick="onclickStop()">');
+  document.getElementById('backback').appendChild(itemimgTakingByStarCatchClone);
 }
 function removeStarCatch(){
   document.getElementById('starCatchGrid').innerHTML = "";
