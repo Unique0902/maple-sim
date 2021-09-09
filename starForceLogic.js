@@ -8,8 +8,48 @@ var chancetime_FailPercentage = 0;
 var nextStar
 var chanceTimeCheckNum = 0;
 var starCatchNum = 0;
-var starCatchSuccess ;
+var starCatchSuccess = 0;
 var rsp = successPerArr[a] / 100;
+var dsp = destroyPerArr[a] / 100;
+var destroyProtectNum = 0;
+function jangbiBOOMAlert(){
+    Swal.fire({
+  title: '강화에 실패하여 장비가 파괴되었습니다.',
+  text: "파괴된 장비를 복구하시겠습니까?",
+  imageUrl: 'picture/boomDestroyed.png',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: '네, 복구합니다.',
+  cancelButtonText: '아니요.'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire(
+      '장비가 복구되었습니다!',
+      '장비가 12성이 되었습니다.',
+      'success'
+    )
+    a = 12;//starfoce 함수실행?
+    nextStar = 13;
+    jeongboPrint_12to25();
+  }
+  else{
+    a = 0;
+    grid_Hide();
+    dropHide_Make();
+  }
+})
+  }
+
+function hideOrMakeDestroyProtect(){
+  if(a < 12 || a > 16 || chanceTimeCheckNum == 3){
+    document.getElementById('destroyProtect').style.display = 'none';
+    destroyProtectNum = 0;
+  }
+  else{
+    document.getElementById('destroyProtect').style.display = 'inline';
+  }
+}
 
 function makeStarCatchLogic(){
   var checkBox = document.getElementById("starCatchHaeJae");
@@ -19,6 +59,23 @@ function makeStarCatchLogic(){
 else if (checkBox.checked == false){
   starCatchNum = 0;
 }
+}
+function makeDestroyProtectLogic(){
+  var protectLogic = document.getElementById('destroyProtect');
+   if(protectLogic.checked == true){
+     destroyProtectNum = 1;
+   }
+   else if(protectLogic.checked == false){
+     destroyProtectNum = 0;
+   }
+}
+function checkDestroyProtectNum(){
+  if(a < 17){
+    if(destroyProtectNum == 1){
+      console.log('파괴방지 적용!')
+      dsp = 0;
+    }
+  }
 }
 
 function onclickStop(){
@@ -88,7 +145,9 @@ function makeStarFoceLogicTotal(star){
 nextStar = star + 1;
 rsp = successPerArr[star] / 100;
 tryNumber += 1;
+dsp = destroyPerArr[a] / 100;
 console.log('실행 횟수: ' + tryNumber);
+checkDestroyProtectNum();
 if(starCatchSuccess == 1){
   rsp = rsp * 1.05;
   makeStarCatchLogicDivision(a)
@@ -101,6 +160,20 @@ else if(starCatchSuccess == 0){
 
 
 function makeStarCatchLogicDivision(star){
+if(chanceTimeCheckNum == 3){
+  console.log("찬스타임으로 인한 강화 성공 ^^");
+  chanceTimeCheckNum = 0;
+  star += 1;
+  nextStar += 1;
+  a += 1;
+  if(a == 11){
+  jeongboPrint_12to25();
+}
+else{
+  jeongboPrint_12to25();
+}
+}
+else{
    if(star < 10){
  if(Math.random() < rsp){
    console.log(successPerArr[star]);
@@ -128,19 +201,9 @@ function makeStarCatchLogicDivision(star){
      }
      else{
        console.log(failPerArr[star]);
-       if(chanceTimeCheckNum == 3){
-         console.log("강화 성공 ^^");
-         chanceTimeCheckNum = 0;
-         star += 1;
-         nextStar += 1;
-         a += 1;
-         jeongboPrint_0to11();
-       }
-       else {
      console.log('강화 실패 ^^');
      chanceTimeCheckNum = 0;
      jeongboPrint_0to11();
-   }
    }
    }
    else if (star == 11) {              //11성만 빼주는 이유는 12성부터는 파괴확률이 적용되기 때문이다.
@@ -164,22 +227,12 @@ function makeStarCatchLogicDivision(star){
          chancetime_Print()
        }
        else{
-         if(chanceTimeCheckNum == 3){
-           console.log("강화 성공 ^^");
-           chanceTimeCheckNum = 0;
-           star += 1;
-           nextStar += 1;
-           a += 1;
-           jeongboPrint_12to25();
-         }
-         else {
        console.log('강화 실패 ^^');
        chanceTimeCheckNum += 1;
        star -= 1;
        nextStar -= 1;
        a -= 1;
        jeongboPrint_0to11();
-     }
      }
      }
    }
@@ -193,6 +246,9 @@ function makeStarCatchLogicDivision(star){
        a += 1;
        jeongboPrint_12to25();
      }
+     else if(Math.random() < dsp){
+       jangbiBOOMAlert();
+     }
      else {
        console.log(failPerArr[star]);
        if(chanceTimeCheckNum == 1){
@@ -204,22 +260,12 @@ function makeStarCatchLogicDivision(star){
          chancetime_Print()
        }
        else{
-         if(chanceTimeCheckNum == 3){
-           console.log("강화 성공 ^^");
-           chanceTimeCheckNum = 0;
-           star += 1;
-           nextStar += 1;
-           a += 1;
-           jeongboPrint_12to25();
-         }
-         else {
        console.log('강화 실패 ^^');
        chanceTimeCheckNum += 1;
        star -= 1;
        nextStar -= 1;
        a -= 1;
        jeongboPrint_0to11();
-     }
      }
      }
    }
@@ -233,6 +279,9 @@ function makeStarCatchLogicDivision(star){
        a += 1;
        jeongboPrint_12to25();
      }
+     else if(Math.random() < dsp){
+       jangbiBOOMAlert();
+     }
      else {
        console.log(failPerArr[star]);
        if(chanceTimeCheckNum == 1){
@@ -244,22 +293,12 @@ function makeStarCatchLogicDivision(star){
          chancetime_Print()
        }
        else{
-         if(chanceTimeCheckNum == 3){
-           console.log("강화 성공 ^^");
-           chanceTimeCheckNum = 0;
-           star += 1;
-           nextStar += 1;
-           a += 1;
-           jeongboPrint_12to25();
-         }
-         else {
        console.log('강화 실패 ^^');
        chanceTimeCheckNum += 1;
        star -= 1;
        nextStar -= 1;
        a -= 1;
        jeongboPrint_12to25();
-     }
      }
      }
    }
@@ -274,21 +313,14 @@ function makeStarCatchLogicDivision(star){
       a += 1;
       jeongboPrint_12to25();
     }
+    else if(Math.random() < dsp){
+      jangbiBOOMAlert();
+    }
     else{
       console.log(failPerArr[star]);
-      if(chanceTimeCheckNum == 3){
-        console.log("강화 성공 ^^");
-        chanceTimeCheckNum = 0;
-        star += 1;
-        nextStar += 1;
-        a += 1;
-        jeongboPrint_12to25();
-      }
-      else {
     console.log('강화 실패 ^^');
     chanceTimeCheckNum = 0;
     jeongboPrint_12to25();
-  }
   }
   }
 
@@ -301,6 +333,9 @@ function makeStarCatchLogicDivision(star){
       a += 1;
       document.getElementById("jeongbo").innerHTML = '25강 축하드립니다 ^^';
     }
+    else if(Math.random() < dsp){
+      jangbiBOOMAlert();
+    }
     else {
       console.log(failPercentage);
       if(chanceTimeCheckNum == 1){
@@ -312,13 +347,6 @@ function makeStarCatchLogicDivision(star){
         chancetime_Print()
       }
       else{
-        if(chanceTimeCheckNum == 3){
-          console.log('강화 성공 ^^');
-          chanceTimeCheckNum = 0;
-          a += 1;
-          document.getElementById("jeongbo").innerHTML = '25강 축하드립니다 ^^';
-        }
-        else{
       console.log('강화 실패 ^^');
       chanceTimeCheckNum += 1;
       star -= 1;
@@ -327,8 +355,7 @@ function makeStarCatchLogicDivision(star){
       jeongboPrint_12to25();
     }
     }
-    }
   }
 
-
+}
  }
