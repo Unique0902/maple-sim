@@ -9,6 +9,7 @@ var nextStar
 var chanceTimeCheckNum = 0;
 var starCatchNum = 0;
 var starCatchSuccess ;
+var rsp = successPerArr[a] / 100;
 
 function makeStarCatchLogic(){
   var checkBox = document.getElementById("starCatchHaeJae");
@@ -22,17 +23,19 @@ else if (checkBox.checked == false){
 
 function onclickStop(){
   document.getElementById('starstar').style.animation = 'move 1s alternate forwards infinite paused';
-  var absoluteTop = window.pageXOffset + document.getElementById('starstar').getBoundingClientRect().left;
-  if (absoluteTop > 210 && absoluteTop < 270){
+  var absoluteLeft = window.pageXOffset + document.getElementById('starstar').getBoundingClientRect().left;
+  if (absoluteLeft > 350 && absoluteLeft < 570){
     starCatchSuccess = 1;
     console.log("스타캐치 성공");
+    console.log(absoluteLeft);
     removeStarCatch()
-    makeStarFoceLogic(a)
+    makeStarFoceLogicTotal(a)
 }
 else{ starCatchSuccess = 0;
   console.log("스타캐치 실패");
+  console.log(absoluteLeft);
   removeStarCatch()
-  makeStarFoceLogic(a)
+  makeStarFoceLogicTotal(a)
 }
 }
 
@@ -76,17 +79,28 @@ if(starCatchNum == 0){
 }
 else if(starCatchNum == 1){
   console.log("스타캐치 실행 X");
-    makeStarFoceLogic(a)
+    makeStarFoceLogicTotal(a)
 }
 }
 
 
-function makeStarFoceLogic(star){
+function makeStarFoceLogicTotal(star){
 nextStar = star + 1;
-var rsp = successPerArr[star] / 100;
+rsp = successPerArr[star] / 100;
 tryNumber += 1;
 console.log('실행 횟수: ' + tryNumber);
+if(starCatchSuccess == 1){
+  rsp = rsp * 1.05;
+  makeStarCatchLogicDivision(a)
+}
+else if(starCatchSuccess == 0){
+  makeStarCatchLogicDivision(a)
+}
+}
 
+
+
+function makeStarCatchLogicDivision(star){
    if(star < 10){
  if(Math.random() < rsp){
    console.log(successPerArr[star]);
