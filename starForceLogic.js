@@ -1,3 +1,4 @@
+document.cookie = "crossCookie=bar; SameSite=None; Secure";
 var a = 0;
 var tryNumber = 0;
 var successPerArr = [95, 90, 85, 85, 80, 75, 70, 65, 60, 55, 50, 45 ,40 ,35 ,30, 30, 30, 30, 30, 30, 30, 30, 3, 2, 1];
@@ -40,7 +41,18 @@ function jangbiBOOMAlert(){
   }
 })
   }
-
+function makestarCatchFailedImage(){
+  document.getElementById('starCatchFailedImage').style.display = 'inline';
+}
+function hideStarCatchFailedImage(){
+  document.getElementById('starCatchFailedImage').style.display = 'none';
+}
+function makestarCatchSuccessImage(){
+  document.getElementById('starCatchSuccessImage').style.display = 'inline';
+}
+function hideStarCatchSuccessImage(){
+  document.getElementById('starCatchSuccessImage').style.display = 'none';
+}
 function hideOrMakeDestroyProtect(){
   if(a < 12 || a > 16 || chanceTimeCheckNum == 3){
     document.getElementById('destroyProtect').style.display = 'none';
@@ -79,19 +91,23 @@ function checkDestroyProtectNum(){
 }
 
 function onclickStop(){
-  document.getElementById('starstar').style.animation = 'move 1s alternate forwards infinite paused';
+  document.getElementById('starstar').style.animation = 'move 2s alternate both infinite paused';
   var absoluteLeft = window.pageXOffset + document.getElementById('starstar').getBoundingClientRect().left;
-  if (absoluteLeft > 350 && absoluteLeft < 570){
+  if (absoluteLeft > 247 && absoluteLeft < 320){
     starCatchSuccess = 1;
     console.log("스타캐치 성공");
     console.log(absoluteLeft);
-    removeStarCatch()
+    setTimeout(function(){removeStarCatch();},1000);
+    makestarCatchSuccessImage();
+    setTimeout(function(){hideStarCatchSuccessImage();},1000)
     makeStarFoceLogicTotal(a)
 }
 else{ starCatchSuccess = 0;
   console.log("스타캐치 실패");
   console.log(absoluteLeft);
-  removeStarCatch()
+  setTimeout(function(){removeStarCatch();},1000);
+  makestarCatchFailedImage();
+  setTimeout(function(){hideStarCatchFailedImage();},1000)
   makeStarFoceLogicTotal(a)
 }
 }
@@ -358,4 +374,5 @@ else{
   }
 
 }
+jangbiExplain(); // 스타캐치 실행시 함수 발생하지 않기때문에 여기서 한번더 실행
  }

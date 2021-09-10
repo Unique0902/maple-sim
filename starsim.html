@@ -174,7 +174,7 @@
   <body>
   <a href="index.html"><h1>메이플 시뮬레이터 모음</h1></a>
 <div id='bgm'>
-<iframe width="50" height="42" src="https://www.youtube.com/embed/RCXr4IRfKfQ?amp;autoplay=1&amp;loop=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" style="width: 200px; height: 50px;"></iframe>
+<iframe width="50" height="42" src="https://www.youtube.com/embed/RCXr4IRfKfQ?amp;autoplay=1&amp;loop=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" style="width: 400px; height: 50px;"></iframe>
 <<배경음악 플레이
 </div>
   <script>
@@ -239,6 +239,7 @@ function dragend(){
       <div id="gangwhajeong">
       <div id="jeongbo">
       0성 > 1성<br>성공확률: 95.0%<br>실패(유지)확률: 5.0%
+      <!-- <img id="starforceFailedImage"src="picture/star"> -->
       </div>
       </div>
       <div id="starcatch">스타캐치해제<input type='checkbox' id="starCatchHaeJae" onclick = 'makeStarCatchLogic()' > </div>
@@ -439,5 +440,7 @@ document.getElementById('levellimit').value === "150"){
   document.getElementById('starResult').innerHTML = jangbiText
 }
 </script>
+<img id="starCatchSuccessImage" src="picture/starcatchSuccessPicture.png">
+<img id="starCatchFailedImage" src="picture/starCatchFailedPicture.png">
   </body>
 </html>

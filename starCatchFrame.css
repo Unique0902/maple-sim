@@ -8,6 +8,24 @@
     left: 490px;
   }
 }
+#starCatchFailedImage{
+  display: none;
+  position: relative;
+  z-index: 3;
+  height: 65px;
+  width: 200px;
+  bottom: 30px;
+  left: 180px;
+}
+#starCatchSuccessImage{
+  display: none;
+  position: relative;
+  z-index: 3;
+  height: 65px;
+  width: 200px;
+  bottom: 30px;
+  left: 180px;
+}
 #starCatchGrid{
   display= grid;
   position: relative;
@@ -32,7 +50,7 @@
   width:40px;
   height:40px;
   margin-left:-90px;
-  animation: move 5s alternate forwards infinite running;
+  animation: move 2s alternate both infinite running;
 
 }
 #targetZone{
@@ -41,9 +59,7 @@
   height: 40px;
   width: 80px;
 }
-.stop{
-  animation-play-star: paused;
-}
+
 #backback{
   background-color: skyblue;
   width: 300px;
