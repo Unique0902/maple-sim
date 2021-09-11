@@ -93,10 +93,12 @@ function checkDestroyProtectNum(){
 function onclickStop(){
   document.getElementById('starstar').style.animation = 'move 2s alternate both infinite paused';
   var absoluteLeft = window.pageXOffset + document.getElementById('starstar').getBoundingClientRect().left;
-  if (absoluteLeft > 247 && absoluteLeft < 320){
+  var absoluteLeft_ = window.pageXOffset + document.getElementById('targetZone').getBoundingClientRect().left;
+  var omg = absoluteLeft_ - absoluteLeft;
+  if (omg > -60 && omg < 15){
     starCatchSuccess = 1;
     console.log("스타캐치 성공");
-    console.log(absoluteLeft);
+    console.log(omg);
     setTimeout(function(){removeStarCatch();},1000);
     makestarCatchSuccessImage();
     setTimeout(function(){hideStarCatchSuccessImage();},1000)
@@ -104,7 +106,7 @@ function onclickStop(){
 }
 else{ starCatchSuccess = 0;
   console.log("스타캐치 실패");
-  console.log(absoluteLeft);
+  console.log(omg);
   setTimeout(function(){removeStarCatch();},1000);
   makestarCatchFailedImage();
   setTimeout(function(){hideStarCatchFailedImage();},1000)
