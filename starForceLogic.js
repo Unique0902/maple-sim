@@ -13,6 +13,10 @@ var starCatchSuccess = 0;
 var rsp = successPerArr[a] / 100;
 var dsp = destroyPerArr[a] / 100;
 var destroyProtectNum = 0;
+var exitNum
+var firstSecond , fiveSecond , fourSecond , threeSecond , twoSecond , oneSecond;
+var endSecond;
+var successOrFailNum
 function jangbiBOOMAlert(){
     Swal.fire({
   title: '강화에 실패하여 장비가 파괴되었습니다.',
@@ -41,6 +45,49 @@ function jangbiBOOMAlert(){
   }
 })
   }
+function alertBeforeStarForce(){
+  Swal.fire({
+title: '353252메소',
+text: "강화 실패 시 장비가 파괴되거나 강화 단계가 하락될 수 있습니다. 강화를 시도하시겠습니까?",
+showCancelButton: true,
+confirmButtonColor: '#3085d6',
+cancelButtonColor: '#d33',
+confirmButtonText: '확인',
+cancelButtonText: '취소'
+}).then((result) => {
+if (result.isConfirmed) {
+  starForce();
+}
+})
+}
+function showAndHideStarForceSuccessImageIfStarcatch(){
+  setTimeout(function(){
+    document.getElementById('starForceSuccessImage').style.display = 'inline';
+  },1000);
+  setTimeout(function(){
+    document.getElementById('starForceSuccessImage').style.display = 'none';
+  },2000);
+}
+function showAndHideStarForceSuccessImage(){
+    document.getElementById('starForceSuccessImage').style.display = 'inline';
+  setTimeout(function(){
+    document.getElementById('starForceSuccessImage').style.display = 'none';
+  },1000);
+}
+function showAndHideStarForceFailedImageIfStarcatch(){
+  setTimeout(function(){
+    document.getElementById('starForceFailedImage').style.display = 'inline';
+  },1000);
+  setTimeout(function(){
+    document.getElementById('starForceFailedImage').style.display = 'none';
+  },2000);
+}
+function showAndHideStarForceFailedImage(){
+    document.getElementById('starForceFailedImage').style.display = 'inline';
+  setTimeout(function(){
+    document.getElementById('starForceFailedImage').style.display = 'none';
+  },1000);
+}
 function makestarCatchFailedImage(){
   document.getElementById('starCatchFailedImage').style.display = 'inline';
 }
@@ -102,7 +149,8 @@ function onclickStop(){
     setTimeout(function(){removeStarCatch();},1000);
     makestarCatchSuccessImage();
     setTimeout(function(){hideStarCatchSuccessImage();},1000)
-    makeStarFoceLogicTotal(a)
+    makeStarFoceLogicTotal(a);
+    removeEveryTimer();
 }
 else{ starCatchSuccess = 0;
   console.log("스타캐치 실패");
@@ -110,7 +158,8 @@ else{ starCatchSuccess = 0;
   setTimeout(function(){removeStarCatch();},1000);
   makestarCatchFailedImage();
   setTimeout(function(){hideStarCatchFailedImage();},1000)
-  makeStarFoceLogicTotal(a)
+  makeStarFoceLogicTotal(a);
+  removeEveryTimer();
 }
 }
 
@@ -150,14 +199,63 @@ function starForce(){
 
 if(starCatchNum == 0){
   console.log("스타캐치 실행");
-  makeStarCatch()
+  makeStarCatch();
+  callStarCatchTimerImage();
+  starCatchSuccess = 5;
+  endSecond = setTimeout(function() {
+    if(starCatchSuccess == 5){
+      console.log("스타캐치 실패");
+      starCatchSuccess = 0;
+      makeStarFoceLogicTotal(a);
+    }
+  }, 6000);
 }
 else if(starCatchNum == 1){
   console.log("스타캐치 실행 X");
     makeStarFoceLogicTotal(a)
 }
 }
-
+function removeEveryTimer(){
+  clearTimeout(firstSecond); clearTimeout(fiveSecond); clearTimeout(fourSecond); clearTimeout(threeSecond); clearTimeout(twoSecond); clearTimeout(oneSecond); clearTimeout(endSecond);
+  document.getElementById('starCatchStartImage').style.display = 'none';
+  document.getElementById('starCatch5secondImage').style.display = 'none';
+  document.getElementById('starCatch4secondImage').style.display = 'none';
+  document.getElementById('starCatch3secondImage').style.display = 'none';
+  document.getElementById('starCatch2secondImage').style.display = 'none';
+  document.getElementById('starCatch1secondImage').style.display = 'none';
+}
+function callStarCatchTimerImage(){
+  document.getElementById('starCatchStartImage').style.display = 'inline';
+  firstSecond = setTimeout(function() {
+    if(starCatchSuccess == 5){
+    document.getElementById('starCatchStartImage').style.display = 'none';
+    document.getElementById('starCatch5secondImage').style.display = 'inline';}
+  }, 1000);
+  fiveSecond = setTimeout(function() {
+    if(starCatchSuccess == 5){
+    document.getElementById('starCatch5secondImage').style.display = 'none';
+    document.getElementById('starCatch4secondImage').style.display = 'inline';}
+  }, 2000);
+  fourSecond = setTimeout(function() {
+    if(starCatchSuccess == 5){
+    document.getElementById('starCatch4secondImage').style.display = 'none';
+    document.getElementById('starCatch3secondImage').style.display = 'inline';}
+  }, 3000);
+  threeSecond = setTimeout(function() {
+    if(starCatchSuccess == 5){
+    document.getElementById('starCatch3secondImage').style.display = 'none';
+    document.getElementById('starCatch2secondImage').style.display = 'inline';}
+  }, 4000);
+  twoSecond = setTimeout(function() {
+    if(starCatchSuccess == 5){
+    document.getElementById('starCatch2secondImage').style.display = 'none';
+    document.getElementById('starCatch1secondImage').style.display = 'inline';}
+  }, 5000);
+  oneSecond = setTimeout(function() {
+    document.getElementById('starCatch1secondImage').style.display = 'none';
+    removeStarCatch();
+  }, 6000);
+}
 
 function makeStarFoceLogicTotal(star){
 nextStar = star + 1;
@@ -168,18 +266,41 @@ console.log('실행 횟수: ' + tryNumber);
 checkDestroyProtectNum();
 if(starCatchSuccess == 1){
   rsp = rsp * 1.05;
-  makeStarCatchLogicDivision(a)
+  makeStarCatchLogicDivision(a);
+  callshowAndHideStarForceImageIfStarcatch();
 }
 else if(starCatchSuccess == 0){
-  makeStarCatchLogicDivision(a)
+  makeStarCatchLogicDivision(a);
+  if(starCatchNum == 0){
+    callshowAndHideStarForceImageIfStarcatch();
+  }
+  else if(starCatchNum == 1){
+   callshowAndHideStarForceImage();
+ }
 }
 }
 
-
+function callshowAndHideStarForceImageIfStarcatch(){
+  if(successOrFailNum == 0){
+  showAndHideStarForceSuccessImageIfStarcatch();
+  }
+  else if(successOrFailNum == 1){
+  showAndHideStarForceFailedImageIfStarcatch();
+  }
+}
+function callshowAndHideStarForceImage(){
+  if(successOrFailNum == 0){
+  showAndHideStarForceSuccessImage();
+  }
+  else if(successOrFailNum == 1){
+  showAndHideStarForceFailedImage();
+  }
+}
 
 function makeStarCatchLogicDivision(star){
 if(chanceTimeCheckNum == 3){
   console.log("찬스타임으로 인한 강화 성공 ^^");
+  successOrFailNum = 0;
   chanceTimeCheckNum = 0;
   star += 1;
   nextStar += 1;
@@ -196,6 +317,7 @@ else{
  if(Math.random() < rsp){
    console.log(successPerArr[star]);
    console.log('강화 성공 ^^');
+   successOrFailNum = 0;
    star += 1;
    nextStar += 1;
    a += 1;
@@ -204,6 +326,7 @@ else{
  else {
    console.log(failPerArr[star]);
    console.log('강화 실패 ^^');
+   successOrFailNum = 1;
    jeongboPrint_0to11();
  }
    }
@@ -211,6 +334,7 @@ else{
      if(Math.random() < rsp){
        console.log(successPerArr[star]);
        console.log('강화 성공 ^^');
+       successOrFailNum = 0;
        chanceTimeCheckNum = 0;
        star += 1;
        nextStar += 1;
@@ -220,6 +344,7 @@ else{
      else{
        console.log(failPerArr[star]);
      console.log('강화 실패 ^^');
+     successOrFailNum = 1;
      chanceTimeCheckNum = 0;
      jeongboPrint_0to11();
    }
@@ -228,6 +353,7 @@ else{
      if(Math.random() < rsp){
        console.log(successPerArr[star]);
        console.log('강화 성공 ^^');
+       successOrFailNum = 0;
        chanceTimeCheckNum = 0;
        star += 1;
        nextStar += 1;
@@ -238,6 +364,7 @@ else{
        console.log(failPerArr[star]);
        if(chanceTimeCheckNum == 1){
          console.log("강화 실패 하지만 찬스 타임!!");
+         successOrFailNum = 1;
          chanceTimeCheckNum = 3;
          star -= 1;
          nextStar -= 1;
@@ -246,6 +373,7 @@ else{
        }
        else{
        console.log('강화 실패 ^^');
+       successOrFailNum = 1;
        chanceTimeCheckNum += 1;
        star -= 1;
        nextStar -= 1;
@@ -258,6 +386,7 @@ else{
      if(Math.random() < rsp){
        console.log(successPerArr[star]);
        console.log('강화 성공 ^^');
+       successOrFailNum = 0;
        chanceTimeCheckNum = 0;
        star += 1;
        nextStar += 1;
@@ -271,6 +400,7 @@ else{
        console.log(failPerArr[star]);
        if(chanceTimeCheckNum == 1){
          console.log("강화 실패 하지만 찬스 타임!!");
+         successOrFailNum = 1;
          chanceTimeCheckNum = 3;
          star -= 1;
          nextStar -= 1;
@@ -279,6 +409,7 @@ else{
        }
        else{
        console.log('강화 실패 ^^');
+       successOrFailNum = 1;
        chanceTimeCheckNum += 1;
        star -= 1;
        nextStar -= 1;
@@ -291,6 +422,7 @@ else{
      if(Math.random() < rsp){
        console.log(successPerArr[star]);
        console.log('강화 성공 ^^');
+       successOrFailNum = 0;
        chanceTimeCheckNum = 0;
        star += 1;
        nextStar += 1;
@@ -304,6 +436,7 @@ else{
        console.log(failPerArr[star]);
        if(chanceTimeCheckNum == 1){
          console.log("강화 실패 하지만 찬스 타임!!");
+         successOrFailNum = 1;
          chanceTimeCheckNum = 3;
          star -= 1;
          nextStar -= 1;
@@ -312,6 +445,7 @@ else{
        }
        else{
        console.log('강화 실패 ^^');
+       successOrFailNum = 1;
        chanceTimeCheckNum += 1;
        star -= 1;
        nextStar -= 1;
@@ -325,6 +459,7 @@ else{
     if(Math.random() < rsp){
       console.log(successPerArr[star]);
       console.log('강화 성공 ^^');
+      successOrFailNum = 0;
       chanceTimeCheckNum = 0;
       star += 1;
       nextStar += 1;
@@ -337,6 +472,7 @@ else{
     else{
       console.log(failPerArr[star]);
     console.log('강화 실패 ^^');
+    successOrFailNum = 1;
     chanceTimeCheckNum = 0;
     jeongboPrint_12to25();
   }
@@ -347,6 +483,7 @@ else{
     if(Math.random() < rsp){
       console.log(successPerArr[star]);
       console.log('강화 성공 ^^');
+      successOrFailNum = 0;
       chanceTimeCheckNum = 0;
       a += 1;
       document.getElementById("jeongbo").innerHTML = '25강 축하드립니다 ^^';
@@ -358,6 +495,7 @@ else{
       console.log(failPercentage);
       if(chanceTimeCheckNum == 1){
         console.log("강화 실패 하지만 찬스 타임!!");
+        successOrFailNum = 1;
         chanceTimeCheckNum = 3;
         star -= 1;
         nextStar -= 1;
@@ -366,6 +504,7 @@ else{
       }
       else{
       console.log('강화 실패 ^^');
+      successOrFailNum = 1;
       chanceTimeCheckNum += 1;
       star -= 1;
       nextStar -= 1;

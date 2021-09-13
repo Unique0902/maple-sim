@@ -11,7 +11,7 @@
 #starCatchFailedImage{
   display: none;
   position: relative;
-  z-index: 3;
+  z-index: 4;
   height: 65px;
   width: 200px;
   bottom: 30px;
@@ -20,11 +20,38 @@
 #starCatchSuccessImage{
   display: none;
   position: relative;
-  z-index: 3;
+  z-index: 4;
   height: 65px;
   width: 200px;
   bottom: 30px;
   left: 180px;
+}
+#starCatchStartImage{
+  display: none;
+  position: relative;
+  z-index: 3;
+  height: 250px;
+  width: 350px;
+  bottom: 180px;
+  left: 60px;
+}
+#starCatch5secondImage, #starCatch4secondImage, #starCatch3secondImage, #starCatch2secondImage, #starCatch1secondImage{
+  display: none;
+  position: relative;
+  z-index: 3;
+  height: 200px;
+  width: 200px;
+  bottom: 300px;
+  left: 160px;
+}
+#starForceSuccessImage, #starForceFailedImage{
+  display: none;
+  position: relative;
+  z-index: 4;
+  height: 200px;
+  width: 200px;
+  bottom: 350px;
+  left: 160px;
 }
 #starCatchGrid{
   display= grid;

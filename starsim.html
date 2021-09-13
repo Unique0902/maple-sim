@@ -239,14 +239,14 @@ function dragend(){
       <div id="gangwhajeong">
       <div id="jeongbo">
       0성 > 1성<br>성공확률: 95.0%<br>실패(유지)확률: 5.0%
-      <!-- <img id="starforceFailedImage"src="picture/star"> -->
+
       </div>
       </div>
       <div id="starcatch">스타캐치해제<input type='checkbox' id="starCatchHaeJae" onclick = 'makeStarCatchLogic()' > </div>
       <div id="pagae">파괴방지<input type='checkbox' id="destroyProtect" onclick="makeDestroyProtectLogic()"></div>
       <div id="pilyo">필요한메소</div>
       <div id="gangwha">
-      <input type = "button" id="gangwhaButton" value = "강화" onclick = "starForce(); jangbiExplain(); hideOrMakeDestroyProtect();">
+      <input type = "button" id="gangwhaButton" value = "강화" onclick = "alertBeforeStarForce(); jangbiExplain(); hideOrMakeDestroyProtect();">
       </div>
       <div id="cancel">
         <input type="button" id="cancelButton" value="취소" onclick="grid_Hide(); dropHide_Make();">
@@ -442,5 +442,13 @@ document.getElementById('levellimit').value === "150"){
 </script>
 <img id="starCatchSuccessImage" src="picture/starcatchSuccessPicture.png">
 <img id="starCatchFailedImage" src="picture/starCatchFailedPicture.png">
+<img id="starCatchStartImage" src="picture/startText.png">
+<img id="starCatch5secondImage" src="picture/5secondText.png">
+<img id="starCatch4secondImage" src="picture/4secondText.png">
+<img id="starCatch3secondImage" src="picture/3secondText.png">
+<img id="starCatch2secondImage" src="picture/2secondText.png">
+<img id="starCatch1secondImage" src="picture/1secondText.png">
+<img id="starForceSuccessImage" src="picture/starforceSuccessPicture.png">
+<img id="starForceFailedImage" src="picture/starforceFailedPicture.png">
   </body>
 </html>
