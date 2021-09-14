@@ -13,10 +13,15 @@ var starCatchSuccess = 0;
 var rsp = successPerArr[a] / 100;
 var dsp = destroyPerArr[a] / 100;
 var destroyProtectNum = 0;
-var exitNum
+var exitNum;
 var firstSecond , fiveSecond , fourSecond , threeSecond , twoSecond , oneSecond;
 var endSecond;
-var successOrFailNum
+var successOrFailNum;
+var jagbiLevLim;
+var starForcePrice;
+var sayongMeso = 0;
+var myMeso = 299999999999;
+
 function jangbiBOOMAlert(){
     Swal.fire({
   title: '강화에 실패하여 장비가 파괴되었습니다.',
@@ -45,9 +50,11 @@ function jangbiBOOMAlert(){
   }
 })
   }
+
 function alertBeforeStarForce(){
+  var starForceMeso = starForcePrice + ' 메소';
   Swal.fire({
-title: '353252메소',
+title: starForceMeso,
 text: "강화 실패 시 장비가 파괴되거나 강화 단계가 하락될 수 있습니다. 강화를 시도하시겠습니까?",
 showCancelButton: true,
 confirmButtonColor: '#3085d6',
@@ -60,6 +67,7 @@ if (result.isConfirmed) {
 }
 })
 }
+
 function showAndHideStarForceSuccessImageIfStarcatch(){
   setTimeout(function(){
     document.getElementById('starForceSuccessImage').style.display = 'inline';
@@ -68,12 +76,14 @@ function showAndHideStarForceSuccessImageIfStarcatch(){
     document.getElementById('starForceSuccessImage').style.display = 'none';
   },2000);
 }
+
 function showAndHideStarForceSuccessImage(){
     document.getElementById('starForceSuccessImage').style.display = 'inline';
   setTimeout(function(){
     document.getElementById('starForceSuccessImage').style.display = 'none';
   },1000);
 }
+
 function showAndHideStarForceFailedImageIfStarcatch(){
   setTimeout(function(){
     document.getElementById('starForceFailedImage').style.display = 'inline';
@@ -82,12 +92,24 @@ function showAndHideStarForceFailedImageIfStarcatch(){
     document.getElementById('starForceFailedImage').style.display = 'none';
   },2000);
 }
+
+function hideOrMakeDestroyProtect(){
+  if(a < 12 || a > 16 || chanceTimeCheckNum == 3){
+    document.getElementById('destroyProtect').style.display = 'none';
+    destroyProtectNum = 0;
+  }
+  else{
+    document.getElementById('destroyProtect').style.display = 'inline';
+  }
+}
+
 function showAndHideStarForceFailedImage(){
     document.getElementById('starForceFailedImage').style.display = 'inline';
   setTimeout(function(){
     document.getElementById('starForceFailedImage').style.display = 'none';
   },1000);
 }
+
 function makestarCatchFailedImage(){
   document.getElementById('starCatchFailedImage').style.display = 'inline';
 }
@@ -100,15 +122,9 @@ function makestarCatchSuccessImage(){
 function hideStarCatchSuccessImage(){
   document.getElementById('starCatchSuccessImage').style.display = 'none';
 }
-function hideOrMakeDestroyProtect(){
-  if(a < 12 || a > 16 || chanceTimeCheckNum == 3){
-    document.getElementById('destroyProtect').style.display = 'none';
-    destroyProtectNum = 0;
-  }
-  else{
-    document.getElementById('destroyProtect').style.display = 'inline';
-  }
-}
+
+
+
 
 function makeStarCatchLogic(){
   var checkBox = document.getElementById("starCatchHaeJae");
@@ -179,7 +195,7 @@ function makeStarCatch(){
   document.getElementById('tel').insertAdjacentHTML('afterbegin', '<div id="targetZone"></div>');
   document.getElementById('tel').insertAdjacentHTML('beforeend', '<img id="starstar" src="picture/starcatch.png">');
   document.getElementById('tel').insertAdjacentHTML('afterend', '<div id="stopButtonBox"></div>');
-  document.getElementById('stopButtonBox').insertAdjacentHTML('afterbegin', '<input type="button" id="button" value="STOP!" onclick="onclickStop()">');
+  document.getElementById('stopButtonBox').insertAdjacentHTML('afterbegin', '<input type="button" id="button" value="STOP!" onclick="onclickStop(); this.onclick=null;">');
   document.getElementById('backback').appendChild(itemimgTakingByStarCatchClone);
 }
 function removeStarCatch(){
@@ -294,6 +310,50 @@ function callshowAndHideStarForceImage(){
   }
   else if(successOrFailNum == 1){
   showAndHideStarForceFailedImage();
+  }
+}
+
+function calculateStarForcePrice0to9(){
+ starForcePrice = 1000 + jangbiLevLim ** 3 * (a + 1) / 25;
+}
+function calculateStarForcePrice10to14(){
+ starForcePrice = 1000 + jangbiLevLim ** 3 * (a + 1) ** 2.7 / 400;
+}
+function calculateStarForcePrice15to24(){
+ starForcePrice = 1000 + jangbiLevLim ** 3 * (a + 1) ** 2.7 / 200;
+}
+
+function calculateStarForcePriceTotal(){
+  if(a < 10){
+    calculateStarForcePrice0to9();
+  }
+  else if(a < 15){
+    calculateStarForcePrice10to14();
+  }
+  else if(a < 25){
+    calculateStarForcePrice15to24();
+  }
+  makeStarForcePriceInt();
+}
+
+function makeStarForcePriceInt(){
+  starForcePrice = parseInt(starForcePrice);
+}
+
+function calculateAllMeso(){
+ sayongMeso += starForcePrice;
+ myMeso -= starForcePrice;
+}
+
+function writeMeso(){
+document.getElementById('sayongMeso').innerHTML = '사용메소: ' + sayongMeso + '메소';
+document.getElementById('myMeso').innerHTML = '보유메소: ' + myMeso + '메소';
+}
+
+function giveMesoToGuji(){
+  if(myMeso < 0){
+    myMeso = 299999999999;
+    Swal.fire('메소를 모두 사용하여 풀메소로 보충됩니다.')
   }
 }
 
@@ -515,5 +575,10 @@ else{
   }
 
 }
-jangbiExplain(); // 스타캐치 실행시 함수 발생하지 않기때문에 여기서 한번더 실행
+
+calculateAllMeso();
+giveMesoToGuji();
+writeMeso();
+jangbiExplain();
+calculateStarForcePriceTotal(); // 스타캐치 실행시 함수 발생하지 않기때문에 여기서 한번더 실행
  }
