@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <link rel="stylesheet" href="starCatchFrame.css">
-    <title>스타포스 시뮬레이터 </title>
+    <link rel="stylesheet" href="starCatchFrame.css" />
+    <title>스타포스 시뮬레이터</title>
     <style>
-    body{
-      background-image: url('picture/eliniaBackground.jpg');
-    }
-      h1{
+      body {
+        background-image: url('picture/eliniaBackground.jpg');
+      }
+      h1 {
         border: 5px solid red;
         text-align: center;
         margin-left: auto;
@@ -18,418 +18,521 @@
         padding-top: 20px;
         padding-bottom: 20px;
       }
-      a{
-       color:black;
-       text-decoration: none;
-     }
-     #grid  {
-       display: grid;
-       grid-template-columns: 2fr 1fr;
+      a {
+        color: black;
+        text-decoration: none;
+      }
+      #grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
         grid-template-rows: 3fr 1fr;
         gap: 100px 250px;
-     }
-     #grid .enhance,#dropHide,.item,.money,#itemname{
-       border: 2px solid gray;
-     }
-     .money {
-       grid-column-start: 2;
-     	grid-column-end: 3;
-     	grid-row-start: 2;
-     	grid-row-end: 3;
-     }
-     .enhance {
-       grid-column-start: 1;
-     	grid-column-end: 2;
-     	grid-row-start: 1;
-     	grid-row-end: 3;
-      display: grid;
-      justify-content: center;
-      align-items: center;
-      background-color: black;
-     }
-     #dropblock{
-       display: inline-block;
-       text-align: center;
-       background-color: skyblue;
-       width: 500px;
-       height: 330px;
-     }
-     .item{
+      }
+      #grid .enhance,
+      #dropHide,
+      .item,
+      .money,
+      #itemname {
+        border: 2px solid gray;
+      }
+      .money {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 3;
+      }
+      .enhance {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 3;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        background-color: black;
+      }
+      #dropblock {
+        display: inline-block;
+        text-align: center;
+        background-color: skyblue;
+        width: 500px;
+        height: 330px;
+      }
+      .item {
+      }
+      #itemimg {
+        cursor: move;
+      }
 
-     }
-     #itemimg{
-       cursor: move;
-     }
-
-
-     #grid_ div{
-       border: 1px solid gray;
-     }
-     #grid_{
-       display: none;
-       grid-template-columns: repeat(6, 1fr);
+      #grid_ div {
+        border: 1px solid gray;
+      }
+      #grid_ {
+        display: none;
+        grid-template-columns: repeat(6, 1fr);
         grid-template-rows: 1fr 1fr 8fr 1fr 1fr 2fr;
         border: 1px solid gray;
-     }
-     #jumun{
-       grid-column-start: 1;
-       grid-column-end: 3;
-       grid-row-start: 1;
-       grid-row-end: 2;
-     }
-     #star{
-       grid-column-start: 3;
-       grid-column-end: 5;
-       grid-row-start: 1;
-       grid-row-end: 2;
-     }
-     #jangbi{
-       grid-column-start: 5;
-       grid-column-end: 7;
-       grid-row-start: 1;
-       grid-row-end: 2;
-     }
-     #mesorel{
-       grid-column-start: 1;
-       grid-column-end: 7;
-       grid-row-start: 2;
-       grid-row-end: 3;
-     }
-     #sajin{
-       grid-column-start: 1;
-       grid-column-end: 3;
-       grid-row-start: 3;
-       grid-row-end: 4;
-     }
-     #gangwhajeong{
-       grid-column-start: 3;
-       grid-column-end: 7;
-       grid-row-start: 3;
-       grid-row-end: 4;
-     }
-     #starcatch{
-       grid-column-start: 1;
-       grid-column-end: 4;
-       grid-row-start: 4;
-       grid-row-end: 5;
-     }
-     #pagae{
-       grid-column-start: 4;
-       grid-column-end: 7;
-       grid-row-start: 4;
-       grid-row-end: 5;
-     }
-     #pilyo{
-       grid-column-start: 1;
-       grid-column-end: 7;
-       grid-row-start: 5;
-       grid-row-end: 6;
-     }
-     #gangwha{
-       grid-column-start: 2;
-       grid-column-end: 4;
-       grid-row-start: 6;
-       grid-row-end: 7;
-       margin-right: 10px;
-     }
-     #cancel{
-       grid-column-start: 4;
-       grid-column-end: 6;
-       grid-row-start: 6;
-       grid-row-end: 7;
-       margin-left: 10px;
-     }
-     #gangwhaButton, #cancelButton {
-       width: 154px;
-       height: 45px;
-     }
-     h1, .item, .money, #starResult{
-       background-color: white;
-     }
-     #nodrag, .enhance, h1, .item, .money #itemimgTaking{
-   -ms-user-select: none;
-   -moz-user-select: -moz-none;
-   -khtml-user-select: none;
-   -webkit-user-select: none;
-   user-select: none;
- }
- #ninjaImg, #samuraiImg{
-   display: none;
- }
- #dropHide{
-   margin-top: 60px;
-   width: 495px;
- }
- #itemimg{
-   margin-left: 105px;
- }
- #bgm{
-   background-color: white;
-   display: inline;
- }
+      }
+      #jumun {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
+      }
+      #star {
+        grid-column-start: 3;
+        grid-column-end: 5;
+        grid-row-start: 1;
+        grid-row-end: 2;
+      }
+      #jangbi {
+        grid-column-start: 5;
+        grid-column-end: 7;
+        grid-row-start: 1;
+        grid-row-end: 2;
+      }
+      #mesorel {
+        grid-column-start: 1;
+        grid-column-end: 7;
+        grid-row-start: 2;
+        grid-row-end: 3;
+      }
+      #sajin {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 3;
+        grid-row-end: 4;
+      }
+      #gangwhajeong {
+        grid-column-start: 3;
+        grid-column-end: 7;
+        grid-row-start: 3;
+        grid-row-end: 4;
+      }
+      #starcatch {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 4;
+        grid-row-end: 5;
+      }
+      #pagae {
+        grid-column-start: 4;
+        grid-column-end: 7;
+        grid-row-start: 4;
+        grid-row-end: 5;
+      }
+      #pilyo {
+        grid-column-start: 1;
+        grid-column-end: 7;
+        grid-row-start: 5;
+        grid-row-end: 6;
+      }
+      #gangwha {
+        grid-column-start: 2;
+        grid-column-end: 4;
+        grid-row-start: 6;
+        grid-row-end: 7;
+        margin-right: 10px;
+      }
+      #cancel {
+        grid-column-start: 4;
+        grid-column-end: 6;
+        grid-row-start: 6;
+        grid-row-end: 7;
+        margin-left: 10px;
+      }
+      #gangwhaButton,
+      #cancelButton {
+        width: 154px;
+        height: 45px;
+      }
+      h1,
+      .item,
+      .money,
+      #starResult {
+        background-color: white;
+      }
+      #nodrag,
+      .enhance,
+      h1,
+      .item,
+      .money #itemimgTaking {
+        -ms-user-select: none;
+        -moz-user-select: -moz-none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+      #ninjaImg,
+      #samuraiImg {
+        display: none;
+      }
+      #dropHide {
+        margin-top: 60px;
+        width: 495px;
+      }
+      #itemimg {
+        margin-left: 105px;
+      }
+      #bgm {
+        background-color: white;
+        display: inline;
+      }
     </style>
     <script src="starForceLogic.js"></script>
   </head>
 
   <body>
-  <a href="index.html"><h1>메이플 시뮬레이터 모음</h1></a>
-<div id='bgm'>
-<iframe width="50" height="42" src="https://www.youtube.com/embed/RCXr4IRfKfQ?amp;autoplay=1&amp;loop=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" style="width: 400px; height: 50px;"></iframe>
-<<배경음악 플레이
-</div>
-  <script>
-  function dragOver_(e){
-        e.preventDefault();
-        console.log('dragOver');
-    }
-  var dropCount = 0;
-  function drop_(e){
-      e.preventDefault();
-      console.log("drop");
-      dropCount += 1;
-      jangbiLevLim = document.getElementById('levellimit').value
-      if(dropCount==1){
-    }
-    else{
-      // document.getElementById('sajin').setAttribute("type", "reset"); /* 이거 안해도되나?*/
-      document.getElementById('sajin').removeChild(document.getElementById('sajin').firstChild);
-      document.getElementById('jeongbo').innerHTML= '0성 > 1성<br>성공확률: 95.0%<br>실패(유지)확률: 5.0%';
-      a = 0;
-        }
-        // document.getElementById('sajin').removeChild(); 삭제 안해도되나?
-        document.getElementById('sajin').appendChild(document.getElementById('itemimgTaking'));
-  }
- function dragenter_(){
-  console.log("dragenter");
-}
-function dragend(){
-  console.log("dragend");
-}
-  function dropHide_Hide(){
-    const div = document.getElementById('dropHide');
-    div.style.display = 'none';
-  }
-  function dropHide_Make(){
-    const div = document.getElementById('dropHide');
-    div.style.display = 'block';
-  }
-  function grid_Make(){
-    const div = document.getElementById('grid_');
-    div.style.display = 'grid';
-    hideOrMakeDestroyProtect(); // 스타포스 0성일때 파괴방지 체크박스를 숨기기 위함
-  }
-  function grid_Hide(){
-    const div = document.getElementById('grid_');
-    div.style.display = 'none';
-  }
-  </script>
-  <div id="grid">
-  <div class="enhance">
-
-    <div id="dropblock" droppable="true" ondragover="dragOver_(event)" ondrop="drop_(event); dropHide_Hide(); grid_Make(); jangbiExplain(); levLimClick(); calculateStarForcePriceTotal();"
-    ondragenter="dragenter_()" ondragend="dragend()">
-    <div id="dropHide" draggable="false">
-      <img src="picture/drag.png" draggable="false" width="40%" >
-    <p id="nodrag"> 강화할 장비를 올려주세요 </p> </div>
-    <div id="grid_" style="position: relative; z-index: 1;">
-      <div id="jumun"><a href = "magicalsim.html">주문서</a></div>
-      <div id="star">스타포스 강화</div>
-      <div id="jangbi">장비전승</div>
-      <div id="mesorel">메소를 사용하여 장비를 강화합니다</div>
-      <div id="sajin"></div>
-      <div id="gangwhajeong">
-      <div id="jeongbo">
-      0성 > 1성<br>성공확률: 95.0%<br>실패(유지)확률: 5.0%
-
-      </div>
-      </div>
-      <div id="starcatch">스타캐치해제<input type='checkbox' id="starCatchHaeJae" onclick = 'makeStarCatchLogic()' > </div>
-      <div id="pagae">파괴방지<input type='checkbox' id="destroyProtect" onclick="makeDestroyProtectLogic()"></div>
-      <div id="pilyo">필요한메소</div>
-      <div id="gangwha">
-      <input type = "button" id="gangwhaButton" value = "강화" onclick = "alertBeforeStarForce(); jangbiExplain(); hideOrMakeDestroyProtect();">
-      </div>
-      <div id="cancel">
-        <input type="button" id="cancelButton" value="취소" onclick="grid_Hide(); dropHide_Make();">
-      </div>
-    </div>
-    <div id="starCatchGrid">
-
+    <a href="index.html"><h1>메이플 시뮬레이터 모음</h1></a>
+    <div id="bgm">
+      <iframe
+        width="50"
+        height="42"
+        src="https://www.youtube.com/embed/RCXr4IRfKfQ?amp;autoplay=1&amp;loop=1"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        style="width: 400px; height: 50px"
+      ></iframe>
+      <<배경음악 플레이
     </div>
     <script>
-
-  // document.addEventListener('keydown', function(e){
-  //         if(e.keyCode === 32){
-  //           document.getElementById('starstar').style.animation = 'move 1s alternate forwards infinite paused';
-  //           var absoluteTop = window.pageXOffset + document.getElementById('starstar').getBoundingClientRect().left;
-  //           if (absoluteTop > 210 && absoluteTop < 270){
-  //           document.getElementById('starCatchGrid').style.display = 'none';
-  //         }
-  //         else{document.getElementById('starCatchGrid').style.display = 'none';}
-  //         }
-  //       })
+      function dragOver_(e) {
+        e.preventDefault();
+        console.log('dragOver');
+      }
+      var dropCount = 0;
+      function drop_(e) {
+        e.preventDefault();
+        console.log('drop');
+        dropCount += 1;
+        jangbiLevLim = document.getElementById('levellimit').value;
+        if (dropCount == 1) {
+        } else {
+          // document.getElementById('sajin').setAttribute("type", "reset"); /* 이거 안해도되나?*/
+          document
+            .getElementById('sajin')
+            .removeChild(document.getElementById('sajin').firstChild);
+          document.getElementById('jeongbo').innerHTML =
+            '0성 > 1성<br>성공확률: 95.0%<br>실패(유지)확률: 5.0%';
+          a = 0;
+        }
+        // document.getElementById('sajin').removeChild(); 삭제 안해도되나?
+        document
+          .getElementById('sajin')
+          .appendChild(document.getElementById('itemimgTaking'));
+      }
+      function dragenter_() {
+        console.log('dragenter');
+      }
+      function dragend() {
+        console.log('dragend');
+      }
+      function dropHide_Hide() {
+        const div = document.getElementById('dropHide');
+        div.style.display = 'none';
+      }
+      function dropHide_Make() {
+        const div = document.getElementById('dropHide');
+        div.style.display = 'block';
+      }
+      function grid_Make() {
+        const div = document.getElementById('grid_');
+        div.style.display = 'grid';
+        hideOrMakeDestroyProtect(); // 스타포스 0성일때 파괴방지 체크박스를 숨기기 위함
+      }
+      function grid_Hide() {
+        const div = document.getElementById('grid_');
+        div.style.display = 'none';
+      }
     </script>
-  </div>
+    <div id="grid">
+      <div class="enhance">
+        <div
+          id="dropblock"
+          droppable="true"
+          ondragover="dragOver_(event)"
+          ondrop="drop_(event); dropHide_Hide(); grid_Make(); jangbiExplain(); levLimClick(); calculateStarForcePriceTotal();"
+          ondragenter="dragenter_()"
+          ondragend="dragend()"
+        >
+          <div id="dropHide" draggable="false">
+            <img src="picture/drag.png" draggable="false" width="40%" />
+            <p id="nodrag">강화할 장비를 올려주세요</p>
+          </div>
+          <div id="grid_" style="position: relative; z-index: 1">
+            <div id="jumun"><a href="magicalsim.html">주문서</a></div>
+            <div id="star">스타포스 강화</div>
+            <div id="jangbi">장비전승</div>
+            <div id="mesorel">메소를 사용하여 장비를 강화합니다</div>
+            <div id="sajin"></div>
+            <div id="gangwhajeong">
+              <div id="jeongbo">
+                0성 > 1성<br />성공확률: 95.0%<br />실패(유지)확률: 5.0%
+              </div>
+            </div>
+            <div id="starcatch">
+              스타캐치해제<input
+                type="checkbox"
+                id="starCatchHaeJae"
+                onclick="makeStarCatchLogic()"
+              />
+            </div>
+            <div id="pagae">
+              파괴방지<input
+                type="checkbox"
+                id="destroyProtect"
+                onclick="makeDestroyProtectLogic()"
+              />
+            </div>
+            <div id="pilyo">필요한메소</div>
+            <div id="gangwha">
+              <input
+                type="button"
+                id="gangwhaButton"
+                value="강화"
+                onclick="alertBeforeStarForce(); jangbiExplain(); hideOrMakeDestroyProtect();"
+              />
+            </div>
+            <div id="cancel">
+              <input
+                type="button"
+                id="cancelButton"
+                value="취소"
+                onclick="grid_Hide(); dropHide_Make();"
+              />
+            </div>
+          </div>
+          <div id="starCatchGrid"></div>
+          <script>
+            // document.addEventListener('keydown', function(e){
+            //         if(e.keyCode === 32){
+            //           document.getElementById('starstar').style.animation = 'move 1s alternate forwards infinite paused';
+            //           var absoluteTop = window.pageXOffset + document.getElementById('starstar').getBoundingClientRect().left;
+            //           if (absoluteTop > 210 && absoluteTop < 270){
+            //           document.getElementById('starCatchGrid').style.display = 'none';
+            //         }
+            //         else{document.getElementById('starCatchGrid').style.display = 'none';}
+            //         }
+            //       })
+          </script>
+        </div>
+      </div>
 
-  </div>
+      <div class="item">
+        <h3>아이템 목록</h3>
 
-  <div class="item">
-  <h3> 아이템 목록 </h3>
+        <select
+          id="type"
+          onchange="whereChange_a();
+  whereChange_b();jobChange();"
+        >
+          <option>-종류-</option>
+          <option value="방어구">방어구</option>
+          <option value="장신구">장신구</option>
+          <option value="무기">무기</option>
+        </select>
+        <select id="where" onchange="jobChange()">
+          <option>-부위-</option>
+          ``
+        </select>
+        <script>
+          function whereChange_a() {
+            var clothes_a = ['모자', '상의', '하의', '장갑', '신발', '망토'];
+            var accessory_b = [
+              '어깨장식',
+              '귀고리',
+              '반지',
+              '벨트',
+              '펜던트',
+              '눈장식',
+              '얼굴장식',
+              '기계심장',
+            ];
+            var weapon_c = ['무기'];
+            var target = document.getElementById('where');
+            target.options.length = 1;
+            if (document.getElementById('type').value == '방어구')
+              var d = clothes_a;
+            else if (document.getElementById('type').value == '장신구')
+              var d = accessory_b;
+            else if (document.getElementById('type').value == '무기')
+              var d = weapon_c;
 
-  <select id="type" onchange="whereChange_a();
-  whereChange_b();jobChange();">
-<option>-종류-</option>
-<option value="방어구">방어구</option>
-<option value="장신구">장신구</option>
-<option value="무기">무기</option>
-</select>
-<select id="where" onchange="jobChange()">
-<option>-부위-</option>``
-</select>
-<script>
-function whereChange_a() {
-var clothes_a = ["모자", "상의", "하의", "장갑", "신발", "망토"];
-var accessory_b = ["어깨장식", "귀고리", "반지", "벨트", "펜던트", "눈장식",
-"얼굴장식", "기계심장"];
-var weapon_c = ["무기",];
-var target = document.getElementById("where");
-target.options.length = 1;
-if(document.getElementById('type').value == "방어구") var d = clothes_a;
-else if(document.getElementById('type').value == "장신구") var d = accessory_b;
-else if(document.getElementById('type').value == "무기") var d = weapon_c;
+            for (x in d) {
+              var opt = document.createElement('option');
+              opt.value = d[x];
+              opt.innerHTML = d[x];
+              target.appendChild(opt);
+            }
+          }
+        </script>
 
+        <select id="job" onchange="jobChange()">
+          <option>-직업-</option>
+        </select>
+        <script>
+          function whereChange_b() {
+            var clothes_a = ['전사', '궁수', '마법사', '도적', '해적'];
+            var accessory_b = ['전체'];
+            var weapon_c = [
+              '히어로',
+              '팔라딘',
+              '다크나이트',
+              '아크메이지(불,독)',
+              '아크메이지(썬,콜)',
+              '비숍',
+              '보우마스터',
+              '신궁',
+              '패스파인더',
+              '나이트로드',
+              '섀도어',
+              '듀얼블레이드',
+              '바이퍼',
+              '캡틴',
+              '캐논슈터',
+              '소울마스터',
+              '플레임위자드',
+              '윈드브레이커',
+              '나이트워커',
+              '호크아이',
+              '미하일',
+              '블래스터',
+              '배틀메이지',
+              '와일드헌터',
+              '메카닉',
+              '제논',
+              '데몬슬레이어',
+              '데몬어벤져',
+              '메르세데스',
+              '아란',
+              '팬텀',
+              '루미너스',
+              '에반',
+              '은월',
+              '카데나',
+              '카이저',
+              '엔젤릭버스터',
+              '카인',
+              '아크',
+              '아델',
+              '일리움',
+              '호영',
+              '라라',
+              '제로',
+              '키네시스',
+            ];
+            var target = document.getElementById('job');
+            target.options.length = 1;
+            if (document.getElementById('type').value == '방어구')
+              var d = clothes_a;
+            else if (document.getElementById('type').value == '장신구')
+              var d = accessory_b;
+            else if (document.getElementById('type').value == '무기')
+              var d = weapon_c;
 
+            for (x in d) {
+              var opt = document.createElement('option');
+              opt.value = d[x];
+              opt.innerHTML = d[x];
+              target.appendChild(opt);
+            }
+          }
+        </script>
+        <select id="levellimit">
+          <option>-레벨-</option>
+        </select>
+        <script>
+          function jobChange() {
+            var levellimit_a = ['150', '160', '200'];
+            var target = document.getElementById('levellimit');
+            target.options.length = 1;
+            if (
+              document.getElementById('where').value === '상의' &&
+              document.getElementById('job').value === '전사'
+            ) {
+              var d = levellimit_a;
+            } else if (
+              document.getElementById('where').value === '하의' &&
+              document.getElementById('job').value === '전사'
+            ) {
+              var d = levellimit_a;
+            }
 
-for (x in d) {
-  var opt = document.createElement("option");
-  opt.value = d[x];
-  opt.innerHTML = d[x];
-  target.appendChild(opt);
-}
-}
-</script>
+            for (x in d) {
+              var opt = document.createElement('option');
+              opt.value = d[x];
+              opt.innerHTML = d[x];
+              target.appendChild(opt);
+            }
+          }
+        </script>
 
-<select id="job" onchange="jobChange()">
-<option>-직업-</option>
-</select>
-<script>
-function whereChange_b() {
-  var clothes_a = ["전사", "궁수", "마법사", "도적", "해적"];
-  var accessory_b = ["전체"];
-  var weapon_c = ["히어로", "팔라딘", "다크나이트", "아크메이지(불,독)",
-   "아크메이지(썬,콜)", "비숍", "보우마스터", "신궁", "패스파인더",
-    "나이트로드", "섀도어", "듀얼블레이드", "바이퍼", "캡틴", "캐논슈터",
-     "소울마스터", "플레임위자드", "윈드브레이커", "나이트워커", "호크아이",
-      "미하일", "블래스터", "배틀메이지", "와일드헌터", "메카닉", "제논",
-       "데몬슬레이어", "데몬어벤져", "메르세데스", "아란", "팬텀", "루미너스",
-        "에반", "은월", "카데나", "카이저", "엔젤릭버스터", "카인", "아크",
-         "아델", "일리움", "호영", "라라", "제로", "키네시스"];
-  var target = document.getElementById("job");
-  target.options.length = 1;
-  if(document.getElementById('type').value == "방어구") var d = clothes_a;
-  else if(document.getElementById('type').value == "장신구") var d = accessory_b;
-  else if(document.getElementById('type').value == "무기") var d = weapon_c;
+        <input type="button" value="검색" onclick="levLimClick();" />
+        <script>
+          function levLimClick() {
+            a = 0;
+            if (
+              document.getElementById('type').value == '방어구' &&
+              document.getElementById('where').value == '상의' &&
+              document.getElementById('job').value === '전사' &&
+              document.getElementById('levellimit').value === '150'
+            ) {
+              document.getElementById('img_out').innerHTML =
+                "<img id= 'itemimg' src = 'picture/shirts.jpg' style='width: 100px; height: 80px;'>";
+              document.getElementById('ninjaImg').innerHTML =
+                "<img id= 'itemimgTaking' draggable='false' src = 'picture/shirts.jpg' style='width: 100px; height: 80px;'>";
+              document.getElementById('samuraiImg').innerHTML =
+                "<img id= 'itemimgTakingByStarCatch' draggable='false' src = 'picture/shirts.jpg' style='width: 300px; height: 300px;'>";
+              document.getElementById('itemname').innerHTML =
+                '이글아이 워리어아머';
+            } else if (
+              document.getElementById('type').value == '방어구' &&
+              document.getElementById('where').value == '하의' &&
+              document.getElementById('job').value === '전사' &&
+              document.getElementById('levellimit').value === '150'
+            ) {
+              document.getElementById('img_out').innerHTML =
+                "<img id= 'itemimg' src = 'picture/warrior_pants_150.jpg' style='width: 100px; height: 80px;'>";
+              document.getElementById('ninjaImg').innerHTML =
+                "<img id= 'itemimgTaking' draggable='false' src = 'picture/warrior_pants_150.jpg' style='width: 100px; height: 80px;'>";
+              document.getElementById('samuraiImg').innerHTML =
+                "<img id= 'itemimgTakingByStarCatch' draggable='false' src = 'picture/warrior_pants_150.jpg' style='width: 300px; height: 300px;'>";
+              document.getElementById('itemname').innerHTML =
+                '트릭스터 워리어팬츠';
+            }
+          }
+        </script>
 
+        <div id="img_out" draggable="true"></div>
+        <div id="ninjaImg"></div>
+        <div id="samuraiImg"></div>
+        <div id="itemname"></div>
+      </div>
 
+      <div class="money">
+        <h3>메소</h3>
+        <div id="sayongMeso">사용메소: 0메소</div>
+        <div id="myMeso">보유메소: 299999999999메소</div>
+      </div>
+    </div>
 
-  for (x in d) {
-    var opt = document.createElement("option");
-    opt.value = d[x];
-    opt.innerHTML = d[x];
-    target.appendChild(opt);
-}
-}
-</script>
-<select id="levellimit">
-<option>-레벨-</option>
-</select>
-<script>
-function jobChange() {
-var levellimit_a = ["150", "160", "200"];
-var target = document.getElementById("levellimit");
-target.options.length = 1;
-if(document.getElementById('where').value ==="상의" && document.getElementById('job').value === "전사" )
-{ var d = levellimit_a;}
-else if(document.getElementById('where').value ==="하의" && document.getElementById('job').value === "전사" )
-{ var d = levellimit_a;}
-
-
-for (x in d) {
-  var opt = document.createElement("option");
-  opt.value = d[x];
-  opt.innerHTML = d[x];
-  target.appendChild(opt);
-}
-}
-</script>
-
-
-<input type="button" value="검색" onclick="levLimClick();">
-<script>
-  function levLimClick(){
-a = 0;
-if (document.getElementById('type').value == "방어구" &&
-  document.getElementById('where').value == "상의" &&
-document.getElementById('job').value === "전사" &&
-document.getElementById('levellimit').value === "150"){
-   document.getElementById("img_out").innerHTML =
-   "<img id= 'itemimg' src = 'picture/shirts.jpg' style='width: 100px; height: 80px;'>";
-   document.getElementById("ninjaImg").innerHTML =
-   "<img id= 'itemimgTaking' draggable='false' src = 'picture/shirts.jpg' style='width: 100px; height: 80px;'>";
-   document.getElementById("samuraiImg").innerHTML =
-   "<img id= 'itemimgTakingByStarCatch' draggable='false' src = 'picture/shirts.jpg' style='width: 300px; height: 300px;'>";
-   document.getElementById("itemname").innerHTML = "이글아이 워리어아머";
-}
-else if (document.getElementById('type').value == "방어구" &&
-  document.getElementById('where').value == "하의" &&
-document.getElementById('job').value === "전사" &&
-document.getElementById('levellimit').value === "150"){
-   document.getElementById("img_out").innerHTML =
-   "<img id= 'itemimg' src = 'picture/warrior_pants_150.jpg' style='width: 100px; height: 80px;'>";
-   document.getElementById("ninjaImg").innerHTML =
-   "<img id= 'itemimgTaking' draggable='false' src = 'picture/warrior_pants_150.jpg' style='width: 100px; height: 80px;'>";
-   document.getElementById("samuraiImg").innerHTML =
-   "<img id= 'itemimgTakingByStarCatch' draggable='false' src = 'picture/warrior_pants_150.jpg' style='width: 300px; height: 300px;'>";
-   document.getElementById("itemname").innerHTML = "트릭스터 워리어팬츠";
-}
-}
-</script>
-
-
-<div id = 'img_out' draggable='true'></div>
-<div id = "ninjaImg"> </div>
-<div id="samuraiImg"> </div>
-<div id = "itemname"></div>
-
-
-
-  </div>
-
-
-  <div class="money">
-  <h3> 메소 </h3>
-  <div id="sayongMeso">사용메소: 0메소</div>
-  <div id="myMeso">보유메소: 299999999999메소</div>
-  </div>
-  </div>
-
-<div id="starResult">
-</div>
-<script>
-  function jangbiExplain(){
-    var jangbiText = '당신의 장비는' + a + '성 입니다.'
-  document.getElementById('starResult').innerHTML = jangbiText
-}
-</script>
-<img id="starCatchSuccessImage" src="picture/starcatchSuccessPicture.png">
-<img id="starCatchFailedImage" src="picture/starCatchFailedPicture.png">
-<img id="starCatchStartImage" src="picture/startText.png">
-<img id="starCatch5secondImage" src="picture/5secondText.png">
-<img id="starCatch4secondImage" src="picture/4secondText.png">
-<img id="starCatch3secondImage" src="picture/3secondText.png">
-<img id="starCatch2secondImage" src="picture/2secondText.png">
-<img id="starCatch1secondImage" src="picture/1secondText.png">
-<img id="starForceSuccessImage" src="picture/starforceSuccessPicture.png">
-<img id="starForceFailedImage" src="picture/starforceFailedPicture.png">
+    <div id="starResult"></div>
+    <script>
+      function jangbiExplain() {
+        var jangbiText = '당신의 장비는' + a + '성 입니다.';
+        document.getElementById('starResult').innerHTML = jangbiText;
+      }
+    </script>
+    <img id="starCatchSuccessImage" src="picture/starcatchSuccessPicture.png" />
+    <img id="starCatchFailedImage" src="picture/starCatchFailedPicture.png" />
+    <img id="starCatchStartImage" src="picture/startText.png" />
+    <img id="starCatch5secondImage" src="picture/5secondText.png" />
+    <img id="starCatch4secondImage" src="picture/4secondText.png" />
+    <img id="starCatch3secondImage" src="picture/3secondText.png" />
+    <img id="starCatch2secondImage" src="picture/2secondText.png" />
+    <img id="starCatch1secondImage" src="picture/1secondText.png" />
+    <img id="starForceSuccessImage" src="picture/starforceSuccessPicture.png" />
+    <img id="starForceFailedImage" src="picture/starforceFailedPicture.png" />
   </body>
 </html>
