@@ -187,7 +187,7 @@ class WeaponItem {
     this.weaponType = weaponType;
     this.level = level;
     this.url = 'picture/' + this.weaponType + '_' + this.level + '.jpg';
-    this.url = this.weaponType + '_' + this.level;
+    this.alt = this.weaponType + '_' + this.level;
   }
 }
 //아이템 데이터
@@ -570,14 +570,10 @@ function filterWeaponItems() {
   );
 }
 
-function updateSearchedItemPage() {
-  itemTable.innerHTML = '';
-  if (clothBtn.classList.contains('selected')) {
-    const filteredClothItemArr = filterClothItems();
-    filteredClothItemArr.forEach((item) => {
-      const itemRowElem = document.createElement('div');
-      itemRowElem.setAttribute('class', 'itemRow');
-      itemRowElem.innerHTML = `
+function makeItemRow(item) {
+  const itemRowElem = document.createElement('div');
+  itemRowElem.setAttribute('class', 'itemRow');
+  itemRowElem.innerHTML = `
         <div class="itemRow__itemImgBlock">
             <img src="${item.url}" alt="${item.alt}" class="itemRow__itemImg">
           </div>
@@ -589,10 +585,23 @@ function updateSearchedItemPage() {
           </div>
           <button class="itemRow__addItemBtn">+</button>
         `;
+  return itemRowElem;
+}
+
+function updateSearchedItemPage() {
+  itemTable.innerHTML = '';
+  if (clothBtn.classList.contains('selected')) {
+    const filteredClothItemArr = filterClothItems();
+    filteredClothItemArr.forEach((item) => {
+      const itemRowElem = makeItemRow(item);
       itemTable.append(itemRowElem);
     });
   } else {
     const filterWeaponItemArr = filterWeaponItems();
+    filterWeaponItemArr.forEach((item) => {
+      const itemRowElem = makeItemRow(item);
+      itemTable.append(itemRowElem);
+    });
   }
 }
 
