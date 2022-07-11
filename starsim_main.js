@@ -159,7 +159,7 @@ function addEtcOptions() {
         `;
 }
 
-itemTypeSelect.addEventListener('click', (e) => {
+selectsBlock.addEventListener('click', (e) => {
   if (e.target.value === '방어구') {
     if (!e.target.classList.contains('clothSelected')) {
       e.target.className = '';
@@ -179,4 +179,4 @@ itemTypeSelect.addEventListener('click', (e) => {
       addEtcOptions();
     }
   }
-});
+}); //💩 추후 성능 수정
