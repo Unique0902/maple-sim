@@ -4,6 +4,9 @@ let itemTypeSelect = document.querySelector('#itemType');
 let bodyPartSelect = document.querySelector('#bodyPart');
 let weaponHandSelect;
 let weaponTypeSelect;
+const searchedPageCancelBtn = document.querySelector(
+  '.searchedPageWindow__cancelBtn'
+);
 const searchedPageWindow = document.querySelector('.searchedPageWindow');
 const nameSearchBlock = document.querySelector('.nameSearch__searchBlock');
 const levelFrontLimitBlock = document.querySelector('.levelLimit__frontLevel');
@@ -251,7 +254,10 @@ selectsBlock.addEventListener('click', (e) => {
 }); //💩 추후 성능 수정
 
 function showSearchedPage() {
-  searchedPageWindow.style.display = 'block';
+  searchedPageWindow.classList.remove('none');
+}
+function hideSearchedPage() {
+  searchedPageWindow.classList.add('none');
 }
 // 검색하기
 searchStartBtn.addEventListener('click', (e) => {
@@ -259,4 +265,9 @@ searchStartBtn.addEventListener('click', (e) => {
     e.target.classList.add('clicked');
     showSearchedPage();
   }
+});
+
+searchedPageCancelBtn.addEventListener('click', () => {
+  hideSearchedPage();
+  searchStartBtn.classList.remove('clicked');
 });
