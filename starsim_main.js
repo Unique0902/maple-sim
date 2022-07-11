@@ -160,23 +160,25 @@ function addEtcOptions() {
 }
 
 selectsBlock.addEventListener('click', (e) => {
-  if (e.target.value === '방어구') {
-    if (!e.target.classList.contains('clothSelected')) {
-      e.target.className = '';
-      e.target.classList.add('clothSelected');
-      addClothOptions();
-    }
-  } else if (e.target.value === '장신구') {
-    if (!e.target.classList.contains('accessorySelected')) {
-      e.target.className = '';
-      e.target.classList.add('accessorySelected');
-      addAccessoryOptions();
-    }
-  } else if (e.target.value === '기타') {
-    if (!e.target.classList.contains('etcSelected')) {
-      e.target.className = '';
-      e.target.classList.add('etcSelected');
-      addEtcOptions();
+  if (e.target.idName === 'itemType') {
+    if (e.target.value === '방어구') {
+      if (!e.target.classList.contains('clothSelected')) {
+        e.target.className = '';
+        e.target.classList.add('clothSelected');
+        addClothOptions();
+      }
+    } else if (e.target.value === '장신구') {
+      if (!e.target.classList.contains('accessorySelected')) {
+        e.target.className = '';
+        e.target.classList.add('accessorySelected');
+        addAccessoryOptions();
+      }
+    } else if (e.target.value === '기타') {
+      if (!e.target.classList.contains('etcSelected')) {
+        e.target.className = '';
+        e.target.classList.add('etcSelected');
+        addEtcOptions();
+      }
     }
   }
 }); //💩 추후 성능 수정
