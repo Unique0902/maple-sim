@@ -159,8 +159,50 @@ function addEtcOptions() {
         `;
 }
 
+function addOneHandOptions() {
+  weaponTypeSelect.innerHTML = `
+          <option>전체</option>
+          <option>샤이닝로드</option>
+          <option>소울슈터</option>
+          <option>데스페라도</option>
+          <option>에너지소드</option>
+          <option>한손검</option>
+          <option>한손도끼</option>
+          <option>한손둔기</option>
+          <option>단검</option>
+          <option>케인</option>
+          <option>완드</option>
+          <option>스태프</option>
+          <option>ESP리미터</option>
+          <option>체인</option>
+          <option>매직 건틀렛</option>
+          <option>부채</option>
+          <option>튜너</option>
+          <option>브레스 슈터</option>
+          `;
+}
+function addTwoHandOptions() {
+  weaponTypeSelect.innerHTML = `
+          <option>전체</option>
+          <option>두손검</option>
+          <option>두손도끼</option>
+          <option>두손둔기</option>
+          <option>창</option>
+          <option>폴암</option>
+          <option>활</option>
+          <option>석궁</option>
+          <option>아대</option>
+          <option>너클</option>
+          <option>건</option>
+          <option>듀얼보우건</option>
+          <option>핸드캐논</option>
+          <option>건틀렛 리볼버</option>
+          <option>에인션트 보우</option>
+          `;
+}
+
 selectsBlock.addEventListener('click', (e) => {
-  if (e.target.idName === 'itemType') {
+  if (e.target.id === 'itemType') {
     if (e.target.value === '방어구') {
       if (!e.target.classList.contains('clothSelected')) {
         e.target.className = '';
@@ -178,6 +220,20 @@ selectsBlock.addEventListener('click', (e) => {
         e.target.className = '';
         e.target.classList.add('etcSelected');
         addEtcOptions();
+      }
+    }
+  } else if (e.target.id === 'weaponHand') {
+    if (e.target.value === '한손무기') {
+      if (!e.target.classList.contains('oneHandSelected')) {
+        e.target.className = '';
+        e.target.classList.add('oneHandSelected');
+        addOneHandOptions();
+      }
+    } else if (e.target.value === '두손무기') {
+      if (!e.target.classList.contains('twoHandSelected')) {
+        e.target.className = '';
+        e.target.classList.add('twoHandSelected');
+        addTwoHandOptions();
       }
     }
   }
