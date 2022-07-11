@@ -58,6 +58,40 @@ const HandNum = Object.freeze({
   twoHand: 'twoHand',
 });
 
+const WeaponType = Object.freeze({
+  shiningRoad: 'shiningRoad',
+  soulShooter: 'soulShooter',
+  desperado: 'desperado',
+  energySword: 'energySword',
+  oneHandSword: 'oneHandSword',
+  oneHandAx: 'oneHandAx',
+  oneHandBlunt: 'oneHandBlunt',
+  dagger: 'dagger',
+  kane: 'kane',
+  wand: 'wand',
+  staff: 'staff',
+  espLimiter: 'espLimiter',
+  chain: 'chain',
+  magicGuntlet: 'magicGuntlet',
+  fan: 'fan',
+  tuner: 'tuner',
+  breatheShooter: 'breatheShooter',
+  twoHandSword: 'twoHandSword',
+  twoHandAx: 'twoHandAx',
+  twoHandBlunt: 'twoHandBlunt',
+  spear: 'spear',
+  poleArm: 'poleArm',
+  bow: 'bow',
+  crossbow: 'crossbow',
+  sub: 'sub',
+  knuckle: 'knuckle',
+  gun: 'gun',
+  dualBowGun: 'dualBowGun',
+  handCannon: 'handCannon',
+  guntletRevolver: 'guntletRevolver',
+  ancientBow: 'ancientBow',
+});
+
 function showClothSelect() {
   selectsBlock.innerHTML = `
     <div class="jobOption">
@@ -178,9 +212,24 @@ const clothItemArr = [
 ];
 
 const weaponItemArr = [
-  new WeaponItem('파프니르 미스틸테인', HandNum.oneHand, 'oneHandSword', 150),
-  new WeaponItem('파프니르 트윈클리버', HandNum.oneHand, 'oneHandAx', 150),
-  new WeaponItem('파프니르 골디언해머', HandNum.oneHand, 'oneHandBlunt', 150),
+  new WeaponItem(
+    '파프니르 미스틸테인',
+    HandNum.oneHand,
+    WeaponType.oneHandSword,
+    150
+  ),
+  new WeaponItem(
+    '파프니르 트윈클리버',
+    HandNum.oneHand,
+    WeaponType.oneHandAx,
+    150
+  ),
+  new WeaponItem(
+    '파프니르 골디언해머',
+    HandNum.oneHand,
+    WeaponType.oneHandBlunt,
+    150
+  ),
 ];
 // function makeNewItems(first,last,interval){
 
@@ -412,20 +461,115 @@ function translateItemType(value) {
       throw new Error('not valid itemType');
   }
 }
+function translateWeaponHand(value) {
+  switch (value) {
+    case '전체':
+      return null;
+    case '한손무기':
+      return HandNum.oneHand;
+    case '두손무기':
+      return HandNum.twoHand;
+    default:
+      throw new Error('not valid weaponHand');
+  }
+}
+function translateWeaponType(value) {
+  switch (value) {
+    case '전체':
+      return null;
+    case '샤이닝로드':
+      return WeaponType.shiningRoad;
+    case '소울슈터':
+      return WeaponType.soulShooter;
+    case '데스페라도':
+      return WeaponType.desperado;
+    case '에너지소드':
+      return WeaponType.energySword;
+    case '한손검':
+      return WeaponType.oneHandSword;
+    case '한손도끼':
+      return WeaponType.oneHandAx;
+    case '한손둔기':
+      return WeaponType.oneHandBlunt;
+    case '단검':
+      return WeaponType.dagger;
+    case '케인':
+      return WeaponType.kane;
+    case '완드':
+      return WeaponType.wand;
+    case '스태프':
+      return WeaponType.staff;
+    case 'ESP리미터':
+      return WeaponType.espLimiter;
+    case '체인':
+      return WeaponType.chain;
+    case '매직 건틀렛':
+      return WeaponType.magicGuntlet;
+    case '부채':
+      return WeaponType.fan;
+    case '튜너':
+      return WeaponType.tuner;
+    case '브레스 슈터':
+      return WeaponType.breatheShooter;
+    case '두손검':
+      return WeaponType.twoHandSword;
+    case '두손도끼':
+      return WeaponType.twoHandAx;
+    case '두손둔기':
+      return WeaponType.twoHandBlunt;
+    case '창':
+      return WeaponType.spear;
+    case '폴암':
+      return WeaponType.poleArm;
+    case '활':
+      return WeaponType.bow;
+    case '석궁':
+      return WeaponType.crossbow;
+    case '아대':
+      return WeaponType.sub;
+    case '너클':
+      return WeaponType.knuckle;
+    case '건':
+      return WeaponType.gun;
+    case '듀얼보우건':
+      return WeaponType.dualBowGun;
+    case '핸드캐논':
+      return WeaponType.handCannon;
+    case '건틀렛 리볼버':
+      return WeaponType.guntletRevolver;
+    case '에인션트 보우':
+      return WeaponType.ancientBow;
+  }
+}
+
+function filterClothItems() {
+  const job = translateJob(jobSelect.value);
+  const itemType = translateItemType(itemTypeSelect.value);
+  const bodyPart = translateBodyPart(bodyPartSelect.value);
+  return clothItemArr.filter(
+    (x) =>
+      (job === null ? true : x.job === job) &&
+      (itemType === null ? true : x.itemType === itemType) &&
+      (bodyPart === null ? true : x.bodyPart === bodyPart)
+  );
+}
+
+function filterWeaponItems() {
+  const weaponHand = translateWeaponHand(weaponHandSelect.value);
+  const weaponType = translateWeaponType(weaponTypeSelect.value);
+  return weaponItemArr.filter(
+    (x) =>
+      (weaponHand === null ? true : x.handNum === weaponHand) &&
+      (weaponType === null ? true : x.weaponType === weaponType)
+  );
+}
+
 function updateSearchedItemPage() {
   if (clothBtn.classList.contains('selected')) {
-    const job = translateJob(jobSelect.value);
-    const itemType = translateItemType(itemTypeSelect.value);
-    console.log(itemType);
-    const bodyPart = translateBodyPart(bodyPartSelect.value);
-    searchedItemsArr = clothItemArr.filter(
-      (x) =>
-        (job === null ? true : x.job === job) &&
-        (itemType === null ? true : x.itemType === itemType) &&
-        (bodyPart === null ? true : x.bodyPart === bodyPart)
-    );
-    console.log(searchedItemsArr.length);
+    const filteredClothItemArr = filterClothItems();
   } else {
+    const filterWeaponItemArr = filterWeaponItems();
+    console.log(filterWeaponItemArr.length);
   }
 }
 
