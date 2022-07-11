@@ -10,6 +10,7 @@ let searchedItemsArr;
 const searchedPageCancelBtn = document.querySelector(
   '.searchedPageWindow__cancelBtn'
 );
+const itemTable = document.querySelector('.searchedPageWindow__itemTable');
 const searchedPageWindow = document.querySelector('.searchedPageWindow');
 const nameSearchBlock = document.querySelector('.nameSearch__searchBlock');
 const levelFrontLimitBlock = document.querySelector('.levelLimit__frontLevel');
@@ -137,13 +138,13 @@ function showWeaponSelect() {
   </div>
     `;
 }
-function rerollClothSelectElem() {
+function reloadClothSelectElem() {
   jobSelect = document.querySelector('#job');
   itemTypeSelect = document.querySelector('#itemType');
   bodyPartSelect = document.querySelector('#bodyPart');
 }
 
-function rerollWeaponSelectElem() {
+function reloadWeaponSelectElem() {
   weaponHandSelect = document.querySelector('#weaponHand');
   weaponTypeSelect = document.querySelector('#weaponType');
 }
@@ -154,14 +155,14 @@ optionBtnBlock.addEventListener('click', (e) => {
       clothBtn.classList.add('selected');
       weaponBtn.classList.remove('selected');
       showClothSelect();
-      rerollClothSelectElem();
+      reloadClothSelectElem();
     }
   } else if (e.target === weaponBtn) {
     if (!weaponBtn.classList.contains('selected')) {
       weaponBtn.classList.add('selected');
       clothBtn.classList.remove('selected');
       showWeaponSelect();
-      rerollWeaponSelectElem();
+      reloadWeaponSelectElem();
     }
   }
 });
@@ -173,7 +174,9 @@ class ClothItem {
     this.itemType = itemType;
     this.bodyPart = bodyPart;
     this.level = level;
-    this.url = this.job + '_' + this.bodyPart + '_' + this.level + '.jpg';
+    this.url =
+      'picture/' + this.job + '_' + this.bodyPart + '_' + this.level + '.jpg';
+    this.alt = this.job + '_' + this.bodyPart + '_' + this.level;
   }
 }
 
@@ -183,7 +186,8 @@ class WeaponItem {
     this.handNum = handNum;
     this.weaponType = weaponType;
     this.level = level;
-    this.url = this.weaponType + '_' + this.level + '.jpg';
+    this.url = 'picture/' + this.weaponType + '_' + this.level + '.jpg';
+    this.url = this.weaponType + '_' + this.level;
   }
 }
 //아이템 데이터
@@ -238,8 +242,10 @@ const weaponItemArr = [
 function clearOptions() {
   if (clothBtn.classList.contains('selected')) {
     showClothSelect();
+    reloadClothSelectElem();
   } else {
     showWeaponSelect();
+    reloadWeaponSelectElem();
   }
 }
 
@@ -565,11 +571,28 @@ function filterWeaponItems() {
 }
 
 function updateSearchedItemPage() {
+  itemTable.innerHTML = '';
   if (clothBtn.classList.contains('selected')) {
     const filteredClothItemArr = filterClothItems();
+    filteredClothItemArr.forEach((item) => {
+      const itemRowElem = document.createElement('div');
+      itemRowElem.setAttribute('class', 'itemRow');
+      itemRowElem.innerHTML = `
+        <div class="itemRow__itemImgBlock">
+            <img src="${item.url}" alt="${item.alt}" class="itemRow__itemImg">
+          </div>
+          <div class="itemRow__itemName">
+            ${item.name}
+          </div>
+          <div class="itemRow__levelLimit">
+            ${item.level}
+          </div>
+          <button class="itemRow__addItemBtn">+</button>
+        `;
+      itemTable.append(itemRowElem);
+    });
   } else {
     const filterWeaponItemArr = filterWeaponItems();
-    console.log(filterWeaponItemArr.length);
   }
 }
 
