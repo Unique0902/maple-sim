@@ -1,7 +1,9 @@
 // 선택창
-const jobSelect = document.querySelector('#job');
-const itemTypeSelect = document.querySelector('#itemType');
-const bodyPartSelect = document.querySelector('#bodyPart');
+let jobSelect = document.querySelector('#job');
+let itemTypeSelect = document.querySelector('#itemType');
+let bodyPartSelect = document.querySelector('#bodyPart');
+let weaponHandSelect;
+let weaponTypeSelect;
 const nameSearchBlock = document.querySelector('.nameSearch__searchBlock');
 const levelFrontLimitBlock = document.querySelector('.levelLimit__frontLevel');
 const levelBackLimitBlock = document.querySelector('.levelLimit__backLevel');
@@ -57,6 +59,16 @@ function showWeaponSelect() {
   </div>
     `;
 }
+function rerollClothSelectElem() {
+  jobSelect = document.querySelector('#job');
+  itemTypeSelect = document.querySelector('#itemType');
+  bodyPartSelect = document.querySelector('#bodyPart');
+}
+
+function rerollWeaponSelectElem() {
+  weaponHandSelect = document.querySelector('#weaponHand');
+  weaponTypeSelect = document.querySelector('#weaponType');
+}
 
 optionBtnBlock.addEventListener('click', (e) => {
   if (e.target === clothBtn) {
@@ -64,12 +76,14 @@ optionBtnBlock.addEventListener('click', (e) => {
       clothBtn.classList.add('selected');
       weaponBtn.classList.remove('selected');
       showClothSelect();
+      rerollClothSelectElem();
     }
   } else if (e.target === weaponBtn) {
     if (!weaponBtn.classList.contains('selected')) {
       weaponBtn.classList.add('selected');
       clothBtn.classList.remove('selected');
       showWeaponSelect();
+      rerollWeaponSelectElem();
     }
   }
 });
@@ -108,4 +122,61 @@ function clearOptions() {
 
 searchClearBtn.addEventListener('click', () => {
   clearOptions();
+});
+
+function addClothOptions() {
+  bodyPartSelect.innerHTML = `
+    <option>전체</option>
+    <option>모자</option>
+    <option>상의</option>
+    <option>한벌옷</option>
+    <option>하의</option>
+    <option>신발</option>
+    <option>장갑</option>
+    <option>방패</option>
+    <option>망토</option>
+    `;
+}
+
+function addAccessoryOptions() {
+  bodyPartSelect.innerHTML = `
+      <option>전체</option>
+      <option>얼굴장식</option>
+      <option>눈장식</option>
+      <option>귀고리</option>
+      <option>반지</option>
+      <option>펜던트</option>
+      <option>벨트</option>
+      <option>어깨장식</option>
+      <option>망토</option>
+      `;
+}
+
+function addEtcOptions() {
+  bodyPartSelect.innerHTML = `
+        <option>전체</option>
+        <option>기계심장</option>
+        `;
+}
+
+itemTypeSelect.addEventListener('click', (e) => {
+  if (e.target.value === '방어구') {
+    if (!e.target.classList.contains('clothSelected')) {
+      e.target.className = '';
+      e.target.classList.add('clothSelected');
+      addClothOptions();
+    }
+  } else if (e.target.value === '장신구') {
+    if (!e.target.classList.contains('accessorySelected')) {
+      e.target.className = '';
+      e.target.classList.add('accessorySelected');
+      addAccessoryOptions();
+    }
+  } else if (e.target.value === '기타') {
+    if (!e.target.classList.contains('etcSelected')) {
+      e.target.className = '';
+      e.target.classList.add('etcSelected');
+      addEtcOptions();
+    }
+  }
 });
