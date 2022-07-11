@@ -88,26 +88,36 @@ optionBtnBlock.addEventListener('click', (e) => {
   }
 });
 
-// class Item {
-//   constructor(job, option, bodyPart, level, name) {
-//     this.job = job;
-//     this.option = option;
-//     this.bodyPart = bodyPart;
-//     this.level = level;
-//     this.url = this.job + '_' + this.bodyPart + '_' + this.level + '.jpg';
-//     this.name = name;
-//   }
-// }
-// //아이템 데이터
-// const warriotItemDatas = [
-//   new Item('전사', '방어구', '하의', 100),
-//   new Item('전사', '방어구', '하의', 110),
-//   new Item('전사', '방어구', '하의', 120),
-//   new Item('전사', '방어구', '하의', 130),
-//   new Item('전사', '방어구', '하의', 140),
-//   new Item('전사', '방어구', '하의', 150),
-//   new Item('전사', '방어구', '하의', 160),
-// ];
+class ClothItem {
+  constructor(name, job, bodyPart, level) {
+    this.name = name;
+    this.job = job;
+    this.bodyPart = bodyPart;
+    this.level = level;
+    this.url = this.job + '_' + this.bodyPart + '_' + this.level + '.jpg';
+  }
+}
+
+class WeaponItem {
+  constructor(name, weaponType, level) {
+    this.name = name;
+    this.weaponType = weaponType;
+    this.level = level;
+    this.url = this.weaponType + '_' + this.level + '.jpg';
+  }
+}
+//아이템 데이터
+const clothItemDatas = [
+  new ClothItem('하이네스 워리어헬름', 'warrior', 'hat', 150),
+  new ClothItem('이글아이 워리어아머', 'warrior', 'shirts', 150),
+  new ClothItem('트릭스터 워리어팬츠', 'warrior', 'pants', 150),
+];
+
+const weaponItemDatas = [
+  new WeaponItem('파프니르 미스틸테인', 'oneHandSword', 150),
+  new WeaponItem('파프니르 트윈클리버', 'oneHandAx', 150),
+  new WeaponItem('파프니르 골디언해머', 'oneHandBlunt', 150),
+];
 // function makeNewItems(first,last,interval){
 
 // }
