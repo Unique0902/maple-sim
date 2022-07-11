@@ -231,6 +231,11 @@ function addEtcOptions() {
         <option>기계심장</option>
         `;
 }
+function addBodyPartDefaultOptions() {
+  bodyPartSelect.innerHTML = `
+          <option>전체</option>
+          `;
+}
 
 function addOneHandOptions() {
   weaponTypeSelect.innerHTML = `
@@ -274,6 +279,12 @@ function addTwoHandOptions() {
           `;
 }
 
+function addWeaponDefaultOptions() {
+  weaponTypeSelect.innerHTML = `
+            <option>전체</option>
+            `;
+}
+
 selectsBlock.addEventListener('click', (e) => {
   if (e.target.id === 'itemType') {
     if (e.target.value === '방어구') {
@@ -294,6 +305,11 @@ selectsBlock.addEventListener('click', (e) => {
         e.target.classList.add('etcSelected');
         addEtcOptions();
       }
+    } else if (e.target.value === '전체') {
+      if (e.target.className != '') {
+        e.target.className = '';
+        addBodyPartDefaultOptions();
+      }
     }
   } else if (e.target.id === 'weaponHand') {
     if (e.target.value === '한손무기') {
@@ -307,6 +323,11 @@ selectsBlock.addEventListener('click', (e) => {
         e.target.className = '';
         e.target.classList.add('twoHandSelected');
         addTwoHandOptions();
+      }
+    } else if (e.target.value === '전체') {
+      if (e.target.className != '') {
+        e.target.className = '';
+        addWeaponDefaultOptions();
       }
     }
   }
