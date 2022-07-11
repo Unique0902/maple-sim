@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <link rel="stylesheet" href="starCatchFrame.css" />
+    <title>스타포스 시뮬레이터</title>
+    <link rel="stylesheet" href="starsim_style.css" />
+    <script src="starForceLogic.js"></script>
+  </head>
+  <body>
+    <header>
+      <a href="index.html" class="header__anchor"
+        ><h1>메인화면으로 돌아가기</h1></a
+      >
+    </header>
+    <main>
+      <section class="reinforceWindow">
+        <div class="reinforceBox">
+          <div class="renforceBox__outerBox">
+            <div class="reinforceBox__borderBox">
+              <img
+                src="picture/drag.png"
+                alt="dragout"
+                class="reinforceBox__img"
+              />
+              <p class="reinforceBox__description">
+                강화할 장비를<br />올려주세요.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <aside>
+        <section class="itemSelectWindow">
+          <div class="itemSelctWindow__optionSelect">
+            <span class="optionSelect__title">아이템 분류</span>
+            <div class="itemClassification"></div>
+            <div class="itemOptions">
+              <div class="BodyPartOption"></div>
+              <div class="jobOption"></div>
+            </div>
+          </div>
+          <div class="itemSelectWindow__levelLimit">
+            <span class="levelLimit__title"></span>
+            <div class="levelLimit__option"></div>
+          </div>
+        </section>
+        <section class="itemWindow">
+          <ul class="itemDivisions">
+            <li class="itemDivision">장비</li>
+            <li class="itemDivision">소비</li>
+            <li class="itemDivision">기타</li>
+            <li class="itemDivision">설치</li>
+            <li class="itemDivision">캐시</li>
+          </ul>
+          <div class="itemWindow__items"></div>
+          <div class="itemWindow__moneyBlock">
+            <span class="moneyBlock__title"
+              ><img src="picture/meso.png" alt="meso" class="meso" />메소</span
+            >
+            <span class="moneyBlock__nowMoney">0</span>
+          </div>
+        </section>
+      </aside>
+    </main>
+    <footer>
+      <section class="optionWindow">
+        <ul class="reinforceEvents">
+          <li class="reinforceEvent">10성 이하 에서 스타포스 강화 시 1+1</li>
+          <li class="reinforceEvent">스타포스 강화 비용 30% 할인</li>
+          <li class="reinforceEvent">
+            5성, 10성, 15성에서 강화 시도 시 성공확률 100%
+          </li>
+        </ul>
+      </section>
+    </footer>
+  </body>
+</html>

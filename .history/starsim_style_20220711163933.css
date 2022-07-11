@@ -1,0 +1,349 @@
+:root {
+  /* Color */
+  --color-white: #ffffff;
+  --color-light-white: #eeeeee;
+  --color-dark-white: #bdbdbd;
+  --color-pink: #fe918d;
+  --color-dark-pink: #ff6863;
+  --color-dark-grey: #4d4d4d;
+  --color-grey: #616161;
+  --color-light-grey: #7c7979;
+  --color-blue: #4db8ff;
+  --color-yellow: #fff7d1;
+  --color-orange: #feb546;
+  --color-black: #000000;
+  --color-dark-blue: #427585;
+  --color-green: #b5f5ac;
+  --color-dark-green: #72bd689a;
+
+  /* Font size */
+  --font-large: 48px;
+  --font-medium: 28px;
+  --font-regular: 18px;
+  --font-small: 16px;
+  --font-micro: 14px;
+
+  /* Font weight */
+  --weight-bold: 700;
+  --weight-semi-bold: 600;
+  --weight-regular: 400;
+
+  /* Size */
+  --size-border-radius: 12px;
+
+  /* Animation */
+  --animation-duration: 300ms;
+}
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  cursor: url(picture/maple_basic.cur), pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  padding-left: 0;
+}
+
+li {
+  list-style: none;
+}
+
+button {
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+header {
+  height: 10%;
+  background-color: var(--color-dark-grey);
+  text-align: center;
+}
+.header__anchor {
+  color: var(--color-white);
+}
+main {
+  height: 70%;
+  display: flex;
+}
+.reinforceWindow {
+  width: 70%;
+}
+.reinforceBox {
+  width: 80%;
+  height: 80%;
+  background-color: #726255;
+  margin: auto;
+  transform: translateY(12.5%);
+  border-radius: var(--size-border-radius);
+}
+.renforceBox__outerBox {
+  width: 35%;
+  height: 50%;
+  margin: auto;
+  transform: translateY(50%);
+  background: rgb(183, 216, 221);
+  background: linear-gradient(
+    184deg,
+    rgba(183, 216, 221, 1) 0%,
+    rgba(54, 181, 200, 1) 50%,
+    rgba(7, 126, 144, 1) 100%
+  );
+  border-radius: var(--size-border-radius);
+}
+.reinforceBox__borderBox {
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  transform: translateY(5.5%);
+  border: dashed 6px var(--color-white);
+  border-radius: var(--size-border-radius);
+}
+.reinforceBox__img {
+  display: block;
+  width: 40%;
+  height: 30%;
+  margin: auto;
+  transform: translateY(60%);
+}
+.reinforceBox__description {
+  height: 40%;
+  transform: translateY(30%);
+  text-align: center;
+  color: var(--color-white);
+  font-weight: var(--weight-bold);
+  font-size: 25px;
+}
+
+aside {
+  width: 30%;
+  margin: 5% 0;
+}
+
+.itemSelectWindow {
+  height: 55%;
+  background-color: rgb(69, 69, 69);
+  color: var(--color-white);
+  border-radius: var(--size-border-radius);
+}
+.itemSelectWindow select {
+  width: 100%;
+  color: var(--color-white);
+  background: rgb(179, 179, 179);
+  background: linear-gradient(
+    184deg,
+    rgba(179, 179, 179, 1) 0%,
+    rgba(24, 24, 24, 1) 100%
+  );
+}
+.jobOption select {
+  height: 100%;
+}
+.itemOptions select {
+  height: 100%;
+}
+.itemSelectWindow option {
+  background-color: rgb(65, 65, 65);
+  box-shadow: inset 2px 2px 10px 100px black;
+}
+.itemSelectWindow option:hover {
+  background-color: rgb(39, 39, 39);
+}
+.optionSelect__title {
+  display: block;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.jobOption {
+  margin-bottom: 6px;
+  height: 25%;
+}
+.itemOptions {
+  margin-bottom: 6px;
+  height: 25%;
+}
+.itemOptions {
+  display: flex;
+  justify-content: space-between;
+}
+.itemOptions div {
+  width: 48%;
+}
+.itemSelctWindow__optionSelect {
+  height: 40%;
+  width: 90%;
+  margin: auto;
+}
+.line {
+  border-top: dashed 2px gray;
+}
+.itemSelectWindow__levelLimit {
+  width: 90%;
+  height: 20%;
+  margin: auto;
+}
+.itemSelectWindow__nameSearch {
+  width: 90%;
+  height: 20%;
+  display: flex;
+  align-items: center;
+}
+.nameSearch__title {
+  font-size: var(--font-regular);
+  margin-right: 10px;
+  margin-left: 10px;
+}
+.nameSearch__searchImg {
+  background-color: var(--color-white);
+  color: gray;
+}
+.nameSearch__searchBlock {
+  border: 0;
+  padding: 3px;
+  width: 60%;
+}
+.nameSearch__searchBlock:focus {
+  outline: none;
+}
+.itemSelectWindow__levelLimit {
+  display: flex;
+  margin: 0;
+}
+.levelLimit__option {
+  display: flex;
+}
+.levelLimit__title {
+  font-size: var(--font-regular);
+  width: 40%;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+.levelLimit__borderline {
+  display: block;
+  font-size: 35px;
+  text-align: center;
+  transform: translateY(-20%);
+  color: gray;
+  width: 8%;
+}
+.levelLimit__option input {
+  width: 42%;
+  height: 60%;
+}
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.searchClearBtn {
+  position: absolute;
+  right: 55%;
+  top: 30%;
+  width: 24%;
+  background-color: rgb(10, 9, 9);
+  color: white;
+  font-size: 100%;
+  border-radius: var(--size-border-radius);
+}
+.searchBtns {
+  height: 10%;
+  position: relative;
+}
+.searchStartBtn {
+  position: absolute;
+  right: 6%;
+  width: 45%;
+  background-color: greenyellow;
+  font-size: 150%;
+  color: var(--color-white);
+  border-radius: var(--size-border-radius);
+}
+
+.itemWindow {
+  height: 50%;
+  width: 60%;
+  margin: auto;
+}
+.itemDivisions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3px;
+}
+.itemDivision {
+  width: 41.4px;
+  background-color: gray;
+  color: var(--color-white);
+  margin-bottom: 0;
+  border: 1px black solid;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-size: var(--font-regular);
+}
+.items__table {
+  margin: auto;
+  margin-bottom: 3px;
+}
+.itemDivisions > .sel {
+  background-color: black;
+}
+td {
+  border: 1px solid black;
+  width: 50px;
+  height: 50px;
+  background: rgb(215, 215, 215);
+  background: linear-gradient(
+    184deg,
+    rgba(215, 215, 215, 1) 0%,
+    rgba(255, 255, 255, 1) 72%
+  );
+}
+.itemWindow__moneyBlock {
+  height: 10%;
+  margin: auto;
+  width: 206px;
+  border-top: solid 1.2px black;
+  display: flex;
+}
+.moneyBlock__title {
+  background-color: gray;
+  border-radius: 4px;
+}
+.moneyBlock__nowMoney {
+  display: block;
+  border: solid 1px var(--color-black);
+  width: 155px;
+  margin-left: 2px;
+  text-align: end;
+  padding-right: 5px;
+}
+.mesoImg {
+  height: 16px;
+  width: 16px;
+}
+
+footer {
+  height: 20%;
+}
+.optionWindow {
+  background-color: #4d4d4d;
+  color: var(--color-white);
+  width: 40%;
+  margin-left: 7%;
+  border-radius: var(--size-border-radius);
+  padding-left: 1%;
+  padding-bottom: 1%;
+  padding-top: 1%;
+}

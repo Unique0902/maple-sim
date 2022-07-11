@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <link rel="stylesheet" href="starCatchFrame.css" />
+    <title>스타포스 시뮬레이터</title>
+    <link rel="stylesheet" href="starsim_style.css" />
+    <script src="starForceLogic.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <a href="index.html"><h1>메이플 시뮬레이터 모음</h1></a>
+    </header>
+
+    <div id="grid">
+      <div class="enhance">
+        <div id="dropblock">
+          <div id="dropHide" draggable="false">
+            <img src="picture/drag.png" draggable="false" width="40%" />
+            <p id="nodrag">강화할 장비를 올려주세요</p>
+          </div>
+          <div id="grid_" style="position: relative; z-index: 1">
+            <div id="jumun"><a href="magicalsim.html">주문서</a></div>
+            <div id="star">스타포스 강화</div>
+            <div id="jangbi">장비전승</div>
+            <div id="mesorel">메소를 사용하여 장비를 강화합니다</div>
+            <div id="sajin"></div>
+            <div id="gangwhajeong">
+              <div id="jeongbo">
+                0성 > 1성<br />성공확률: 95.0%<br />실패(유지)확률: 5.0%
+              </div>
+            </div>
+            <div id="starcatch">
+              스타캐치해제<input
+                type="checkbox"
+                id="starCatchHaeJae"
+                onclick="makeStarCatchLogic()"
+              />
+            </div>
+            <div id="pagae">
+              파괴방지<input
+                type="checkbox"
+                id="destroyProtect"
+                onclick="makeDestroyProtectLogic()"
+              />
+            </div>
+            <div id="pilyo">필요한메소</div>
+            <div id="gangwha">
+              <input
+                type="button"
+                id="gangwhaButton"
+                value="강화"
+                onclick="alertBeforeStarForce(); jangbiExplain(); hideOrMakeDestroyProtect();"
+              />
+            </div>
+            <div id="cancel">
+              <input
+                type="button"
+                id="cancelButton"
+                value="취소"
+                onclick="grid_Hide(); dropHide_Make();"
+              />
+            </div>
+          </div>
+          <div id="starCatchGrid"></div>
+        </div>
+      </div>
+
+      <div class="item">
+        <h3>아이템 목록</h3>
+
+        <select
+          id="type"
+          onchange="whereChange_a();
+  whereChange_b();jobChange();"
+        >
+          <option>-종류-</option>
+          <option value="방어구">방어구</option>
+          <option value="장신구">장신구</option>
+          <option value="무기">무기</option>
+        </select>
+        <select id="where" onchange="jobChange()">
+          <option>-부위-</option>
+          ``
+        </select>
+
+        <select id="job" onchange="jobChange()">
+          <option>-직업-</option>
+        </select>
+
+        <select id="levellimit">
+          <option>-레벨-</option>
+        </select>
+
+        <input type="button" value="검색" onclick="levLimClick();" />
+
+        <div id="img_out" draggable="true"></div>
+        <div id="ninjaImg"></div>
+        <div id="samuraiImg"></div>
+        <div id="itemname"></div>
+      </div>
+
+      <div class="money">
+        <h3>메소</h3>
+        <div id="sayongMeso">사용메소: 0메소</div>
+        <div id="myMeso">보유메소: 299999999999메소</div>
+      </div>
+    </div>
+
+    <div id="starResult"></div>
+
+    <img id="starCatchSuccessImage" src="picture/starcatchSuccessPicture.png" />
+    <img id="starCatchFailedImage" src="picture/starCatchFailedPicture.png" />
+    <img id="starCatchStartImage" src="picture/startText.png" />
+    <img id="starCatch5secondImage" src="picture/5secondText.png" />
+    <img id="starCatch4secondImage" src="picture/4secondText.png" />
+    <img id="starCatch3secondImage" src="picture/3secondText.png" />
+    <img id="starCatch2secondImage" src="picture/2secondText.png" />
+    <img id="starCatch1secondImage" src="picture/1secondText.png" />
+    <img id="starForceSuccessImage" src="picture/starforceSuccessPicture.png" />
+    <img id="starForceFailedImage" src="picture/starforceFailedPicture.png" />
+  </body>
+</html>

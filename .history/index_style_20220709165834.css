@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+ul {
+  list-style: none;
+}
+header {
+  text-align: center;
+  border-bottom: solid 2px black;
+}
+.main_link {
+  border: solid 3px black;
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  background-color: aqua;
+  border-radius: 10px;
+}
+.main_links {
+  display: flex;
+  justify-content: space-around;
+}
+.main_link_img {
+  margin-top: 30px;
+}

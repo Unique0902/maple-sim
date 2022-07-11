@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <link rel="stylesheet" href="starCatchFrame.css" />
+    <title>스타포스 시뮬레이터</title>
+    <script
+      src="https://kit.fontawesome.com/5e90eb26c9.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="starsim_style.css" />
+    <script src="starForceLogic.js"></script>
+  </head>
+  <body>
+    <header>
+      <a href="index.html" class="header__anchor"
+        ><h1>메인화면으로 돌아가기</h1></a
+      >
+    </header>
+    <main>
+      <section class="reinforceWindow">
+        <div class="reinforceBox">
+          <div class="renforceBox__outerBox">
+            <div class="reinforceBox__borderBox">
+              <img
+                src="picture/drag.png"
+                alt="dragout"
+                class="reinforceBox__img"
+              />
+              <p class="reinforceBox__description">
+                강화할 장비를<br />올려주세요.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <aside>
+        <section class="itemSelectWindow">
+          <div class="itemSelctWindow__optionSelect">
+            <label class="optionSelect__title">아이템 분류</label>
+            <div class="jobOption">
+              <select name="job" id="job">
+                <option selected>전체</option>
+                <option>전사</option>
+                <option>마법사</option>
+                <option>궁수</option>
+                <option>도적</option>
+                <option>해적</option>
+              </select>
+            </div>
+            <div class="itemOptions">
+              <div class="itemType">
+                <select name="itemType" id="itemType">
+                  <option selected>전체</option>
+                  <option>방어구</option>
+                  <option>장신구</option>
+                  <option>기타</option>
+                </select>
+              </div>
+              <div class="bodyPartOption">
+                <select name="bodyPart" id="bodyPart">
+                  <option selected>전체</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="line"></div>
+          <div class="itemSelectWindow__nameSearch">
+            <label class="nameSearch__title">아이템이름</label>
+              <span class="nameSearch__searchImg"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <input type="search" class="nameSearch__searchBlock"></input>
+          </div>
+          <div class="itemSelectWindow__levelLimit">
+            <label class="levelLimit__title">레벨범위</label>
+            <div class="levelLimit__option">
+              <input type="number" class="levelLimit__frontLevel">
+              <input type="number" class="levelLimit__backLevel">
+            </div>
+          </div>
+        </section>
+        <section class="itemWindow">
+          <ul class="itemDivisions">
+            <li class="itemDivision">장비</li>
+            <li class="itemDivision">소비</li>
+            <li class="itemDivision">기타</li>
+            <li class="itemDivision">설치</li>
+            <li class="itemDivision">캐시</li>
+          </ul>
+          <div class="itemWindow__items"></div>
+          <div class="itemWindow__moneyBlock">
+            <span class="moneyBlock__title"
+              ><img src="picture/meso.png" alt="meso" class="meso" />메소</span
+            >
+            <span class="moneyBlock__nowMoney">0</span>
+          </div>
+        </section>
+      </aside>
+    </main>
+    <footer>
+      <section class="optionWindow">
+        <ul class="reinforceEvents">
+          <li class="reinforceEvent">10성 이하 에서 스타포스 강화 시 1+1</li>
+          <li class="reinforceEvent">스타포스 강화 비용 30% 할인</li>
+          <li class="reinforceEvent">
+            5성, 10성, 15성에서 강화 시도 시 성공확률 100%
+          </li>
+        </ul>
+      </section>
+    </footer>
+  </body>
+</html>

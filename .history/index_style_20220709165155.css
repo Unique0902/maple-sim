@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+ul {
+  list-style: none;
+}
+li {
+  border: solid 3px black;
+}
+.main_links {
+  display: flex;
+  justify-content: space-around;
+}

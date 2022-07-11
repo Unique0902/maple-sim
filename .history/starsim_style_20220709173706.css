@@ -1,0 +1,172 @@
+body {
+  background-image: url('picture/eliniaBackground.jpg');
+}
+h1 {
+  border: 5px solid red;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+a {
+  color: black;
+  text-decoration: none;
+}
+#grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 3fr 1fr;
+  gap: 100px 250px;
+}
+#grid .enhance,
+#dropHide,
+.item,
+.money,
+#itemname {
+  border: 2px solid gray;
+}
+.money {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+.enhance {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+}
+#dropblock {
+  display: inline-block;
+  text-align: center;
+  background-color: skyblue;
+  width: 500px;
+  height: 330px;
+}
+.item {
+}
+#itemimg {
+  cursor: move;
+}
+
+#grid_ div {
+  border: 1px solid gray;
+}
+#grid_ {
+  display: none;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 1fr 1fr 8fr 1fr 1fr 2fr;
+  border: 1px solid gray;
+}
+#jumun {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+#star {
+  grid-column-start: 3;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+#jangbi {
+  grid-column-start: 5;
+  grid-column-end: 7;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+#mesorel {
+  grid-column-start: 1;
+  grid-column-end: 7;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+#sajin {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 3;
+  grid-row-end: 4;
+}
+#gangwhajeong {
+  grid-column-start: 3;
+  grid-column-end: 7;
+  grid-row-start: 3;
+  grid-row-end: 4;
+}
+#starcatch {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 4;
+  grid-row-end: 5;
+}
+#pagae {
+  grid-column-start: 4;
+  grid-column-end: 7;
+  grid-row-start: 4;
+  grid-row-end: 5;
+}
+#pilyo {
+  grid-column-start: 1;
+  grid-column-end: 7;
+  grid-row-start: 5;
+  grid-row-end: 6;
+}
+#gangwha {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 6;
+  grid-row-end: 7;
+  margin-right: 10px;
+}
+#cancel {
+  grid-column-start: 4;
+  grid-column-end: 6;
+  grid-row-start: 6;
+  grid-row-end: 7;
+  margin-left: 10px;
+}
+#gangwhaButton,
+#cancelButton {
+  width: 154px;
+  height: 45px;
+}
+h1,
+.item,
+.money,
+#starResult {
+  background-color: white;
+}
+#nodrag,
+.enhance,
+h1,
+.item,
+.money #itemimgTaking {
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+#ninjaImg,
+#samuraiImg {
+  display: none;
+}
+#dropHide {
+  margin-top: 60px;
+  width: 495px;
+}
+#itemimg {
+  margin-left: 105px;
+}
+#bgm {
+  background-color: white;
+  display: inline;
+}
