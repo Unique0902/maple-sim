@@ -4,6 +4,9 @@ let itemTypeSelect = document.querySelector('#itemType');
 let bodyPartSelect = document.querySelector('#bodyPart');
 let weaponHandSelect;
 let weaponTypeSelect;
+
+let searchedItemsArr;
+
 const searchedPageCancelBtn = document.querySelector(
   '.searchedPageWindow__cancelBtn'
 );
@@ -17,6 +20,43 @@ const clothBtn = document.querySelector('.clothBtn');
 const weaponBtn = document.querySelector('.weaponBtn');
 const optionBtnBlock = document.querySelector('.optionSelct__buttons');
 const selectsBlock = document.querySelector('.itemSlectWindow__selects');
+
+const Job = Object.freeze({
+  warrior: 'warrior',
+  wizard: 'wizard',
+  archer: 'archer',
+  thief: 'thief',
+  pirate: 'pirate',
+});
+
+const ItemType = Object.freeze({
+  armor: 'armor',
+  accessory: 'accessory',
+  etc: 'etc',
+});
+
+const BodyPart = Object.freeze({
+  hat: 'hat',
+  shirts: 'shirts',
+  pants: 'pants',
+  onePiece: 'onePiece',
+  shoes: 'shoes',
+  gloves: 'gloves',
+  shield: 'shield',
+  cloak: 'cloak',
+  faceMark: 'faceMark',
+  eyeMark: 'eyeMark',
+  earRing: 'earRing',
+  ring: 'ring',
+  pendant: 'pendant',
+  belt: 'belt',
+  shoulderMark: 'shoulderMark',
+});
+
+const HandNum = Object.freeze({
+  oneHand: 'oneHand',
+  twoHand: 'twoHand',
+});
 
 function showClothSelect() {
   selectsBlock.innerHTML = `
@@ -93,9 +133,10 @@ optionBtnBlock.addEventListener('click', (e) => {
 });
 
 class ClothItem {
-  constructor(name, job, bodyPart, level) {
+  constructor(name, job, itemType, bodyPart, level) {
     this.name = name;
     this.job = job;
+    this.itemType = itemType;
     this.bodyPart = bodyPart;
     this.level = level;
     this.url = this.job + '_' + this.bodyPart + '_' + this.level + '.jpg';
@@ -103,24 +144,43 @@ class ClothItem {
 }
 
 class WeaponItem {
-  constructor(name, weaponType, level) {
+  constructor(name, handNum, weaponType, level) {
     this.name = name;
+    this.handNum = handNum;
     this.weaponType = weaponType;
     this.level = level;
     this.url = this.weaponType + '_' + this.level + '.jpg';
   }
 }
 //아이템 데이터
-const clothItemDatas = [
-  new ClothItem('하이네스 워리어헬름', 'warrior', 'hat', 150),
-  new ClothItem('이글아이 워리어아머', 'warrior', 'shirts', 150),
-  new ClothItem('트릭스터 워리어팬츠', 'warrior', 'pants', 150),
+const clothItemArr = [
+  new ClothItem(
+    '하이네스 워리어헬름',
+    Job.warrior,
+    ItemType.armor,
+    BodyPart.hat,
+    150
+  ),
+  new ClothItem(
+    '이글아이 워리어아머',
+    Job.warrior,
+    ItemType.armor,
+    BodyPart.shirts,
+    150
+  ),
+  new ClothItem(
+    '트릭스터 워리어팬츠',
+    Job.warrior,
+    ItemType.armor,
+    BodyPart.pants,
+    150
+  ),
 ];
 
-const weaponItemDatas = [
-  new WeaponItem('파프니르 미스틸테인', 'oneHandSword', 150),
-  new WeaponItem('파프니르 트윈클리버', 'oneHandAx', 150),
-  new WeaponItem('파프니르 골디언해머', 'oneHandBlunt', 150),
+const weaponItemArr = [
+  new WeaponItem('파프니르 미스틸테인', HandNum.oneHand, 'oneHandSword', 150),
+  new WeaponItem('파프니르 트윈클리버', HandNum.oneHand, 'oneHandAx', 150),
+  new WeaponItem('파프니르 골디언해머', HandNum.oneHand, 'oneHandBlunt', 150),
 ];
 // function makeNewItems(first,last,interval){
 
@@ -162,7 +222,6 @@ function addAccessoryOptions() {
       <option>펜던트</option>
       <option>벨트</option>
       <option>어깨장식</option>
-      <option>망토</option>
       `;
 }
 
@@ -259,8 +318,98 @@ function showSearchedPage() {
 function hideSearchedPage() {
   searchedPageWindow.classList.add('none');
 }
+
 // 검색하기
+function translateJob(value) {
+  switch (value) {
+    case '전체':
+      return null;
+    case '전사':
+      return Job.warrior;
+    case '마법사':
+      return Job.wizard;
+    case '궁수':
+      return Job.archer;
+    case '도적':
+      return Job.thief;
+    case '해적':
+      return Job.pirate;
+    default:
+      throw new Error('not valid job');
+  }
+}
+function translateBodyPart(value) {
+  switch (value) {
+    case '전체':
+      return null;
+    case '모자':
+      return BodyPart.hat;
+    case '상의':
+      return BodyPart.shirts;
+    case '한벌옷':
+      return BodyPart.onePiece;
+    case '하의':
+      return BodyPart.pants;
+    case '신발':
+      return BodyPart.shoes;
+    case '장갑':
+      return BodyPart.gloves;
+    case '방패':
+      return BodyPart.shield;
+    case '망토':
+      return BodyPart.cloak;
+    case '얼굴장식':
+      return BodyPart.faceMark;
+    case '눈장식':
+      return BodyPart.eyeMark;
+    case '귀고리':
+      return BodyPart.earRing;
+    case '반지':
+      return BodyPart.ring;
+    case '펜던트':
+      return BodyPart.pendant;
+    case '벨트':
+      return BodyPart.belt;
+    case '어깨장식':
+      return BodyPart.shoulderMark;
+    default:
+      throw new Error('not valid bodyPart');
+  }
+}
+
+function translateItemType(value) {
+  switch (value) {
+    case '전체':
+      return null;
+    case '방어구':
+      return ItemType.armor;
+    case '장신구':
+      return ItemType.accessory;
+    case '기타':
+      return ItemType.etc;
+    default:
+      throw new Error('not valid itemType');
+  }
+}
+function updateSearchedItemPage() {
+  if (clothBtn.classList.contains('selected')) {
+    const job = translateJob(jobSelect.value);
+    const itemType = translateItemType(itemTypeSelect.value);
+    console.log(itemType);
+    const bodyPart = translateBodyPart(bodyPartSelect.value);
+    searchedItemsArr = clothItemArr.filter(
+      (x) =>
+        (job === null ? true : x.job === job) &&
+        (itemType === null ? true : x.itemType === itemType) &&
+        (bodyPart === null ? true : x.bodyPart === bodyPart)
+    );
+    console.log(searchedItemsArr.length);
+  } else {
+  }
+}
+
 searchStartBtn.addEventListener('click', (e) => {
+  updateSearchedItemPage();
   if (!e.target.classList.contains('clicked')) {
     e.target.classList.add('clicked');
     showSearchedPage();
