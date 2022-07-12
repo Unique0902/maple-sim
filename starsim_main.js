@@ -10,6 +10,7 @@ let searchedItemsArr;
 const searchedPageCancelBtn = document.querySelector(
   '.searchedPageWindow__cancelBtn'
 );
+
 const itemTable = document.querySelector('.searchedPageWindow__itemTable');
 const searchedPageWindow = document.querySelector('.searchedPageWindow');
 const nameSearchBlock = document.querySelector('.nameSearch__searchBlock');
@@ -545,6 +546,25 @@ function translateWeaponType(value) {
       return WeaponType.guntletRevolver;
     case '에인션트 보우':
       return WeaponType.ancientBow;
+    default:
+      throw new Error('not valid weaponType');
+  }
+}
+
+function translateLevelLimit(value) {
+  const intLevel = parseInt(value);
+  if (!intLevel) {
+    return null;
+  } else {
+    return intLevel;
+  }
+}
+
+function translateItemName(value) {
+  if (value == '') {
+    return null;
+  } else {
+    return value;
   }
 }
 
@@ -552,11 +572,17 @@ function filterClothItems() {
   const job = translateJob(jobSelect.value);
   const itemType = translateItemType(itemTypeSelect.value);
   const bodyPart = translateBodyPart(bodyPartSelect.value);
+  const itemName = translateItemName(nameSearchBlock.value);
+  const frontLevel = translateLevelLimit(levelFrontLimitBlock.value);
+  const backLevel = translateLevelLimit(levelBackLimitBlock.value);
   return clothItemArr.filter(
     (x) =>
       (job === null ? true : x.job === job) &&
       (itemType === null ? true : x.itemType === itemType) &&
-      (bodyPart === null ? true : x.bodyPart === bodyPart)
+      (bodyPart === null ? true : x.bodyPart === bodyPart) &&
+      (itemName === null ? true : x.name.includes(itemName)) &&
+      (frontLevel === null ? true : x.level >= frontLevel) &&
+      (backLevel === null ? true : x.level <= backLevel)
   );
 }
 
