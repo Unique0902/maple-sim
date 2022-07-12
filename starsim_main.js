@@ -11,6 +11,11 @@ const searchedPageCancelBtn = document.querySelector(
   '.searchedPageWindow__cancelBtn'
 );
 
+let itemRowKey = 0;
+let clothItemId = 0;
+let weaponItemId = 0;
+let tableItemNum = 0;
+
 const itemTable = document.querySelector('.searchedPageWindow__itemTable');
 const searchedPageWindow = document.querySelector('.searchedPageWindow');
 const nameSearchBlock = document.querySelector('.nameSearch__searchBlock');
@@ -178,6 +183,7 @@ class ClothItem {
     this.url =
       'picture/' + this.job + '_' + this.bodyPart + '_' + this.level + '.jpg';
     this.alt = this.job + '_' + this.bodyPart + '_' + this.level;
+    this.id = ++clothItemId;
   }
 }
 
@@ -189,6 +195,7 @@ class WeaponItem {
     this.level = level;
     this.url = 'picture/' + this.weaponType + '_' + this.level + '.jpg';
     this.alt = this.weaponType + '_' + this.level;
+    this.id = ++weaponItemId;
   }
 }
 //아이템 데이터
@@ -596,9 +603,13 @@ function filterWeaponItems() {
   );
 }
 
-function makeItemRow(item) {
+function makeClothItemRow(item) {
+  const itemRowId = 'itemRow' + ++itemRowKey;
   const itemRowElem = document.createElement('div');
   itemRowElem.setAttribute('class', 'itemRow');
+  itemRowElem.setAttribute('id', itemRowId);
+  itemRowElem.setAttribute('data-type', 'cloth');
+  itemRowElem.setAttribute('data-id', item.id);
   itemRowElem.innerHTML = `
         <div class="itemRow__itemImgBlock">
             <img src="${item.url}" alt="${item.alt}" class="itemRow__itemImg">
@@ -609,8 +620,30 @@ function makeItemRow(item) {
           <div class="itemRow__levelLimit">
             ${item.level}
           </div>
-          <button class="itemRow__addItemBtn">+</button>
+          <button class="itemRow__addItemBtn" id="${itemRowId}">+</button>
         `;
+  return itemRowElem;
+}
+
+function makeWeaponItemRow(item) {
+  const itemRowId = 'itemRow' + ++itemRowKey;
+  const itemRowElem = document.createElement('div');
+  itemRowElem.setAttribute('class', 'itemRow');
+  itemRowElem.setAttribute('id', itemRowId);
+  itemRowElem.setAttribute('data-type', 'weapon');
+  itemRowElem.setAttribute('data-id', item.id);
+  itemRowElem.innerHTML = `
+          <div class="itemRow__itemImgBlock">
+              <img src="${item.url}" alt="${item.alt}" class="itemRow__itemImg">
+            </div>
+            <div class="itemRow__itemName">
+              ${item.name}
+            </div>
+            <div class="itemRow__levelLimit">
+              ${item.level}
+            </div>
+            <button class="itemRow__addItemBtn" id="${itemRowId}">+</button>
+          `;
   return itemRowElem;
 }
 
@@ -619,13 +652,13 @@ function updateSearchedItemPage() {
   if (clothBtn.classList.contains('selected')) {
     const filteredClothItemArr = filterClothItems();
     filteredClothItemArr.forEach((item) => {
-      const itemRowElem = makeItemRow(item);
+      const itemRowElem = makeClothItemRow(item);
       itemTable.append(itemRowElem);
     });
   } else {
     const filterWeaponItemArr = filterWeaponItems();
     filterWeaponItemArr.forEach((item) => {
-      const itemRowElem = makeItemRow(item);
+      const itemRowElem = makeWeaponItemRow(item);
       itemTable.append(itemRowElem);
     });
   }
@@ -642,4 +675,41 @@ searchStartBtn.addEventListener('click', (e) => {
 searchedPageCancelBtn.addEventListener('click', () => {
   hideSearchedPage();
   searchStartBtn.classList.remove('clicked');
+});
+
+function makeItemImgElem(item) {
+  const imgElem = document.createElement('img');
+  imgElem.setAttribute('class', 'table__img');
+  imgElem.setAttribute('src', item.url);
+  imgElem.setAttribute('alt', item.alt);
+  return imgElem;
+}
+
+function addItemInTable(type, id) {
+  let item;
+  if (type === 'cloth') {
+    item = clothItemArr.find((x) => x.id === parseInt(id));
+  } else if (type === 'weapon') {
+    item = weaponItemArr.find((x) => x.id === parseInt(id));
+  }
+  const imgElem = makeItemImgElem(item);
+  const td = document.querySelector(
+    `#tr${parseInt((tableItemNum - 1) / 4) + 1} #td${
+      ((tableItemNum - 1) % 4) + 1
+    }`
+  );
+  td.append(imgElem);
+}
+
+itemTable.addEventListener('click', (e) => {
+  if (e.target.className === 'itemRow__addItemBtn') {
+    const itemRowBlock = document.querySelector(
+      `.searchedPageWindow__itemTable #${e.target.id}`
+    );
+    tableItemNum++;
+    if (tableItemNum > 24) {
+      return;
+    }
+    addItemInTable(itemRowBlock.dataset.type, itemRowBlock.dataset.id);
+  }
 });
