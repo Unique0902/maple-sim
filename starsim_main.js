@@ -16,7 +16,13 @@ let clothItemId = 0;
 let weaponItemId = 0;
 let tableItemNum = 0;
 let itemreinforceKey = 0;
+let nowPageNum = 1;
+let totalPageNum = 1;
+let filteredItemArr;
 
+const pageInformBlock = document.querySelector(
+  '.searchedPageWindow__pageInformation'
+);
 const itemTable = document.querySelector('.searchedPageWindow__itemTable');
 const searchedPageWindow = document.querySelector('.searchedPageWindow');
 const nameSearchBlock = document.querySelector('.nameSearch__searchBlock');
@@ -28,6 +34,10 @@ const clothBtn = document.querySelector('.clothBtn');
 const weaponBtn = document.querySelector('.weaponBtn');
 const optionBtnBlock = document.querySelector('.optionSelct__buttons');
 const selectsBlock = document.querySelector('.itemSlectWindow__selects');
+const nextItemTableBtn = document.querySelector('.searchedPageWindow__nextBtn');
+const previousItemTableBtn = document.querySelector(
+  '.searchedPageWindow__previousBtn'
+);
 
 const Job = Object.freeze({
   warrior: 'warrior',
@@ -218,6 +228,90 @@ const clothItemArr = [
   new ClothItem(
     '트릭스터 워리어팬츠',
     Job.warrior,
+    ItemType.armor,
+    BodyPart.pants,
+    150
+  ),
+  new ClothItem(
+    '하이네스 던위치햇',
+    Job.wizard,
+    ItemType.armor,
+    BodyPart.hat,
+    150
+  ),
+  new ClothItem(
+    '이글아이 던위치로브',
+    Job.wizard,
+    ItemType.armor,
+    BodyPart.shirts,
+    150
+  ),
+  new ClothItem(
+    '트릭스터 던위치팬츠',
+    Job.wizard,
+    ItemType.armor,
+    BodyPart.pants,
+    150
+  ),
+  new ClothItem(
+    '하이네스 레인져베레',
+    Job.archer,
+    ItemType.armor,
+    BodyPart.hat,
+    150
+  ),
+  new ClothItem(
+    '이글아이 레인져후드',
+    Job.archer,
+    ItemType.armor,
+    BodyPart.shirts,
+    150
+  ),
+  new ClothItem(
+    '트릭스터 레인져팬츠',
+    Job.archer,
+    ItemType.armor,
+    BodyPart.pants,
+    150
+  ),
+  new ClothItem(
+    '하이네스 어새신보닛',
+    Job.thief,
+    ItemType.armor,
+    BodyPart.hat,
+    150
+  ),
+  new ClothItem(
+    '이글아이 어새신셔츠',
+    Job.thief,
+    ItemType.armor,
+    BodyPart.shirts,
+    150
+  ),
+  new ClothItem(
+    '트릭스터 어새신팬츠',
+    Job.thief,
+    ItemType.armor,
+    BodyPart.pants,
+    150
+  ),
+  new ClothItem(
+    '하이네스 원더러햇',
+    Job.pirate,
+    ItemType.armor,
+    BodyPart.hat,
+    150
+  ),
+  new ClothItem(
+    '이글아이 원더러코트',
+    Job.pirate,
+    ItemType.armor,
+    BodyPart.shirts,
+    150
+  ),
+  new ClothItem(
+    '트릭스터 원더러팬츠',
+    Job.pirate,
     ItemType.armor,
     BodyPart.pants,
     150
@@ -583,7 +677,7 @@ function filterClothItems() {
   const itemName = translateItemName(nameSearchBlock.value);
   const frontLevel = translateLevelLimit(levelFrontLimitBlock.value);
   const backLevel = translateLevelLimit(levelBackLimitBlock.value);
-  return clothItemArr.filter(
+  filteredItemArr = clothItemArr.filter(
     (x) =>
       (job === null ? true : x.job === job) &&
       (itemType === null ? true : x.itemType === itemType) &&
@@ -600,7 +694,7 @@ function filterWeaponItems() {
   const itemName = translateItemName(nameSearchBlock.value);
   const frontLevel = translateLevelLimit(levelFrontLimitBlock.value);
   const backLevel = translateLevelLimit(levelBackLimitBlock.value);
-  return weaponItemArr.filter(
+  filteredItemArr = weaponItemArr.filter(
     (x) =>
       (weaponHand === null ? true : x.handNum === weaponHand) &&
       (weaponType === null ? true : x.weaponType === weaponType) &&
@@ -654,20 +748,38 @@ function makeWeaponItemRow(item) {
   return itemRowElem;
 }
 
+function updateItemRowTable() {
+  itemTable.innerHTML = '';
+  for (
+    let i = (nowPageNum - 1) * 10;
+    i < filteredItemArr.length && i < nowPageNum * 10;
+    i++
+  ) {
+    const itemRowElem = makeClothItemRow(filteredItemArr[i]);
+    itemTable.append(itemRowElem);
+  }
+}
+function calculateTotalPageNum() {
+  totalPageNum = parseInt((filteredItemArr.length - 1) / 10) + 1;
+}
+
+function updatePageInform() {
+  pageInformBlock.innerHTML = `${nowPageNum} / ${totalPageNum}`;
+}
+
 function updateSearchedItemPage() {
   itemTable.innerHTML = '';
+  nowPageNum = 1;
   if (clothBtn.classList.contains('selected')) {
-    const filteredClothItemArr = filterClothItems();
-    filteredClothItemArr.forEach((item) => {
-      const itemRowElem = makeClothItemRow(item);
-      itemTable.append(itemRowElem);
-    });
+    filterClothItems();
+    calculateTotalPageNum();
+    updatePageInform();
+    updateItemRowTable();
   } else {
-    const filterWeaponItemArr = filterWeaponItems();
-    filterWeaponItemArr.forEach((item) => {
-      const itemRowElem = makeWeaponItemRow(item);
-      itemTable.append(itemRowElem);
-    });
+    filterWeaponItems();
+    calculateTotalPageNum();
+    updatePageInform();
+    updateItemRowTable();
   }
 }
 
@@ -682,6 +794,21 @@ searchStartBtn.addEventListener('click', (e) => {
 searchedPageCancelBtn.addEventListener('click', () => {
   hideSearchedPage();
   searchStartBtn.classList.remove('clicked');
+});
+
+nextItemTableBtn.addEventListener('click', () => {
+  if (nowPageNum >= 1 && nowPageNum < totalPageNum) {
+    nowPageNum++;
+    updateItemRowTable();
+    updatePageInform();
+  }
+});
+previousItemTableBtn.addEventListener('click', () => {
+  if (nowPageNum > 1 && nowPageNum <= totalPageNum) {
+    nowPageNum--;
+    updateItemRowTable();
+    updatePageInform();
+  }
 });
 
 function makeItemImgElem(item, type) {
