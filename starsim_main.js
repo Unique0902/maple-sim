@@ -15,6 +15,7 @@ let itemRowKey = 0;
 let clothItemId = 0;
 let weaponItemId = 0;
 let tableItemNum = 0;
+let itemreinforceKey = 0;
 
 const itemTable = document.querySelector('.searchedPageWindow__itemTable');
 const searchedPageWindow = document.querySelector('.searchedPageWindow');
@@ -596,10 +597,16 @@ function filterClothItems() {
 function filterWeaponItems() {
   const weaponHand = translateWeaponHand(weaponHandSelect.value);
   const weaponType = translateWeaponType(weaponTypeSelect.value);
+  const itemName = translateItemName(nameSearchBlock.value);
+  const frontLevel = translateLevelLimit(levelFrontLimitBlock.value);
+  const backLevel = translateLevelLimit(levelBackLimitBlock.value);
   return weaponItemArr.filter(
     (x) =>
       (weaponHand === null ? true : x.handNum === weaponHand) &&
-      (weaponType === null ? true : x.weaponType === weaponType)
+      (weaponType === null ? true : x.weaponType === weaponType) &&
+      (itemName === null ? true : x.name.includes(itemName)) &&
+      (frontLevel === null ? true : x.level >= frontLevel) &&
+      (backLevel === null ? true : x.level <= backLevel)
   );
 }
 
@@ -682,6 +689,7 @@ function makeItemImgElem(item, type) {
   imgElem.setAttribute('class', 'table__img');
   imgElem.setAttribute('data-type', type);
   imgElem.setAttribute('data-id', item.id);
+  imgElem.setAttribute('data-reinforceid', ++itemreinforceKey);
   imgElem.setAttribute('src', item.url);
   imgElem.setAttribute('alt', item.alt);
   return imgElem;
