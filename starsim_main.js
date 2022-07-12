@@ -677,9 +677,11 @@ searchedPageCancelBtn.addEventListener('click', () => {
   searchStartBtn.classList.remove('clicked');
 });
 
-function makeItemImgElem(item) {
+function makeItemImgElem(item, type) {
   const imgElem = document.createElement('img');
   imgElem.setAttribute('class', 'table__img');
+  imgElem.setAttribute('data-type', type);
+  imgElem.setAttribute('data-id', item.id);
   imgElem.setAttribute('src', item.url);
   imgElem.setAttribute('alt', item.alt);
   return imgElem;
@@ -692,7 +694,7 @@ function addItemInTable(type, id) {
   } else if (type === 'weapon') {
     item = weaponItemArr.find((x) => x.id === parseInt(id));
   }
-  const imgElem = makeItemImgElem(item);
+  const imgElem = makeItemImgElem(item, type);
   const td = document.querySelector(
     `#tr${parseInt((tableItemNum - 1) / 4) + 1} #td${
       ((tableItemNum - 1) % 4) + 1
