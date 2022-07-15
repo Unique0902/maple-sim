@@ -1,3 +1,5 @@
+'use strict';
+
 // 선택창
 let jobSelect = document.querySelector('#job');
 let itemTypeSelect = document.querySelector('#itemType');
@@ -23,6 +25,10 @@ let filteredItemArr;
 const pageInformBlock = document.querySelector(
   '.searchedPageWindow__pageInformation'
 );
+
+const followedItemBox = document.querySelector('.followedItemBox');
+const starforceBox = document.querySelector('.starforceBox');
+const itemWindowTable = document.querySelector('.items__table');
 const itemTable = document.querySelector('.searchedPageWindow__itemTable');
 const searchedPageWindow = document.querySelector('.searchedPageWindow');
 const nameSearchBlock = document.querySelector('.nameSearch__searchBlock');
@@ -492,10 +498,14 @@ selectsBlock.addEventListener('click', (e) => {
 }); //💩 추후 성능 수정
 
 function showSearchedPage() {
-  searchedPageWindow.classList.remove('none');
+  if (searchedPageWindow.classList.contains('none')) {
+    searchedPageWindow.classList.remove('none');
+  }
 }
 function hideSearchedPage() {
-  searchedPageWindow.classList.add('none');
+  if (!searchedPageWindow.classList.contains('none')) {
+    searchedPageWindow.classList.add('none');
+  }
 }
 
 // 검색하기
@@ -748,7 +758,7 @@ function makeWeaponItemRow(item) {
   return itemRowElem;
 }
 
-function updateItemRowTable() {
+function updateClothItemRowTable() {
   itemTable.innerHTML = '';
   for (
     let i = (nowPageNum - 1) * 10;
@@ -756,6 +766,17 @@ function updateItemRowTable() {
     i++
   ) {
     const itemRowElem = makeClothItemRow(filteredItemArr[i]);
+    itemTable.append(itemRowElem);
+  }
+}
+function updateWeaponItemRowTable() {
+  itemTable.innerHTML = '';
+  for (
+    let i = (nowPageNum - 1) * 10;
+    i < filteredItemArr.length && i < nowPageNum * 10;
+    i++
+  ) {
+    const itemRowElem = makeWeaponItemRow(filteredItemArr[i]);
     itemTable.append(itemRowElem);
   }
 }
@@ -774,12 +795,12 @@ function updateSearchedItemPage() {
     filterClothItems();
     calculateTotalPageNum();
     updatePageInform();
-    updateItemRowTable();
+    updateClothItemRowTable();
   } else {
     filterWeaponItems();
     calculateTotalPageNum();
     updatePageInform();
-    updateItemRowTable();
+    updateWeaponItemRowTable();
   }
 }
 
@@ -850,3 +871,30 @@ itemTable.addEventListener('click', (e) => {
     addItemInTable(itemRowBlock.dataset.type, itemRowBlock.dataset.id);
   }
 });
+
+// function showStarforceBox() {
+//   if (starforceBox.classList.contains('none')) {
+//     starforceBox.classList.remove('none');
+//   }
+// }
+// function hideStarforceBox() {
+//   if (!starforceBox.classList.contains('none')) {
+//     starforceBox.classList.add('none');
+//   }
+// }
+
+// itemWindowTable.addEventListener('click', (e) => {
+//   if ((e.target.className = 'table__img')) {
+//     if(e.target.dataset.type=='cloth'){
+//       const item = clothItemArr.find(x=>x.id===`${e.target.dataset.id}`);
+//       followedItemBox.innerHTML = `
+//     <img src="picture/${item.job}_${item.bodyPart}_${item.level}.jpg">
+//     `;
+//     }
+//     else if(e.target.dataset.type=='weapon'){
+
+//     }
+
+//   }
+//   hideSearchedPage();
+// });

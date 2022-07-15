@@ -505,9 +505,12 @@ footer {
   height: 80%;
 }
 
+.starforceBox.none {
+  display: none;
+}
+
 .starforceBox {
   display: flex;
-  display: none;
   flex-direction: column;
   height: 100%;
   width: 100%;
@@ -747,4 +750,10 @@ input[class='starforceOption__checkBox'] + label {
   width: 22%;
   height: 80%;
   font-size: 150%;
+}
+
+.followedItemBox {
+  position: fixed;
+  top: 10px;
+  left: 10px;
 }
