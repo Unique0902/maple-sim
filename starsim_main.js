@@ -806,15 +806,12 @@ function updateSearchedItemPage() {
 
 searchStartBtn.addEventListener('click', (e) => {
   updateSearchedItemPage();
-  if (!e.target.classList.contains('clicked')) {
-    e.target.classList.add('clicked');
-    showSearchedPage();
-  }
+
+  showSearchedPage();
 });
 
 searchedPageCancelBtn.addEventListener('click', () => {
   hideSearchedPage();
-  searchStartBtn.classList.remove('clicked');
 });
 
 nextItemTableBtn.addEventListener('click', () => {
@@ -842,6 +839,16 @@ function makeItemImgElem(item, type) {
   imgElem.setAttribute('alt', item.alt);
   return imgElem;
 }
+function makeItemImgElem(item, type) {
+  const imgElem = document.createElement('img');
+  imgElem.setAttribute('class', 'table__img');
+  imgElem.setAttribute('data-type', type);
+  imgElem.setAttribute('data-id', item.id);
+  imgElem.setAttribute('data-reinforceid', ++itemreinforceKey);
+  imgElem.setAttribute('src', item.url);
+  imgElem.setAttribute('alt', item.alt);
+  return imgElem;
+}
 
 function addItemInTable(type, id) {
   let item;
@@ -851,12 +858,14 @@ function addItemInTable(type, id) {
     item = weaponItemArr.find((x) => x.id === parseInt(id));
   }
   const imgElem = makeItemImgElem(item, type);
-  const td = document.querySelector(
-    `#tr${parseInt((tableItemNum - 1) / 4) + 1} #td${
-      ((tableItemNum - 1) % 4) + 1
-    }`
-  );
-  td.append(imgElem);
+  i: for (let i = 0; i < 6; i++) {
+    for (let j = 0; j < 4; j++) {
+      if (document.querySelector(`#tr${i + 1} #td${j + 1} img`) === null) {
+        document.querySelector(`#tr${i + 1} #td${j + 1}`).append(imgElem);
+        break i;
+      }
+    }
+  }
 }
 
 itemTable.addEventListener('click', (e) => {
@@ -872,29 +881,69 @@ itemTable.addEventListener('click', (e) => {
   }
 });
 
-// function showStarforceBox() {
-//   if (starforceBox.classList.contains('none')) {
-//     starforceBox.classList.remove('none');
-//   }
-// }
-// function hideStarforceBox() {
-//   if (!starforceBox.classList.contains('none')) {
-//     starforceBox.classList.add('none');
-//   }
-// }
+function showStarforceBox() {
+  if (starforceBox.classList.contains('none')) {
+    starforceBox.classList.remove('none');
+  }
+}
+function hideStarforceBox() {
+  if (!starforceBox.classList.contains('none')) {
+    starforceBox.classList.add('none');
+  }
+}
 
-// itemWindowTable.addEventListener('click', (e) => {
-//   if ((e.target.className = 'table__img')) {
-//     if(e.target.dataset.type=='cloth'){
-//       const item = clothItemArr.find(x=>x.id===`${e.target.dataset.id}`);
-//       followedItemBox.innerHTML = `
-//     <img src="picture/${item.job}_${item.bodyPart}_${item.level}.jpg">
-//     `;
-//     }
-//     else if(e.target.dataset.type=='weapon'){
+function showFollowedItemBox() {
+  followedItemBox.style.display = 'block';
+}
+function hideFollowedItemBox() {
+  followedItemBox.style.display = 'none';
+}
 
-//     }
+function moveFollowedItemBox(xpos, ypos) {
+  followedItemBox.style.left = `${xpos}px`;
+  followedItemBox.style.top = `${ypos}px`;
+}
 
-//   }
-//   hideSearchedPage();
-// });
+itemWindowTable.addEventListener('click', (e) => {
+  if (e.target.className === 'table__img') {
+    if (e.target.dataset.type === 'cloth') {
+      const item = clothItemArr.find(
+        (x) => x.id === parseInt(e.target.dataset.id)
+      );
+      followedItemBox.innerHTML = `
+    <img src="picture/${item.job}_${item.bodyPart}_${item.level}.jpg">
+    `;
+    } else if (e.target.dataset.type === 'weapon') {
+      const item = weaponItemArr.find(
+        (x) => x.id === parseInt(e.target.dataset.id)
+      );
+      followedItemBox.innerHTML = `
+    <img src="picture/${item.weaponType}_${item.level}.jpg">
+    `;
+    }
+    showFollowedItemBox();
+    moveFollowedItemBox(e.pageX, e.pageY);
+    document.addEventListener(
+      'mousemove',
+      function mousemove(e2) {
+        moveFollowedItemBox(e2.pageX - 15, e2.pageY - 15);
+        document.addEventListener(
+          'click',
+          function click(e3) {
+            if (e3.target.tagName === 'TD') {
+              e3.target.append(e.target);
+              document.removeEventListener('click', click, true);
+              document.removeEventListener('mousemove', mousemove, true);
+              hideFollowedItemBox();
+            } else {
+            }
+          },
+          true
+        );
+      },
+      true
+    );
+
+    hideSearchedPage();
+  }
+});

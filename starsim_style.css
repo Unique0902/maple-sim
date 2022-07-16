@@ -336,6 +336,7 @@ input[type='number']::-webkit-inner-spin-button {
 .itemDivisions > .sel {
   background-color: black;
 }
+
 td {
   border: 1px solid black;
   width: 50px;
@@ -379,12 +380,13 @@ td {
 
 footer {
   height: 20%;
+  width: 70%;
 }
 .optionWindow {
   background-color: #4d4d4d;
   color: var(--color-white);
-  width: 40%;
-  margin-left: 7%;
+  width: 80%;
+  margin-left: 10%;
   border-radius: var(--size-border-radius);
   padding-left: 1%;
   padding-bottom: 1%;
@@ -753,7 +755,15 @@ input[class='starforceOption__checkBox'] + label {
 }
 
 .followedItemBox {
+  display: none;
   position: fixed;
+  width: 50px;
+  height: 50px;
   top: 10px;
   left: 10px;
+  pointer-events: none;
+}
+.followedItemBox img {
+  width: 100%;
+  height: 100%;
 }
