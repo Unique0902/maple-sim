@@ -960,15 +960,13 @@ itemWindowTable.addEventListener('click', (e) => {
   } else {
     if (e.target.tagName === 'TD') {
       e.target.append(clickedImg);
-      isEndMouseMove = true;
     } else if (e.target.className === 'table__img') {
       if (e.target === clickedImg) {
-        isEndMouseMove = true;
       } else {
         changeTwoElem(e.target, clickedImg);
-        isEndMouseMove = true;
       }
     }
+    isEndMouseMove = true;
     clickedImg = null;
     hideFollowedItemBox();
   }
