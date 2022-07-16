@@ -106,6 +106,9 @@ main {
   );
   border-radius: var(--size-border-radius);
 }
+.renforceBox__outerBox.none {
+  display: none;
+}
 .reinforceBox__borderBox {
   width: 90%;
   height: 90%;
@@ -637,6 +640,11 @@ footer {
   width: 80%;
   height: 80%;
   margin: 10%;
+}
+.mainItemBlock__itemImg {
+  width: 90%;
+  height: 90%;
+  transform: translate(5.5%, 5.5%);
 }
 .mainItemBlock__reinforceDescription {
   width: 66%;
