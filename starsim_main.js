@@ -29,6 +29,7 @@ const pageInformBlock = document.querySelector(
   '.searchedPageWindow__pageInformation'
 );
 
+const reinforceOuterBox = document.querySelector('.renforceBox__outerBox');
 const followedItemBox = document.querySelector('.followedItemBox');
 const starforceBox = document.querySelector('.starforceBox');
 const itemWindowTable = document.querySelector('.items__table');
@@ -218,6 +219,14 @@ class WeaponItem {
     this.id = ++weaponItemId;
   }
 }
+
+class userItem {
+  constructor() {
+    this.itemInform = null;
+    this.starNum = 0;
+  }
+}
+
 //아이템 데이터
 const clothItemArr = [
   new ClothItem(
@@ -853,13 +862,18 @@ function makeItemImgElem(item, type) {
   return imgElem;
 }
 
-function addItemInTable(type, id) {
+function findItemInArr(type, id) {
   let item;
   if (type === 'cloth') {
     item = clothItemArr.find((x) => x.id === parseInt(id));
   } else if (type === 'weapon') {
     item = weaponItemArr.find((x) => x.id === parseInt(id));
   }
+  return item;
+}
+
+function addItemInTable(type, id) {
+  const item = findItemInArr(type, id);
   const imgElem = makeItemImgElem(item, type);
   i: for (let i = 0; i < 6; i++) {
     for (let j = 0; j < 4; j++) {
@@ -931,6 +945,12 @@ function changeTwoElem(el1, el2) {
   parent.append(el1);
 }
 
+function removeClickedItem() {
+  isEndMouseMove = true;
+  clickedImg = null;
+  hideFollowedItemBox();
+}
+
 let clickedImg = null;
 
 itemWindowTable.addEventListener('click', (e) => {
@@ -966,8 +986,29 @@ itemWindowTable.addEventListener('click', (e) => {
         changeTwoElem(e.target, clickedImg);
       }
     }
-    isEndMouseMove = true;
-    clickedImg = null;
-    hideFollowedItemBox();
+    removeClickedItem();
+  }
+});
+
+function hideReinforceOuterBox() {
+  if (!reinforceOuterBox.classList.contains('none')) {
+    reinforceOuterBox.classList.add('none');
+  }
+}
+
+function showReinforceOuterBox() {
+  if (reinforceOuterBox.classList.contains('none')) {
+    reinforceOuterBox.classList.remove('none');
+  }
+}
+
+let isReinforceStart = false;
+
+reinforceOuterBox.addEventListener('click', () => {
+  if (clickedImg != null) {
+    hideReinforceOuterBox();
+    showStarforceBox();
+    removeClickedItem();
+    isReinforceStart = true;
   }
 });
