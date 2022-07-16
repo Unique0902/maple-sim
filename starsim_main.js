@@ -13,6 +13,7 @@ const searchedPageCancelBtn = document.querySelector(
   '.searchedPageWindow__cancelBtn'
 );
 
+let isTableItemClicked = false;
 let itemRowKey = 0;
 let clothItemId = 0;
 let weaponItemId = 0;
@@ -21,6 +22,8 @@ let itemreinforceKey = 0;
 let nowPageNum = 1;
 let totalPageNum = 1;
 let filteredItemArr;
+let isEndMouseMove;
+let tableMouseMoveHandler;
 
 const pageInformBlock = document.querySelector(
   '.searchedPageWindow__pageInformation'
@@ -904,46 +907,69 @@ function moveFollowedItemBox(xpos, ypos) {
   followedItemBox.style.top = `${ypos}px`;
 }
 
-itemWindowTable.addEventListener('click', (e) => {
-  if (e.target.className === 'table__img') {
-    if (e.target.dataset.type === 'cloth') {
-      const item = clothItemArr.find(
-        (x) => x.id === parseInt(e.target.dataset.id)
-      );
-      followedItemBox.innerHTML = `
-    <img src="picture/${item.job}_${item.bodyPart}_${item.level}.jpg">
-    `;
-    } else if (e.target.dataset.type === 'weapon') {
-      const item = weaponItemArr.find(
-        (x) => x.id === parseInt(e.target.dataset.id)
-      );
-      followedItemBox.innerHTML = `
-    <img src="picture/${item.weaponType}_${item.level}.jpg">
-    `;
-    }
-    showFollowedItemBox();
-    moveFollowedItemBox(e.pageX, e.pageY);
-    document.addEventListener(
-      'mousemove',
-      function mousemove(e2) {
-        moveFollowedItemBox(e2.pageX - 15, e2.pageY - 15);
-        document.addEventListener(
-          'click',
-          function click(e3) {
-            if (e3.target.tagName === 'TD') {
-              e3.target.append(e.target);
-              document.removeEventListener('click', click, true);
-              document.removeEventListener('mousemove', mousemove, true);
-              hideFollowedItemBox();
-            } else {
-            }
-          },
-          true
-        );
-      },
-      true
+function makeFollowedItemBox(e) {
+  if (e.target.dataset.type === 'cloth') {
+    const item = clothItemArr.find(
+      (x) => x.id === parseInt(e.target.dataset.id)
     );
+    followedItemBox.innerHTML = `
+  <img src="picture/${item.job}_${item.bodyPart}_${item.level}.jpg">
+  `;
+  } else if (e.target.dataset.type === 'weapon') {
+    const item = weaponItemArr.find(
+      (x) => x.id === parseInt(e.target.dataset.id)
+    );
+    followedItemBox.innerHTML = `
+  <img src="picture/${item.weaponType}_${item.level}.jpg">
+  `;
+  }
+}
 
-    hideSearchedPage();
+function changeTwoElem(el1, el2) {
+  const parent = el2.parentElement;
+  el1.parentElement.append(el2);
+  parent.append(el1);
+}
+
+let clickedImg = null;
+
+itemWindowTable.addEventListener('click', (e) => {
+  if (clickedImg === null) {
+    if (e.target.className === 'table__img') {
+      clickedImg = e.target;
+      makeFollowedItemBox(e);
+      showFollowedItemBox();
+      moveFollowedItemBox(e.pageX, e.pageY);
+      document.addEventListener(
+        'mousemove',
+        (tableMouseMoveHandler = (e2) => {
+          moveFollowedItemBox(e2.pageX - 15, e2.pageY - 15);
+          if (isEndMouseMove) {
+            isEndMouseMove = false;
+            document.removeEventListener(
+              'mousemove',
+              tableMouseMoveHandler,
+              true
+            );
+          }
+        }),
+        true
+      );
+      hideSearchedPage();
+    }
+  } else {
+    if (e.target.tagName === 'TD') {
+      e.target.append(clickedImg);
+      isEndMouseMove = true;
+    } else if (e.target.className === 'table__img') {
+      if (e.target === clickedImg) {
+        isEndMouseMove = true;
+      } else {
+        changeTwoElem(e.target, clickedImg);
+        isEndMouseMove = true;
+      }
+    }
+    clickedImg = null;
+    hideFollowedItemBox();
   }
 });
