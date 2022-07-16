@@ -705,6 +705,9 @@ input[class='starforceOption__checkBox'] + label {
   border: 2px solid var(--color-black);
   margin-left: 0%;
 }
+input[class='starforceOption__checkBox']:checked + label {
+  background-color: red;
+}
 
 .starforceBox__necessaryMoneyBlock {
   background-color: #4f443b;
