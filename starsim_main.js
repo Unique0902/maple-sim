@@ -43,6 +43,13 @@ const reinforceAdditionBoxConfirmBtn = document.querySelector(
 const reinforceAdditionBoxCancelBtn = document.querySelector(
   '.reinforceAdditionBox__cancelBtn'
 );
+
+const resultConfirmBtn = document.querySelector(
+  '.reinforceResultBox__confirmBtn'
+);
+const resultBeforeImg = document.querySelector('.beforeImg');
+const resultAfterImg = document.querySelector('.afterImg');
+const reinforceResultBox = document.querySelector('.reinforceResultBox');
 const reinforceAdditionBox = document.querySelector('.reinforceAdditionBox');
 const reinforceStartBtn = document.querySelector('.starforceBox__reinforceBtn');
 const reinforceCancelBtn = document.querySelector('.starforceBox__cancelBtn');
@@ -67,6 +74,13 @@ const nextItemTableBtn = document.querySelector('.searchedPageWindow__nextBtn');
 const previousItemTableBtn = document.querySelector(
   '.searchedPageWindow__previousBtn'
 );
+
+const Result = Object.freeze({
+  success: 0,
+  failMaintain: 1,
+  failDiminish: 2,
+  destroy: 3,
+});
 
 const Job = Object.freeze({
   warrior: 'warrior',
@@ -1267,7 +1281,7 @@ function calculateStarforceDestroy(userItem) {
   } else if (starNum == 13) {
     return 1.3;
   } else if (starNum === 14) {
-    return 14;
+    return 1.4;
   } else if (starNum >= 15 && starNum <= 17) {
     return 2.1;
   } else if (starNum >= 18 && starNum <= 19) {
@@ -1906,8 +1920,10 @@ function reinforceStarforce(userItem) {
   const randomNum = Math.random();
   if (randomNum < successNum) {
     userItem.plusStar();
+    return Result.success;
   } else if (randomNum >= successNum && randomNum < sum) {
     userItem.destroy();
+    return Result.destroy;
   } else {
     const starNum = userItem.returnStarNum();
     if (
@@ -1916,7 +1932,9 @@ function reinforceStarforce(userItem) {
       (starNum >= 21 && starNum <= 24)
     ) {
       userItem.minusStar();
+      return Result.failDiminish;
     }
+    return Result.failMaintain;
   }
 }
 
@@ -2017,6 +2035,32 @@ reinforceCancelBtn.addEventListener('click', () => {
   showReinforceOuterBox();
 });
 
+const resultSuccessText = document.querySelector('#resultSuccessText');
+const resultMaintainText = document.querySelector('#resultMaintainText');
+const resultDiminishText = document.querySelector('#resultDiminishText');
+
+function updateReinforceResultBox(result, userItem) {
+  const item = userItem.itemInform;
+  resultBeforeImg.setAttribute('src', `${item.url}`);
+  resultAfterImg.setAttribute('src', `${item.url}`);
+  hideElem(resultSuccessText);
+  hideElem(resultMaintainText);
+  hideElem(resultDiminishText);
+  switch (result) {
+    case Result.success:
+      showElem(resultSuccessText);
+      break;
+    case Result.failMaintain:
+      showElem(resultMaintainText);
+      break;
+    case Result.failDiminish:
+      showElem(resultDiminishText);
+      break;
+    case Result.destroy:
+      break;
+  }
+}
+
 reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
   const item = findItemInArr(
     elemInReinforce.dataset.type,
@@ -2025,11 +2069,17 @@ reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
   const userItem = userItemArr.find(
     (x) => x.id === parseInt(elemInReinforce.dataset.useritemid)
   );
+  const result = reinforceStarforce(userItem);
   hideReinforceAdditionBox();
-  reinforceStarforce(userItem);
+  showElem(reinforceResultBox);
+  updateReinforceResultBox(result, userItem);
   updateStarforceWindow();
 });
 
 reinforceAdditionBoxCancelBtn.addEventListener('click', () => {
   hideReinforceAdditionBox();
+});
+
+resultConfirmBtn.addEventListener('click', () => {
+  hideElem(reinforceResultBox);
 });
