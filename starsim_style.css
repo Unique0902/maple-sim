@@ -81,6 +81,7 @@ main {
 }
 .reinforceWindow {
   width: 70%;
+  position: relative;
 }
 .reinforceBox {
   width: 80%;
@@ -818,4 +819,54 @@ input[class='starforceOption__checkBox']:checked + label {
 
 .none {
   display: none !important;
+}
+
+.reinforceAdditionBox {
+  position: absolute;
+  width: 88%;
+  height: 63%;
+  bottom: 2%;
+  left: 6%;
+}
+.reinforceAdditionBox__descriptionBlock {
+  background: rgb(183, 216, 221);
+  background: linear-gradient(
+    184deg,
+    rgba(183, 216, 221, 1) 0%,
+    rgba(54, 181, 200, 1) 50%,
+    rgba(7, 126, 144, 1) 100%
+  );
+  height: 75%;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+}
+.reinforceAdditionBox__description {
+  text-align: center;
+  width: 100%;
+}
+.reinforceAdditionBox__buttonsBlock {
+  background-color: var(--color-white);
+  height: 25%;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.reinforceAdditionBox__buttonsBlock button {
+  color: var(--color-white);
+  border-radius: 5px;
+  width: 28%;
+  height: 65%;
+  border: solid gray 1px;
+}
+.reinforceAdditionBox__confirmBtn {
+  background-color: greenyellow;
+  margin-right: 4%;
+}
+.reinforceAdditionBox__cancelBtn {
+  background-color: #bdbdbd;
 }
