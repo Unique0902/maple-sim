@@ -554,11 +554,11 @@ footer {
   font-size: 142%;
   font-weight: var(--weight-semi-bold);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
+
 .alertBox__description {
-  display: block;
   margin-left: 1%;
 }
 .starforceBox__alertBox i {
@@ -777,4 +777,45 @@ input[class='starforceOption__checkBox']:checked + label {
 .followedItemBox img {
   width: 100%;
   height: 100%;
+}
+
+#destroyed {
+  display: inline;
+}
+#str {
+  display: inline;
+}
+#dex {
+  display: inline;
+}
+#int {
+  display: inline;
+}
+#luk {
+  display: inline;
+}
+#attack {
+  display: inline;
+}
+#magic {
+  display: inline;
+}
+#maxHp {
+  display: inline;
+}
+#maxMp {
+  display: inline;
+}
+#defense {
+  display: inline;
+}
+#speed {
+  display: inline;
+}
+#jump {
+  display: inline;
+}
+
+.none {
+  display: none !important;
 }

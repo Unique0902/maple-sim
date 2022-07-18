@@ -17,6 +17,7 @@ let isTableItemClicked = false;
 let itemRowKey = 0;
 let clothItemId = 0;
 let weaponItemId = 0;
+let userItemId = 0;
 let tableItemNum = 0;
 let itemreinforceKey = 0;
 let nowPageNum = 1;
@@ -29,6 +30,17 @@ const pageInformBlock = document.querySelector(
   '.searchedPageWindow__pageInformation'
 );
 
+const reinforceDescriptionBox = document.querySelector(
+  '.mainItemBlock__reinforceDescription'
+);
+const leftMoneyBlock = document.querySelector(
+  '.necessaryMoneyBlock__leftMoney'
+);
+
+const reinforceStartBtn = document.querySelector('.starforceBox__reinforceBtn');
+const reinforceCancelBtn = document.querySelector('.starforceBox__cancelBtn');
+const starForceAlertBox = document.querySelector('.starforceBox__alertBox');
+const starforceItemImg = document.querySelector('.mainItemBlock__itemImg');
 const reinforceOuterBox = document.querySelector('.renforceBox__outerBox');
 const followedItemBox = document.querySelector('.followedItemBox');
 const starforceBox = document.querySelector('.starforceBox');
@@ -55,6 +67,8 @@ const Job = Object.freeze({
   archer: 'archer',
   thief: 'thief',
   pirate: 'pirate',
+  jennon: 'jennon',
+  all: 'all',
 });
 
 const ItemType = Object.freeze({
@@ -79,6 +93,7 @@ const BodyPart = Object.freeze({
   pendant: 'pendant',
   belt: 'belt',
   shoulderMark: 'shoulderMark',
+  heart: 'heart',
 });
 
 const HandNum = Object.freeze({
@@ -118,6 +133,24 @@ const WeaponType = Object.freeze({
   handCannon: 'handCannon',
   guntletRevolver: 'guntletRevolver',
   ancientBow: 'ancientBow',
+});
+
+const WeaponConstant = Object.freeze({
+  twenty: 1.2,
+  thirty: 1.3,
+  fifty: 1.5,
+  seventy: 1.7,
+  thirtyFour: 1.34,
+  fourtyNine: 1.49,
+  thirtyFive: 1.35,
+  seventyFive: 1.75,
+});
+
+const AttackSpeed = Object.freeze({
+  four: 4,
+  five: 5,
+  six: 6,
+  eight: 8,
 });
 
 function showClothSelect() {
@@ -195,12 +228,13 @@ optionBtnBlock.addEventListener('click', (e) => {
 });
 
 class ClothItem {
-  constructor(name, job, itemType, bodyPart, level) {
+  constructor(name, job, itemType, bodyPart, level, defenseStat) {
     this.name = name;
     this.job = job;
     this.itemType = itemType;
     this.bodyPart = bodyPart;
     this.level = level;
+    this.defenseStat = defenseStat;
     this.url =
       'picture/' + this.job + '_' + this.bodyPart + '_' + this.level + '.jpg';
     this.alt = this.job + '_' + this.bodyPart + '_' + this.level;
@@ -209,7 +243,7 @@ class ClothItem {
 }
 
 class WeaponItem {
-  constructor(name, handNum, weaponType, level) {
+  constructor(name, handNum, weaponType, level, attackPower) {
     this.name = name;
     this.handNum = handNum;
     this.weaponType = weaponType;
@@ -217,15 +251,187 @@ class WeaponItem {
     this.url = 'picture/' + this.weaponType + '_' + this.level + '.jpg';
     this.alt = this.weaponType + '_' + this.level;
     this.id = ++weaponItemId;
+    this.attackPower = attackPower;
+
+    switch (this.weaponType) {
+      case WeaponType.desperado:
+      case WeaponType.oneHandAx:
+      case WeaponType.oneHandBlunt:
+      case WeaponType.oneHandSword:
+      case WeaponType.poleArm:
+      case WeaponType.spear:
+      case WeaponType.tuner:
+      case WeaponType.twoHandAx:
+      case WeaponType.twoHandBlunt:
+      case WeaponType.twoHandSword:
+      case WeaponType.guntletRevolver:
+        this.job = Job.warrior;
+        break;
+      case WeaponType.ancientBow:
+      case WeaponType.bow:
+      case WeaponType.breatheShooter:
+      case WeaponType.crossbow:
+      case WeaponType.dualBowGun:
+        this.job = Job.archer;
+        break;
+      case WeaponType.espLimiter:
+      case WeaponType.magicGuntlet:
+      case WeaponType.shiningRoad:
+      case WeaponType.staff:
+      case WeaponType.wand:
+        this.job = Job.wizard;
+        break;
+      case WeaponType.chain:
+      case WeaponType.dagger:
+      case WeaponType.fan:
+      case WeaponType.kane:
+      case WeaponType.sub:
+        this.job = Job.thief;
+        break;
+      case WeaponType.gun:
+      case WeaponType.handCannon:
+      case WeaponType.knuckle:
+      case WeaponType.soulShooter:
+        this.job = Job.pirate;
+        break;
+      case WeaponType.energySword:
+        this.job = Job.jennon;
+        break;
+    }
+
+    switch (this.weaponType) {
+      case WeaponType.dagger:
+      case WeaponType.chain:
+      case WeaponType.fan:
+      case WeaponType.tuner:
+      case WeaponType.sub:
+        this.attackSpeed = AttackSpeed.four;
+        break;
+      case WeaponType.oneHandAx:
+      case WeaponType.oneHandBlunt:
+      case WeaponType.oneHandSword:
+      case WeaponType.kane:
+      case WeaponType.energySword:
+      case WeaponType.soulShooter:
+      case WeaponType.breatheShooter:
+      case WeaponType.poleArm:
+      case WeaponType.guntletRevolver:
+      case WeaponType.gun:
+      case WeaponType.knuckle:
+        this.attackSpeed = AttackSpeed.five;
+        break;
+      case WeaponType.wand:
+      case WeaponType.shiningRoad:
+      case WeaponType.desperado:
+      case WeaponType.espLimiter:
+      case WeaponType.magicGuntlet:
+      case WeaponType.twoHandSword:
+      case WeaponType.twoHandAx:
+      case WeaponType.twoHandBlunt:
+      case WeaponType.spear:
+      case WeaponType.bow:
+      case WeaponType.crossbow:
+      case WeaponType.dualBowGun:
+      case WeaponType.ancientBow:
+        this.attackSpeed = AttackSpeed.six;
+        break;
+      case WeaponType.staff:
+      case WeaponType.handCannon:
+        this.attackSpeed = AttackSpeed.eight;
+        break;
+    }
+
+    switch (this.weaponType) {
+      case WeaponType.oneHandSword:
+      case WeaponType.oneHandBlunt:
+      case WeaponType.oneHandAx:
+      case WeaponType.staff:
+      case WeaponType.wand:
+      case WeaponType.shiningRoad:
+      case WeaponType.espLimiter:
+      case WeaponType.magicGuntlet:
+        this.weaponConstant = WeaponConstant.twenty;
+        break;
+      case WeaponType.dagger:
+      case WeaponType.desperado:
+      case WeaponType.chain:
+      case WeaponType.fan:
+      case WeaponType.tuner:
+      case WeaponType.breatheShooter:
+      case WeaponType.bow:
+      case WeaponType.dualBowGun:
+      case WeaponType.ancientBow:
+        this.weaponConstant = WeaponConstant.thirty;
+        break;
+      case WeaponType.energySword:
+      case WeaponType.gun:
+      case WeaponType.handCannon:
+        this.weaponConstant = WeaponConstant.fifty;
+        break;
+      case WeaponType.soulShooter:
+      case WeaponType.guntletRevolver:
+      case WeaponType.knuckle:
+        this.weaponConstant = WeaponConstant.seventy;
+        break;
+      case WeaponType.crossbow:
+        this.weaponConstant = WeaponConstant.thirtyFive;
+        break;
+      case WeaponType.sub:
+        this.weaponConstant = WeaponConstant.seventyFive;
+        break;
+      case WeaponType.twoHandAx:
+      case WeaponType.twoHandBlunt:
+      case WeaponType.twoHandSword:
+        this.weaponConstant = WeaponConstant.thirtyFive;
+        break;
+      case WeaponType.spear:
+      case WeaponType.poleArm:
+        this.weaponConstant = WeaponConstant.fourtyNine;
+        break;
+    }
+
+    switch (this.weaponType) {
+      case WeaponType.magicGuntlet:
+      case WeaponType.wand:
+      case WeaponType.staff:
+      case WeaponType.shiningRoad:
+      case WeaponType.espLimiter:
+        this.majorPower = 'magic';
+        break;
+      default:
+        this.majorPower = 'attack';
+    }
   }
 }
 
-class userItem {
-  constructor() {
-    this.itemInform = null;
-    this.starNum = 0;
+class UserItem {
+  #starNum = 0;
+  #isDestroyed = false;
+  constructor(item) {
+    this.itemInform = item;
+    this.id = ++userItemId;
+    this.totalAttackPower = item.attackPower;
+    this.totalMaigcPower = item.magicPower;
+    this.totalStr = item.str;
+    this.totalInt = item.int;
+    this.totalLuk = item.luk;
+    this.totalDex = item.dex;
   }
+  plusStar = () => {
+    this.#starNum++;
+  };
+  minusStar = () => {
+    this.#starNum--;
+  };
+  returnStarNum = () => {
+    return this.#starNum;
+  };
+  destroy = () => {
+    this.#isDestroyed = true;
+  };
 }
+
+const userItemArr = [];
 
 //아이템 데이터
 const clothItemArr = [
@@ -234,105 +440,120 @@ const clothItemArr = [
     Job.warrior,
     ItemType.armor,
     BodyPart.hat,
-    150
+    150,
+    390
   ),
   new ClothItem(
     '이글아이 워리어아머',
     Job.warrior,
     ItemType.armor,
     BodyPart.shirts,
-    150
+    150,
+    210
   ),
   new ClothItem(
     '트릭스터 워리어팬츠',
     Job.warrior,
     ItemType.armor,
     BodyPart.pants,
-    150
+    150,
+    210
   ),
   new ClothItem(
     '하이네스 던위치햇',
     Job.wizard,
     ItemType.armor,
     BodyPart.hat,
-    150
+    150,
+    180
   ),
   new ClothItem(
     '이글아이 던위치로브',
     Job.wizard,
     ItemType.armor,
     BodyPart.shirts,
-    150
+    150,
+    120
   ),
   new ClothItem(
     '트릭스터 던위치팬츠',
     Job.wizard,
     ItemType.armor,
     BodyPart.pants,
-    150
+    150,
+    120
   ),
   new ClothItem(
     '하이네스 레인져베레',
     Job.archer,
     ItemType.armor,
     BodyPart.hat,
-    150
+    150,
+    300
   ),
   new ClothItem(
     '이글아이 레인져후드',
     Job.archer,
     ItemType.armor,
     BodyPart.shirts,
-    150
+    150,
+    135
   ),
   new ClothItem(
     '트릭스터 레인져팬츠',
     Job.archer,
     ItemType.armor,
     BodyPart.pants,
-    150
+    150,
+    135
   ),
   new ClothItem(
     '하이네스 어새신보닛',
     Job.thief,
     ItemType.armor,
     BodyPart.hat,
-    150
+    150,
+    300
   ),
   new ClothItem(
     '이글아이 어새신셔츠',
     Job.thief,
     ItemType.armor,
     BodyPart.shirts,
-    150
+    150,
+    135
   ),
   new ClothItem(
     '트릭스터 어새신팬츠',
     Job.thief,
     ItemType.armor,
     BodyPart.pants,
-    150
+    150,
+    135
   ),
   new ClothItem(
     '하이네스 원더러햇',
     Job.pirate,
     ItemType.armor,
     BodyPart.hat,
-    150
+    150,
+    300
   ),
   new ClothItem(
     '이글아이 원더러코트',
     Job.pirate,
     ItemType.armor,
     BodyPart.shirts,
-    150
+    150,
+    135
   ),
   new ClothItem(
     '트릭스터 원더러팬츠',
     Job.pirate,
     ItemType.armor,
     BodyPart.pants,
-    150
+    150,
+    135
   ),
 ];
 
@@ -341,19 +562,22 @@ const weaponItemArr = [
     '파프니르 미스틸테인',
     HandNum.oneHand,
     WeaponType.oneHandSword,
-    150
+    150,
+    164
   ),
   new WeaponItem(
     '파프니르 트윈클리버',
     HandNum.oneHand,
     WeaponType.oneHandAx,
-    150
+    150,
+    164
   ),
   new WeaponItem(
     '파프니르 골디언해머',
     HandNum.oneHand,
     WeaponType.oneHandBlunt,
-    150
+    150,
+    164
   ),
 ];
 // function makeNewItems(first,last,interval){
@@ -772,6 +996,7 @@ function makeWeaponItemRow(item) {
 
 function updateClothItemRowTable() {
   itemTable.innerHTML = '';
+  searchedPageWindow.dataset.type = 'cloth';
   for (
     let i = (nowPageNum - 1) * 10;
     i < filteredItemArr.length && i < nowPageNum * 10;
@@ -783,6 +1008,7 @@ function updateClothItemRowTable() {
 }
 function updateWeaponItemRowTable() {
   itemTable.innerHTML = '';
+  searchedPageWindow.dataset.type = 'weapon';
   for (
     let i = (nowPageNum - 1) * 10;
     i < filteredItemArr.length && i < nowPageNum * 10;
@@ -829,36 +1055,34 @@ searchedPageCancelBtn.addEventListener('click', () => {
 nextItemTableBtn.addEventListener('click', () => {
   if (nowPageNum >= 1 && nowPageNum < totalPageNum) {
     nowPageNum++;
-    updateItemRowTable();
+    if (searchedPageWindow.dataset.type === 'cloth') {
+      updateClothItemRowTable();
+    } else {
+      updateWeaponItemRowTable();
+    }
     updatePageInform();
   }
 });
 previousItemTableBtn.addEventListener('click', () => {
   if (nowPageNum > 1 && nowPageNum <= totalPageNum) {
     nowPageNum--;
-    updateItemRowTable();
+    if (searchedPageWindow.dataset.type === 'cloth') {
+      updateClothItemRowTable();
+    } else {
+      updateWeaponItemRowTable();
+    }
     updatePageInform();
   }
 });
 
-function makeItemImgElem(item, type) {
+function makeItemImgElem(userItem, type) {
   const imgElem = document.createElement('img');
   imgElem.setAttribute('class', 'table__img');
   imgElem.setAttribute('data-type', type);
-  imgElem.setAttribute('data-id', item.id);
-  imgElem.setAttribute('data-reinforceid', ++itemreinforceKey);
-  imgElem.setAttribute('src', item.url);
-  imgElem.setAttribute('alt', item.alt);
-  return imgElem;
-}
-function makeItemImgElem(item, type) {
-  const imgElem = document.createElement('img');
-  imgElem.setAttribute('class', 'table__img');
-  imgElem.setAttribute('data-type', type);
-  imgElem.setAttribute('data-id', item.id);
-  imgElem.setAttribute('data-reinforceid', ++itemreinforceKey);
-  imgElem.setAttribute('src', item.url);
-  imgElem.setAttribute('alt', item.alt);
+  imgElem.setAttribute('data-itemInformId', userItem.itemInform.id);
+  imgElem.setAttribute('data-userItemId', userItem.id);
+  imgElem.setAttribute('src', userItem.itemInform.url);
+  imgElem.setAttribute('alt', userItem.itemInform.alt);
   return imgElem;
 }
 
@@ -872,9 +1096,16 @@ function findItemInArr(type, id) {
   return item;
 }
 
+function makeNewUserItem(item) {
+  const userItem = new UserItem(item);
+  userItemArr.push(userItem);
+  return userItem;
+}
+
 function addItemInTable(type, id) {
   const item = findItemInArr(type, id);
-  const imgElem = makeItemImgElem(item, type);
+  const userItem = makeNewUserItem(item);
+  const imgElem = makeItemImgElem(userItem, type);
   i: for (let i = 0; i < 6; i++) {
     for (let j = 0; j < 4; j++) {
       if (document.querySelector(`#tr${i + 1} #td${j + 1} img`) === null) {
@@ -924,14 +1155,14 @@ function moveFollowedItemBox(xpos, ypos) {
 function makeFollowedItemBox(e) {
   if (e.target.dataset.type === 'cloth') {
     const item = clothItemArr.find(
-      (x) => x.id === parseInt(e.target.dataset.id)
+      (x) => x.id === parseInt(e.target.dataset.iteminformid)
     );
     followedItemBox.innerHTML = `
   <img src="picture/${item.job}_${item.bodyPart}_${item.level}.jpg">
   `;
   } else if (e.target.dataset.type === 'weapon') {
     const item = weaponItemArr.find(
-      (x) => x.id === parseInt(e.target.dataset.id)
+      (x) => x.id === parseInt(e.target.dataset.iteminformid)
     );
     followedItemBox.innerHTML = `
   <img src="picture/${item.weaponType}_${item.level}.jpg">
@@ -1002,13 +1233,706 @@ function showReinforceOuterBox() {
   }
 }
 
+let elemInReinforce = null;
+
+function calculateStarforceSuccess(userItem) {
+  const starNum = userItem.returnStarNum();
+  if (starNum >= 0 && starNum <= 2) {
+    return 95 - 5 * starNum;
+  } else if (starNum >= 3 && starNum <= 14) {
+    return 100 - 5 * starNum;
+  } else if (starNum >= 15 && starNum <= 21) {
+    return 30;
+  } else if (starNum === 22) {
+    return 3;
+  } else if (starNum === 23) {
+    return 2;
+  } else if (starNum === 24) {
+    return 1;
+  }
+}
+function calculateStarforceDestroy(userItem) {
+  const starNum = userItem.returnStarNum();
+  if (starNum >= 0 && starNum <= 11) {
+    return 0;
+  } else if (starNum == 12) {
+    return 0.6;
+  } else if (starNum == 13) {
+    return 1.3;
+  } else if (starNum === 14) {
+    return 14;
+  } else if (starNum >= 15 && starNum <= 17) {
+    return 2.1;
+  } else if (starNum >= 18 && starNum <= 19) {
+    return 2.8;
+  } else if (starNum >= 20 && starNum <= 21) {
+    return 7.0;
+  } else if (starNum == 22) {
+    return 19.4;
+  } else if (starNum == 23) {
+    return 29.4;
+  } else if (starNum == 24) {
+    return 39.6;
+  }
+}
+
+function calculateStarforceStat(userItem) {
+  const starNum = userItem.returnStarNum();
+  const level = userItem.itemInform.level;
+  if (starNum <= 4) {
+    return 2;
+  } else if (starNum >= 5 && starNum <= 14) {
+    return 3;
+  } else if (level === 130 && starNum >= 15 && starNum <= 19) {
+    return 7;
+  } else if (level === 140 && starNum >= 15 && starNum <= 21) {
+    return 9;
+  } else if (level === 150 && starNum >= 15 && starNum <= 21) {
+    return 11;
+  } else if (level === 160 && starNum >= 15 && starNum <= 21) {
+    return 13;
+  } else if (level === 200 && starNum >= 15 && starNum <= 21) {
+    return 15;
+  } else {
+    return null;
+  }
+}
+function calculateStarforceAttackPower(userItem) {
+  const starNum = userItem.returnStarNum();
+  const level = userItem.itemInform.level;
+  const type = elemInReinforce.dataset.type;
+  if (type === 'cloth') {
+    const bodypart = userItem.itemInform.bodyPart;
+    if (bodypart === BodyPart.gloves) {
+      if (
+        starNum === 4 ||
+        starNum === 6 ||
+        starNum === 10 ||
+        starNum === 12 ||
+        starNum === 13 ||
+        starNum === 14
+      ) {
+        return 1;
+      }
+    }
+
+    if (level == 130 && starNum >= 15 && starNum <= 19) {
+      return starNum - 8;
+    } else if (level == 140 && starNum >= 15 && starNum <= 20) {
+      return starNum - 7;
+    } else if (level == 150 && starNum >= 15 && starNum <= 20) {
+      return starNum - 6;
+    } else if (level == 160 && starNum >= 15 && starNum <= 20) {
+      return starNum - 5;
+    } else if (level == 200 && starNum >= 15 && starNum <= 20) {
+      return starNum - 3;
+    } else if (level == 140 && starNum >= 21 && starNum <= 24) {
+      return starNum * 2 - 27;
+    } else if (level == 150 && starNum >= 21 && starNum <= 24) {
+      return starNum * 2 - 26;
+    } else if (level == 160 && starNum >= 21 && starNum <= 24) {
+      return starNum * 2 - 25;
+    } else if (level == 200 && starNum >= 21 && starNum <= 24) {
+      return starNum * 2 - 23;
+    } else {
+      return null;
+    }
+  } else if (type === 'weapon') {
+    const attackPower = userItem.itemInform.attackPower;
+    if (starNum >= 0 && starNum <= 14) {
+      return parseInt(attackPower / 50) + 1;
+    } else if (level === 130 && starNum >= 15 && starNum <= 16) {
+      return starNum - 9;
+    } else if (level === 140 && starNum >= 15 && starNum <= 16) {
+      return starNum - 8;
+    } else if (level === 150 && starNum >= 15 && starNum <= 16) {
+      return starNum - 7;
+    } else if (level === 160 && starNum === 15) {
+      return starNum - 6;
+    } else if (level === 200 && starNum === 15) {
+      return starNum - 2;
+    } else if (level === 130 && starNum >= 17 && starNum <= 19) {
+      return starNum - 10;
+    } else if (level === 140 && starNum >= 17 && starNum <= 21) {
+      return starNum - 9;
+    } else if (level === 150 && starNum >= 17 && starNum <= 21) {
+      return starNum - 8;
+    } else if (level === 160 && starNum >= 16 && starNum <= 21) {
+      return starNum - 7;
+    } else if (level === 200 && starNum >= 16 && starNum <= 17) {
+      return starNum - 3;
+    } else if (level === 200 && starNum >= 18 && starNum <= 21) {
+      return starNum - 4;
+    } else if (level === 140 && starNum >= 22 && starNum <= 24) {
+      return starNum + 8;
+    } else if (level === 150 && starNum >= 22 && starNum <= 24) {
+      return starNum + 9;
+    } else if (level === 160 && starNum >= 22 && starNum <= 24) {
+      return starNum + 10;
+    } else if (level === 200 && starNum >= 22 && starNum <= 24) {
+      return starNum + 12;
+    } else {
+      return null;
+    }
+  }
+}
+
+function calculateStarforceMaxStat(userItem, type) {
+  const starNum = userItem.returnStarNum();
+  if (type === 'cloth') {
+    const bodyPart = userItem.itemInform.bodyPart;
+    if (
+      bodyPart === BodyPart.faceMark ||
+      bodyPart === BodyPart.eyeMark ||
+      bodyPart === BodyPart.earRing ||
+      bodyPart === BodyPart.shoes ||
+      bodyPart === BodyPart.gloves ||
+      bodyPart === BodyPart.heart
+    ) {
+      return null;
+    } else {
+      if (starNum >= 0 && starNum <= 2) {
+        return 5;
+      } else if (starNum >= 3 && starNum <= 4) {
+        return 10;
+      } else if (starNum >= 5 && starNum <= 6) {
+        return 15;
+      } else if (starNum >= 7 && starNum <= 8) {
+        return 20;
+      } else if (starNum >= 9 && starNum <= 14) {
+        return 25;
+      } else {
+        return null;
+      }
+    }
+  } else if (type === 'weapon') {
+    if (starNum >= 0 && starNum <= 2) {
+      return 5;
+    } else if (starNum >= 3 && starNum <= 4) {
+      return 10;
+    } else if (starNum >= 5 && starNum <= 6) {
+      return 15;
+    } else if (starNum >= 7 && starNum <= 8) {
+      return 20;
+    } else if (starNum >= 9 && starNum <= 14) {
+      return 25;
+    } else {
+      return null;
+    }
+  }
+}
+
+function calculateStarforceDefenseStat(userItem, type) {
+  if (type === 'cloth') {
+    const itemType = userItem.itemInform.itemType;
+    if (itemType === ItemType.etc) {
+      return null;
+    } else {
+      const defenseStat = userItem.itemInform.defenseStat;
+      return Math.floor(defenseStat / 20 + 1);
+    }
+  } else {
+    return null;
+  }
+}
+
+function calculateStarforceSpeedStat(userItem, type) {
+  const starNum = userItem.returnStarNum();
+  if (type === 'cloth') {
+    const bodyPart = userItem.itemInform.bodyPart;
+    if (bodyPart === BodyPart.shoes) {
+      if (starNum >= 2 && starNum <= 9) {
+        return 1;
+      } else if (starNum >= 10 && starNum <= 14) {
+        return 2;
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  } else {
+    return null;
+  }
+}
+
+const beforStarText = document.querySelector('#beforeStar');
+const nextStarText = document.querySelector('#nextStar');
+const successPerText = document.querySelector('#successPer');
+const minOrMainText = document.querySelector('#minOrMain');
+const failPerText = document.querySelector('#failPer');
+const destroyedText = document.querySelector('#destroyed');
+const destroyPerText = document.querySelector('#destroyPer');
+const strText = document.querySelector('#str');
+const strStatText = document.querySelector('#strStat');
+const dexText = document.querySelector('#dex');
+const dexStatText = document.querySelector('#dexStat');
+const intText = document.querySelector('#int');
+const intStatText = document.querySelector('#intStat');
+const lukText = document.querySelector('#luk');
+const lukStatText = document.querySelector('#lukStat');
+const attackText = document.querySelector('#attack');
+const attackStatText = document.querySelector('#attackStat');
+const magicText = document.querySelector('#magic');
+const magicStatText = document.querySelector('#magicStat');
+const maxHpText = document.querySelector('#maxHp');
+const maxHpStatText = document.querySelector('#maxHpStat');
+const maxMpText = document.querySelector('#maxMp');
+const maxMpStatText = document.querySelector('#maxMpStat');
+const defenseText = document.querySelector('#defense');
+const defenseStatText = document.querySelector('#defenseStat');
+const speedText = document.querySelector('#speed');
+const speedStatText = document.querySelector('#speedStat');
+const jumpText = document.querySelector('#jump');
+const jumpStatText = document.querySelector('#jumpStat');
+
+function showDestroyedText() {
+  if (destroyedText.classList.contains('none')) {
+    destroyedText.classList.remove('none');
+  }
+}
+function hideDestroyedText() {
+  if (!destroyedText.classList.contains('none')) {
+    destroyedText.classList.add('none');
+  }
+}
+function showStrText() {
+  if (strText.classList.contains('none')) {
+    strText.classList.remove('none');
+  }
+}
+function hideStrText() {
+  if (!strText.classList.contains('none')) {
+    strText.classList.add('none');
+  }
+}
+function showDexText() {
+  if (dexText.classList.contains('none')) {
+    dexText.classList.remove('none');
+  }
+}
+function hideDexText() {
+  if (!dexText.classList.contains('none')) {
+    dexText.classList.add('none');
+  }
+}
+function showIntText() {
+  if (intText.classList.contains('none')) {
+    intText.classList.remove('none');
+  }
+}
+function hideIntText() {
+  if (!intText.classList.contains('none')) {
+    intText.classList.add('none');
+  }
+}
+function showLukText() {
+  if (lukText.classList.contains('none')) {
+    lukText.classList.remove('none');
+  }
+}
+function hideLukText() {
+  if (!lukText.classList.contains('none')) {
+    lukText.classList.add('none');
+  }
+}
+function showAttackText() {
+  if (attackText.classList.contains('none')) {
+    attackText.classList.remove('none');
+  }
+}
+function hideAttackText() {
+  if (!attackText.classList.contains('none')) {
+    attackText.classList.add('none');
+  }
+}
+function showMagicText() {
+  if (magicText.classList.contains('none')) {
+    magicText.classList.remove('none');
+  }
+}
+function hideMagicText() {
+  if (!magicText.classList.contains('none')) {
+    magicText.classList.add('none');
+  }
+}
+function showMaxHpText() {
+  if (maxHpText.classList.contains('none')) {
+    maxHpText.classList.remove('none');
+  }
+}
+function hideMaxHpText() {
+  if (!maxHpText.classList.contains('none')) {
+    maxHpText.classList.add('none');
+  }
+}
+function showMaxMpText() {
+  if (maxMpText.classList.contains('none')) {
+    maxMpText.classList.remove('none');
+  }
+}
+function hideMaxMpText() {
+  if (!maxMpText.classList.contains('none')) {
+    maxMpText.classList.add('none');
+  }
+}
+function showDefenseText() {
+  if (defenseText.classList.contains('none')) {
+    defenseText.classList.remove('none');
+  }
+}
+function hideDefenseText() {
+  if (!defenseText.classList.contains('none')) {
+    defenseText.classList.add('none');
+  }
+}
+function showSpeedText() {
+  if (speedText.classList.contains('none')) {
+    speedText.classList.remove('none');
+  }
+}
+function hideSpeedText() {
+  if (!speedText.classList.contains('none')) {
+    speedText.classList.add('none');
+  }
+}
+function showJumpText() {
+  if (jumpText.classList.contains('none')) {
+    jumpText.classList.remove('none');
+  }
+}
+function hideJumpText() {
+  if (!jumpText.classList.contains('none')) {
+    jumpText.classList.add('none');
+  }
+}
+
+function updateStarText(StarNum) {
+  beforStarText.innerText = `${StarNum}`;
+  nextStarText.innerText = `${StarNum + 1}`;
+}
+
+function updatePercentageText(successPer, destroyedPer, starNum) {
+  successPerText.innerText = `${successPer}.0`;
+  failPerText.innerText = `${100 - successPer - destroyedPer}`;
+  if ((starNum >= 0 && starNum <= 10) || starNum == 15 || starNum == 20) {
+    minOrMainText.innerText = '유지';
+  } else {
+    minOrMainText.innerText = '하락';
+  }
+  hideDestroyedText();
+  if (starNum >= 12) {
+    destroyPerText.innerText = `${destroyedPer}`;
+    showDestroyedText();
+  } else {
+    hideDestroyedText();
+  }
+}
+
+function updateStatText(job, stat, starNum) {
+  showStrText();
+  showDexText();
+  showIntText();
+  showLukText();
+  switch (job) {
+    case Job.all:
+      strStatText.innerText = `${stat}`;
+      dexStatText.innerText = `${stat}`;
+      intStatText.innerText = `${stat}`;
+      lukStatText.innerText = `${stat}`;
+      break;
+    case Job.warrior:
+      strStatText.innerText = `${stat}`;
+      dexStatText.innerText = `${stat}`;
+      hideIntText();
+      hideLukText();
+      break;
+    case Job.archer:
+      strStatText.innerText = `${stat}`;
+      dexStatText.innerText = `${stat}`;
+      hideLukText();
+      hideIntText();
+      break;
+    case Job.wizard:
+      intStatText.innerText = `${stat}`;
+      lukStatText.innerText = `${stat}`;
+      hideStrText();
+      hideDexText();
+      break;
+    case Job.thief:
+      lukStatText.innerText = `${stat}`;
+      dexStatText.innerText = `${stat}`;
+      hideStrText();
+      hideIntText();
+      break;
+    case Job.pirate:
+      strStatText.innerText = `${stat}`;
+      dexStatText.innerText = `${stat}`;
+      hideIntText();
+      hideLukText();
+      break;
+    case Job.jennon:
+      strStatText.innerText = `${stat}`;
+      dexStatText.innerText = `${stat}`;
+      lukStatText.innerText = `${stat}`;
+      hideIntText();
+      break;
+  }
+  if (starNum >= 22 && starNum <= 24) {
+    hideStrText();
+    hideDexText();
+    hideIntText();
+    hideLukText();
+  }
+}
+function updateEtcStatText(type, maxStat, defenseStat, speedStat) {
+  if (maxStat != null) {
+    showMaxHpText();
+    showMaxMpText();
+    if (type === 'cloth') {
+      hideMaxMpText();
+      maxHpStatText.innerText = `${maxStat}`;
+    } else if (type === 'weapon') {
+      maxHpStatText.innerText = `${maxStat}`;
+      maxMpStatText.innerText = `${maxStat}`;
+    }
+  } else {
+    hideMaxHpText();
+    hideMaxMpText();
+  }
+  if (defenseStat != null) {
+    showDefenseText();
+    defenseStatText.innerText = `${defenseStat}`;
+  } else {
+    hideDefenseText();
+  }
+  if (speedStat != null) {
+    showSpeedText();
+    showJumpText();
+    speedStatText.innerText = `${speedStat}`;
+    jumpStatText.innerText = `${speedStat}`;
+  } else {
+    hideSpeedText();
+    hideJumpText();
+  }
+}
+
+function updateAttackStatText(type, attackPower, job, userItem) {
+  if (attackPower != null) {
+    if (type === 'weapon') {
+      showAttackText();
+      showMagicText();
+      if (userItem.itemInform.majorPower === 'magic') {
+        hideAttackText();
+        magicStatText.innerText = `${attackPower}`;
+      } else if (userItem.itemInform.majorPower === 'attack') {
+        hideMagicText();
+        attackStatText.innerText = `${attackPower}`;
+      }
+    } else if (type === 'cloth') {
+      showAttackText();
+      showMagicText();
+      if (job === Job.wizard) {
+        hideAttackText();
+        magicStatText.innerText = `${attackPower}`;
+      } else if (job === Job.all) {
+        attackStatText.innerText = `${attackPower}`;
+        magicStatText.innerText = `${attackPower}`;
+      } else {
+        hideMagicText();
+        attackStatText.innerText = `${attackPower}`;
+      }
+    }
+  } else {
+    hideAttackText();
+    hideMagicText();
+  }
+}
+
+function updateReinforceDescriptionText(userItem, starNum) {
+  const successPer = calculateStarforceSuccess(userItem);
+  const destroyedPer = calculateStarforceDestroy(userItem);
+  const job = userItem.itemInform.job;
+  const stat = calculateStarforceStat(userItem);
+  const type = elemInReinforce.dataset.type;
+  const attackPower = calculateStarforceAttackPower(userItem);
+  const maxStat = calculateStarforceMaxStat(userItem, type);
+  const defenseStat = calculateStarforceDefenseStat(userItem, type);
+  const speedStat = calculateStarforceSpeedStat(userItem, type);
+  updateStarText(starNum);
+  updatePercentageText(successPer, destroyedPer, starNum);
+  updateStatText(job, stat, starNum);
+  updateAttackStatText(type, attackPower, job, userItem);
+  updateEtcStatText(type, maxStat, defenseStat, speedStat);
+}
+
+function updateReinforceDescription(userItem) {
+  const level = userItem.itemInform.level;
+  const starNum = userItem.returnStarNum();
+  updateReinforceDescriptionText(userItem, starNum);
+}
+
+function calculateNecessaryMoney(userItem) {
+  const starNum = userItem.returnStarNum();
+  const level = userItem.itemInform.level;
+  if (starNum >= 0 && starNum <= 9) {
+    return Math.round(((level ** 3 * (starNum + 1)) / 25 + 1000) / 100) * 100;
+  } else if (starNum >= 10 && starNum <= 14) {
+    return (
+      Math.round(((level ** 3 * (starNum + 1) ** 2.7) / 400 + 1000) / 100) * 100
+    );
+  } else if (starNum >= 15 && starNum <= 24) {
+    return (
+      Math.round(((level ** 3 * (starNum + 1) ** 2.7) / 200 + 1000) / 100) * 100
+    );
+  }
+}
+
+function updateNecessaryMoney(userItem) {
+  const money = calculateNecessaryMoney(userItem);
+  leftMoneyBlock.innerText = `${money}`;
+}
+
+function updateAlertBox(userItem) {
+  const starNum = userItem.returnStarNum();
+  if (starNum >= 0 && starNum <= 10) {
+    starForceAlertBox.innerHTML = `
+    <span class="alertBox__description">
+    <span class="yellow">메소</span>를 사용하여 장비를 강화합니다.
+    </span>
+    `;
+  } else if (starNum === 11) {
+    starForceAlertBox.innerHTML = `
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span class="alertBox__description">
+    실패 시 <span class="yellow">강화 단계</span>가 <span class="yellow">하락</span>됩니다.
+    </span>
+    `;
+  } else if (
+    (starNum >= 12 && starNum <= 14) ||
+    (starNum >= 16 && starNum <= 19) ||
+    (starNum >= 21 && starNum <= 24)
+  ) {
+    starForceAlertBox.innerHTML = `
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span class="alertBox__description">
+    실패 시 장비가 <span class="yellow">파괴</span>되거나 <span class="yellow">단계</span>가 <span class="yellow">하락</span>될 수 있습니다.
+    </span>
+    `;
+  } else if (starNum === 15 || starNum === 20) {
+    starForceAlertBox.innerHTML = `
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span class="alertBox__description">
+    실패 시 장비가 <span class="yellow">파괴</span>될 수 있습니다.
+    </span>
+    `;
+  }
+}
+
+function updateStarforceWindow() {
+  const item = findItemInArr(
+    elemInReinforce.dataset.type,
+    elemInReinforce.dataset.iteminformid
+  );
+  const userItem = userItemArr.find(
+    (x) => x.id === parseInt(elemInReinforce.dataset.useritemid)
+  );
+  const starNum = userItem.returnStarNum();
+  const level = item.level;
+  if (starNum >= 25 || starNum < 0) {
+    return;
+  } else {
+    if (level < 95) {
+      if (starNum >= 5) {
+        return;
+      }
+    } else if (level >= 95 && level <= 107) {
+      if (starNum >= 8) {
+        return;
+      }
+    } else if (level >= 108 && level <= 117) {
+      if (starNum >= 10) {
+        return;
+      }
+    } else if (level >= 118 && level <= 127) {
+      if (starNum >= 15) {
+        return;
+      }
+    } else if (level >= 128 && level <= 137) {
+      if (starNum <= 20) {
+        return;
+      }
+    }
+  }
+  starforceItemImg.setAttribute('src', item.url);
+  updateAlertBox(userItem);
+  updateReinforceDescription(userItem);
+  updateNecessaryMoney(userItem);
+}
+
 let isReinforceStart = false;
 
 reinforceOuterBox.addEventListener('click', () => {
   if (clickedImg != null) {
+    elemInReinforce = clickedImg;
     hideReinforceOuterBox();
     showStarforceBox();
     removeClickedItem();
     isReinforceStart = true;
+    updateStarforceWindow();
   }
+});
+
+starforceBox.addEventListener('click', () => {
+  if (clickedImg != null) {
+    elemInReinforce = clickedImg;
+    removeClickedItem();
+    isReinforceStart = true;
+    updateStarforceWindow();
+  }
+});
+
+function reinforceStarforce(userItem) {
+  const successNum = calculateStarforceSuccess(userItem) / 100;
+  const destroyedNum = calculateStarforceDestroy(userItem) / 100;
+  const sum = successNum + destroyedNum;
+  const randomNum = Math.random();
+  if (randomNum < successNum) {
+    userItem.plusStar();
+  } else if (randomNum >= successNum && randomNum < sum) {
+    userItem.destroy();
+  } else {
+    const starNum = userItem.returnStarNum();
+    if (
+      (starNum >= 11 && starNum <= 14) ||
+      (starNum >= 16 && starNum <= 19) ||
+      (starNum >= 21 && starNum <= 24)
+    ) {
+      userItem.minusStar();
+    }
+  }
+}
+
+reinforceStartBtn.addEventListener('click', () => {
+  if (clickedImg != null) {
+    return;
+  }
+  const item = findItemInArr(
+    elemInReinforce.dataset.type,
+    elemInReinforce.dataset.iteminformid
+  );
+  const userItem = userItemArr.find(
+    (x) => x.id === parseInt(elemInReinforce.dataset.useritemid)
+  );
+  reinforceStarforce(userItem);
+  updateStarforceWindow();
+});
+reinforceCancelBtn.addEventListener('click', () => {
+  if (clickedImg != null) {
+    return;
+  }
+  elemInReinforce = null;
+  isReinforceStart = false;
+  hideStarforceBox();
+  showReinforceOuterBox();
 });
