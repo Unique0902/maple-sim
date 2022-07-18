@@ -37,6 +37,13 @@ const leftMoneyBlock = document.querySelector(
   '.necessaryMoneyBlock__leftMoney'
 );
 
+const reinforceAdditionBoxConfirmBtn = document.querySelector(
+  '.reinforceAdditionBox__confirmBtn'
+);
+const reinforceAdditionBoxCancelBtn = document.querySelector(
+  '.reinforceAdditionBox__cancelBtn'
+);
+const reinforceAdditionBox = document.querySelector('.reinforceAdditionBox');
 const reinforceStartBtn = document.querySelector('.starforceBox__reinforceBtn');
 const reinforceCancelBtn = document.querySelector('.starforceBox__cancelBtn');
 const starForceAlertBox = document.querySelector('.starforceBox__alertBox');
@@ -1913,10 +1920,66 @@ function reinforceStarforce(userItem) {
   }
 }
 
-reinforceStartBtn.addEventListener('click', () => {
-  if (clickedImg != null) {
-    return;
+let isAdditionBox = !reinforceAdditionBox.classList.contains('none');
+function updateIsAdditionBox() {
+  isAdditionBox = !reinforceAdditionBox.classList.contains('none');
+}
+
+function showReinforceAdditionBox() {
+  if (reinforceAdditionBox.classList.contains('none')) {
+    reinforceAdditionBox.classList.remove('none');
   }
+}
+function hideReinforceAdditionBox() {
+  if (!reinforceAdditionBox.classList.contains('none')) {
+    reinforceAdditionBox.classList.add('none');
+  }
+}
+
+const additionMoneyText = document.querySelector('#addition__moneyText');
+
+function updateAdditionMoneyText(userItem) {
+  const money = calculateNecessaryMoney(userItem);
+  additionMoneyText.innerText = `${money}`;
+}
+
+const reinforceTryText = document.querySelector('#addition__reinforceTryText');
+const diminishText = document.querySelector('#addition__diminishText');
+const destroyAndDiminishText = document.querySelector(
+  '#addition__destroyAndDiminishText'
+);
+const destroyText = document.querySelector('#addition__destroyText');
+
+function showElem(elem) {
+  if (elem.classList.contains('none')) {
+    elem.classList.remove('none');
+  }
+}
+function hideElem(elem) {
+  if (!elem.classList.contains('none')) {
+    elem.classList.add('none');
+  }
+}
+
+function updateadditionDescriptionText(userItem) {
+  const starNum = userItem.returnStarNum();
+  hideElem(diminishText);
+  hideElem(destroyAndDiminishText);
+  hideElem(destroyText);
+  if (starNum == 11) {
+    showElem(diminishText);
+  } else if (
+    (starNum >= 12 && starNum <= 14) ||
+    (starNum >= 16 && starNum <= 19) ||
+    (starNum >= 21 && starNum <= 24)
+  ) {
+    showElem(destroyAndDiminishText);
+  } else if (starNum === 15 || starNum === 20) {
+    showElem(destroyText);
+  }
+}
+
+function updateReinforceAdditionBox() {
   const item = findItemInArr(
     elemInReinforce.dataset.type,
     elemInReinforce.dataset.iteminformid
@@ -1924,15 +1987,49 @@ reinforceStartBtn.addEventListener('click', () => {
   const userItem = userItemArr.find(
     (x) => x.id === parseInt(elemInReinforce.dataset.useritemid)
   );
-  reinforceStarforce(userItem);
-  updateStarforceWindow();
+  updateAdditionMoneyText(userItem);
+  updateadditionDescriptionText(userItem);
+}
+
+reinforceStartBtn.addEventListener('click', () => {
+  if (clickedImg != null) {
+    return;
+  }
+  updateIsAdditionBox();
+  if (isAdditionBox) {
+    return;
+  }
+  updateReinforceAdditionBox();
+  showReinforceAdditionBox();
 });
+
 reinforceCancelBtn.addEventListener('click', () => {
   if (clickedImg != null) {
+    return;
+  }
+  updateIsAdditionBox();
+  if (isAdditionBox) {
     return;
   }
   elemInReinforce = null;
   isReinforceStart = false;
   hideStarforceBox();
   showReinforceOuterBox();
+});
+
+reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
+  const item = findItemInArr(
+    elemInReinforce.dataset.type,
+    elemInReinforce.dataset.iteminformid
+  );
+  const userItem = userItemArr.find(
+    (x) => x.id === parseInt(elemInReinforce.dataset.useritemid)
+  );
+  hideReinforceAdditionBox();
+  reinforceStarforce(userItem);
+  updateStarforceWindow();
+});
+
+reinforceAdditionBoxCancelBtn.addEventListener('click', () => {
+  hideReinforceAdditionBox();
 });
