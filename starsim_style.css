@@ -944,6 +944,7 @@ input[class='starforceOption__checkBox']:checked + label {
 }
 .reinforceResultBox__confirmBtn {
   background-color: greenyellow;
+  z-index: 1;
 }
 
 #yellow {
@@ -1006,5 +1007,236 @@ input[class='starforceOption__checkBox']:checked + label {
     width: 90%;
     height: 90%;
     opacity: 0;
+  }
+}
+
+.successAnimation {
+  position: absolute;
+  top: 27.5%;
+  width: 110%;
+  left: -5%;
+  height: 45%;
+}
+.successAnimation__upline,
+.successAnimation__downline {
+  background-color: rgb(250, 246, 180);
+  z-index: 3;
+  width: 100%;
+  position: absolute;
+  height: 2%;
+  animation-duration: 0.1s;
+  animation-delay: 0s;
+  animation-name: successline;
+}
+.successAnimation__upline {
+  top: 0%;
+  left: 0%;
+}
+.successAnimation__downline {
+  right: 0;
+  bottom: 0;
+}
+@keyframes successline {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.successAnimation__main {
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  top: 2%;
+  height: 96%;
+  background-color: rgba(0, 0, 0, 0.7);
+  animation-duration: 1s;
+  animation-name: successmain;
+}
+@keyframes successmain {
+  from {
+    height: 0%;
+    top: 50%;
+  }
+  10% {
+    height: 0%;
+    top: 50%;
+  }
+  50% {
+    height: 96%;
+    top: 2%;
+  }
+  to {
+    height: 96%;
+    top: 2%;
+  }
+}
+.successAnimation__img {
+  position: absolute;
+  height: 120%;
+  top: -10%;
+  width: 75%;
+  left: 12.5%;
+  animation-duration: 1s;
+  animation-name: successimg;
+}
+@keyframes successimg {
+  from {
+    height: 0%;
+    top: 50%;
+  }
+  50% {
+    height: 0%;
+    top: 50%;
+  }
+  80% {
+    height: 120%;
+    top: -10%;
+  }
+  to {
+    height: 120%;
+    top: -10%;
+  }
+}
+.successAnimation__effectCircle {
+  z-index: 1;
+  position: absolute;
+  width: 60%;
+  height: 300%;
+  top: -100%;
+  border-radius: 50%;
+  left: 20%;
+  opacity: 0%;
+  background-color: rgb(251, 247, 177);
+  animation-duration: 1s;
+  animation-name: successcircle;
+}
+@keyframes successcircle {
+  from {
+  }
+  49% {
+    opacity: 0%;
+  }
+  50% {
+    opacity: 88%;
+    width: 60%;
+    height: 300%;
+    top: -100%;
+    left: 20%;
+  }
+  90% {
+    width: 80%;
+    height: 400%;
+    top: -150%;
+    left: 10%;
+    opacity: 88%;
+  }
+  to {
+  }
+}
+
+.successAnimation__effectStars img {
+  z-index: 3;
+  position: absolute;
+  width: 8%;
+  height: 40%;
+  opacity: 0;
+}
+#star2 {
+  top: -50%;
+  left: 50%;
+  animation-duration: 1s;
+  animation-name: successstar2;
+}
+@keyframes successstar2 {
+  from {
+  }
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 100%;
+    top: -50%;
+    left: 50%;
+  }
+  90% {
+    top: -100%;
+    left: 52%;
+  }
+  to {
+  }
+}
+#star3 {
+  top: -50%;
+  left: 65%;
+  animation-duration: 1s;
+  animation-name: successstar3;
+}
+@keyframes successstar3 {
+  from {
+  }
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 100%;
+    top: -50%;
+    left: 65%;
+  }
+  90% {
+    top: -97%;
+    left: 70%;
+  }
+  to {
+  }
+}
+#star1 {
+  top: 100%;
+  left: 60%;
+  animation-duration: 1s;
+  animation-name: successstar1;
+}
+@keyframes successstar1 {
+  from {
+  }
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 100%;
+    top: 100%;
+    left: 60%;
+  }
+  90% {
+    top: 150%;
+    left: 70%;
+  }
+  to {
+  }
+}
+#star4 {
+  top: 100%;
+  left: 30%;
+  animation-duration: 1s;
+  animation-name: successstar4;
+}
+@keyframes successstar4 {
+  from {
+  }
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 100%;
+    top: 100%;
+    left: 30%;
+  }
+  90% {
+    top: 140%;
+    left: 22%;
+  }
+  to {
   }
 }
