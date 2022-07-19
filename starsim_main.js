@@ -231,6 +231,9 @@ function reloadWeaponSelectElem() {
 }
 
 optionBtnBlock.addEventListener('click', (e) => {
+  if (isReinforcing) {
+    return;
+  }
   if (e.target === clothBtn) {
     if (!clothBtn.classList.contains('selected')) {
       clothBtn.classList.add('selected');
@@ -616,6 +619,9 @@ function clearOptions() {
 }
 
 searchClearBtn.addEventListener('click', () => {
+  if (isReinforcing) {
+    return;
+  }
   clearOptions();
 });
 
@@ -1064,8 +1070,10 @@ function updateSearchedItemPage() {
 }
 
 searchStartBtn.addEventListener('click', (e) => {
+  if (isReinforcing) {
+    return;
+  }
   updateSearchedItemPage();
-
   showSearchedPage();
 });
 
@@ -1206,6 +1214,9 @@ function removeClickedItem() {
 let clickedImg = null;
 
 itemWindowTable.addEventListener('click', (e) => {
+  if (isReinforcing) {
+    return;
+  }
   if (clickedImg === null) {
     if (e.target.className === 'table__img') {
       clickedImg = e.target;
@@ -1891,7 +1902,7 @@ function updateStarforceWindow() {
   updateNecessaryMoney(userItem);
 }
 
-let isReinforceStart = false;
+let isReinforcing = false;
 
 reinforceOuterBox.addEventListener('click', () => {
   if (clickedImg != null) {
@@ -1899,16 +1910,17 @@ reinforceOuterBox.addEventListener('click', () => {
     hideReinforceOuterBox();
     showStarforceBox();
     removeClickedItem();
-    isReinforceStart = true;
     updateStarforceWindow();
   }
 });
 
 starforceBox.addEventListener('click', () => {
+  if (isReinforcing) {
+    return;
+  }
   if (clickedImg != null) {
     elemInReinforce = clickedImg;
     removeClickedItem();
-    isReinforceStart = true;
     updateStarforceWindow();
   }
 });
@@ -2013,6 +2025,9 @@ reinforceStartBtn.addEventListener('click', () => {
   if (clickedImg != null) {
     return;
   }
+  if (isReinforcing) {
+    return;
+  }
   updateIsAdditionBox();
   if (isAdditionBox) {
     return;
@@ -2025,12 +2040,14 @@ reinforceCancelBtn.addEventListener('click', () => {
   if (clickedImg != null) {
     return;
   }
+  if (isReinforcing) {
+    return;
+  }
   updateIsAdditionBox();
   if (isAdditionBox) {
     return;
   }
   elemInReinforce = null;
-  isReinforceStart = false;
   hideStarforceBox();
   showReinforceOuterBox();
 });
@@ -2061,6 +2078,21 @@ function updateReinforceResultBox(result, userItem) {
   }
 }
 
+function playResultSound(result) {
+  switch (result) {
+    case Result.success:
+      playSound(enchantSuccessSound);
+      break;
+    case Result.failMaintain:
+    case Result.failDiminish:
+      playSound(enchantFailSound);
+      break;
+    case Result.destroy:
+      playSound(enchantDestroySound);
+      break;
+  }
+}
+
 reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
   const item = findItemInArr(
     elemInReinforce.dataset.type,
@@ -2071,9 +2103,15 @@ reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
   );
   const result = reinforceStarforce(userItem);
   hideReinforceAdditionBox();
-  showElem(reinforceResultBox);
-  updateReinforceResultBox(result, userItem);
-  updateStarforceWindow();
+  playSound(enchantSound);
+  isReinforcing = true;
+  setTimeout(() => {
+    showElem(reinforceResultBox);
+    updateReinforceResultBox(result, userItem);
+    playResultSound(result);
+    updateStarforceWindow();
+    isReinforcing = false;
+  }, 1000);
 });
 
 reinforceAdditionBoxCancelBtn.addEventListener('click', () => {
@@ -2083,3 +2121,17 @@ reinforceAdditionBoxCancelBtn.addEventListener('click', () => {
 resultConfirmBtn.addEventListener('click', () => {
   hideElem(reinforceResultBox);
 });
+
+function playSound(sound) {
+  sound.currentTime = 0;
+  sound.play();
+}
+
+function stopSound(sound) {
+  sound.pause();
+}
+
+const enchantSound = new Audio('./sound/Enchant.mp3');
+const enchantSuccessSound = new Audio('./sound/EnchantSuccess.mp3');
+const enchantFailSound = new Audio('./sound/EnchantFail.mp3');
+const enchantDestroySound = new Audio('./sound/EnchantDestroyed.mp3');
