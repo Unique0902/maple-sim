@@ -557,6 +557,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .alertBox__description {
@@ -1423,5 +1424,26 @@ input[class='starforceOption__checkBox']:checked + label {
   to {
     height: 120%;
     top: -10%;
+  }
+}
+
+.alertBox__blinkAnimation {
+  position: absolute;
+  background-color: var(--color-white);
+  border-radius: var(--size-border-radius);
+  opacity: 40%;
+  width: 100%;
+  height: 100%;
+  animation-duration: 0.7s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-name: alertbox;
+}
+@keyframes alertbox {
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 40%;
   }
 }

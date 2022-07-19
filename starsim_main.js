@@ -431,16 +431,36 @@ class WeaponItem {
 class UserItem {
   #starNum = 0;
   #isDestroyed = false;
+  #chanceNum = 0;
   constructor(item) {
     this.itemInform = item;
     this.id = ++userItemId;
-    this.totalAttackPower = item.attackPower;
-    this.totalMaigcPower = item.magicPower;
     this.totalStr = item.str;
     this.totalInt = item.int;
     this.totalLuk = item.luk;
     this.totalDex = item.dex;
+    if (item.majorPower === 'attck') {
+      this.totalAttackPower = item.attackPower;
+    } else if (item.majorPower === 'magic') {
+      this.totalMaigcPower = item.attackPower;
+    }
   }
+  checkChanceTime = () => {
+    if (this.#chanceNum >= 2) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  returnChanceNum = () => {
+    return this.#chanceNum;
+  };
+  plusChanceNum = () => {
+    this.#chanceNum++;
+  };
+  clearChanceNum = () => {
+    this.#chanceNum = 0;
+  };
   plusStar = () => {
     this.#starNum++;
   };
@@ -1646,7 +1666,11 @@ function updateStarText(StarNum) {
 
 function updatePercentageText(successPer, destroyedPer, starNum) {
   successPerText.innerText = `${successPer}.0`;
-  failPerText.innerText = `${100 - successPer - destroyedPer}`;
+  if (destroyedPer === 0) {
+    failPerText.innerText = `${100 - successPer - destroyedPer}.0`;
+  } else {
+    failPerText.innerText = `${100 - successPer - destroyedPer}`;
+  }
   if ((starNum >= 0 && starNum <= 10) || starNum == 15 || starNum == 20) {
     minOrMainText.innerText = '유지';
   } else {
@@ -2134,6 +2158,36 @@ function animateReinforceResult(result) {
   }
 }
 
+function calculateChanceTime(result, userItem) {
+  switch (result) {
+    case Result.success:
+    case Result.failMaintain:
+    case Result.destroy:
+      userItem.clearChanceNum();
+      break;
+    case Result.failDiminish:
+      userItem.plusChanceNum();
+      break;
+  }
+}
+
+function updateAlertBoxChanceTime() {
+  starForceAlertBox.innerHTML = `
+    <div class="alertBox__blinkAnimation"></div>
+    <span class="alertBox__description">
+    <span id="yellow">CHANCE TIME !!</span>    
+    </span>
+    `;
+}
+
+function disposeChanceTime(result, userItem) {
+  calculateChanceTime(result, userItem);
+  if (userItem.checkChanceTime() === true) {
+    updateAlertBoxChanceTime();
+    userItem.clearChanceNum();
+  }
+}
+
 reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
   const item = findItemInArr(
     elemInReinforce.dataset.type,
@@ -2153,6 +2207,7 @@ reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
     animateReinforceResult(result);
     playResultSound(result);
     updateStarforceWindow();
+    disposeChanceTime(result, userItem);
     isReinforcing = false;
   }, 1000);
 });
