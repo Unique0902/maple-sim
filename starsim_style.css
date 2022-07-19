@@ -1016,6 +1016,7 @@ input[class='starforceOption__checkBox']:checked + label {
   width: 110%;
   left: -5%;
   height: 45%;
+  pointer-events: none;
 }
 .successAnimation__upline,
 .successAnimation__downline {
@@ -1064,7 +1065,7 @@ input[class='starforceOption__checkBox']:checked + label {
     height: 0%;
     top: 50%;
   }
-  50% {
+  40% {
     height: 96%;
     top: 2%;
   }
@@ -1087,7 +1088,7 @@ input[class='starforceOption__checkBox']:checked + label {
     height: 0%;
     top: 50%;
   }
-  50% {
+  40% {
     height: 0%;
     top: 50%;
   }
@@ -1116,10 +1117,10 @@ input[class='starforceOption__checkBox']:checked + label {
 @keyframes successcircle {
   from {
   }
-  49% {
+  39% {
     opacity: 0%;
   }
-  50% {
+  40% {
     opacity: 88%;
     width: 60%;
     height: 300%;
@@ -1153,10 +1154,10 @@ input[class='starforceOption__checkBox']:checked + label {
 @keyframes successstar2 {
   from {
   }
-  49% {
+  39% {
     opacity: 0;
   }
-  50% {
+  40% {
     opacity: 100%;
     top: -50%;
     left: 50%;
@@ -1177,10 +1178,10 @@ input[class='starforceOption__checkBox']:checked + label {
 @keyframes successstar3 {
   from {
   }
-  49% {
+  39% {
     opacity: 0;
   }
-  50% {
+  40% {
     opacity: 100%;
     top: -50%;
     left: 65%;
@@ -1201,10 +1202,10 @@ input[class='starforceOption__checkBox']:checked + label {
 @keyframes successstar1 {
   from {
   }
-  49% {
+  39% {
     opacity: 0;
   }
-  50% {
+  40% {
     opacity: 100%;
     top: 100%;
     left: 60%;
@@ -1225,10 +1226,10 @@ input[class='starforceOption__checkBox']:checked + label {
 @keyframes successstar4 {
   from {
   }
-  49% {
+  39% {
     opacity: 0;
   }
-  50% {
+  40% {
     opacity: 100%;
     top: 100%;
     left: 30%;

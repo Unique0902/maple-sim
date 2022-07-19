@@ -2099,13 +2099,33 @@ function playResultSound(result) {
 const animationBorderTwinkle = document.querySelector('#borderTwinkle');
 const animationCenterTwinkle = document.querySelector('#centerTwinkle');
 
-function startAnimateItemReinforce() {
+function hideAnimation(elem, second) {
+  setTimeout(() => {
+    hideElem(elem);
+  }, second * 1000);
+}
+
+function animateItemReinforce() {
   showElem(animationBorderTwinkle);
   showElem(animationCenterTwinkle);
+  hideAnimation(animationBorderTwinkle, 1);
+  hideAnimation(animationCenterTwinkle, 1);
 }
-function endAnimateItemReinforce() {
-  hideElem(animationBorderTwinkle);
-  hideElem(animationCenterTwinkle);
+
+const successAnimation = document.querySelector('.successAnimation');
+
+function animateReinforceResult(result) {
+  switch (result) {
+    case Result.success:
+      showElem(successAnimation);
+      hideAnimation(successAnimation, 1);
+      break;
+    case Result.failDiminish:
+    case Result.failMaintain:
+      break;
+    case Result.destroy:
+      break;
+  }
 }
 
 reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
@@ -2118,13 +2138,13 @@ reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
   );
   const result = reinforceStarforce(userItem);
   hideReinforceAdditionBox();
-  startAnimateItemReinforce();
+  animateItemReinforce();
   playSound(enchantSound);
   isReinforcing = true;
   setTimeout(() => {
     showElem(reinforceResultBox);
-    endAnimateItemReinforce();
     updateReinforceResultBox(result, userItem);
+    animateReinforceResult(result);
     playResultSound(result);
     updateStarforceWindow();
     isReinforcing = false;
