@@ -1289,6 +1289,9 @@ let elemInReinforce = null;
 
 function calculateStarforceSuccess(userItem) {
   const starNum = userItem.returnStarNum();
+  if (userItem.checkChanceTime() === true) {
+    return 100;
+  }
   if (starNum >= 0 && starNum <= 2) {
     return 95 - 5 * starNum;
   } else if (starNum >= 3 && starNum <= 14) {
@@ -1305,6 +1308,9 @@ function calculateStarforceSuccess(userItem) {
 }
 function calculateStarforceDestroy(userItem) {
   const starNum = userItem.returnStarNum();
+  if (userItem.checkChanceTime() === true) {
+    return 0;
+  }
   if (starNum >= 0 && starNum <= 11) {
     return 0;
   } else if (starNum == 12) {
@@ -1508,6 +1514,7 @@ function calculateStarforceSpeedStat(userItem, type) {
   }
 }
 
+const failText = document.querySelector('#fail');
 const beforStarText = document.querySelector('#beforeStar');
 const nextStarText = document.querySelector('#nextStar');
 const successPerText = document.querySelector('#successPer');
@@ -1666,22 +1673,23 @@ function updateStarText(StarNum) {
 
 function updatePercentageText(successPer, destroyedPer, starNum) {
   successPerText.innerText = `${successPer}.0`;
+  if (successPer === 100) {
+    hideElem(failText);
+  } else {
+    showElem(failText);
+  }
   if (destroyedPer === 0) {
     failPerText.innerText = `${100 - successPer - destroyedPer}.0`;
+    hideDestroyedText();
   } else {
     failPerText.innerText = `${100 - successPer - destroyedPer}`;
+    destroyPerText.innerText = `${destroyedPer}`;
+    showDestroyedText();
   }
   if ((starNum >= 0 && starNum <= 10) || starNum == 15 || starNum == 20) {
     minOrMainText.innerText = '유지';
   } else {
     minOrMainText.innerText = '하락';
-  }
-  hideDestroyedText();
-  if (starNum >= 12) {
-    destroyPerText.innerText = `${destroyedPer}`;
-    showDestroyedText();
-  } else {
-    hideDestroyedText();
   }
 }
 
@@ -1848,40 +1856,48 @@ function updateNecessaryMoney(userItem) {
   const money = calculateNecessaryMoney(userItem);
   leftMoneyBlock.innerText = `${money}`;
 }
-
 function updateAlertBox(userItem) {
   const starNum = userItem.returnStarNum();
-  if (starNum >= 0 && starNum <= 10) {
+  if (userItem.checkChanceTime() === true) {
     starForceAlertBox.innerHTML = `
+    <div class="alertBox__blinkAnimation"></div>
+    <span class="alertBox__description">
+    <span id="yellow">CHANCE TIME !!</span>    
+    </span>
+    `;
+  } else {
+    if (starNum >= 0 && starNum <= 10) {
+      starForceAlertBox.innerHTML = `
     <span class="alertBox__description">
     <span class="yellow">메소</span>를 사용하여 장비를 강화합니다.
     </span>
     `;
-  } else if (starNum === 11) {
-    starForceAlertBox.innerHTML = `
+    } else if (starNum === 11) {
+      starForceAlertBox.innerHTML = `
     <i class="fa-solid fa-triangle-exclamation"></i>
     <span class="alertBox__description">
     실패 시 <span class="yellow">강화 단계</span>가 <span class="yellow">하락</span>됩니다.
     </span>
     `;
-  } else if (
-    (starNum >= 12 && starNum <= 14) ||
-    (starNum >= 16 && starNum <= 19) ||
-    (starNum >= 21 && starNum <= 24)
-  ) {
-    starForceAlertBox.innerHTML = `
+    } else if (
+      (starNum >= 12 && starNum <= 14) ||
+      (starNum >= 16 && starNum <= 19) ||
+      (starNum >= 21 && starNum <= 24)
+    ) {
+      starForceAlertBox.innerHTML = `
     <i class="fa-solid fa-triangle-exclamation"></i>
     <span class="alertBox__description">
     실패 시 장비가 <span class="yellow">파괴</span>되거나 <span class="yellow">단계</span>가 <span class="yellow">하락</span>될 수 있습니다.
     </span>
     `;
-  } else if (starNum === 15 || starNum === 20) {
-    starForceAlertBox.innerHTML = `
+    } else if (starNum === 15 || starNum === 20) {
+      starForceAlertBox.innerHTML = `
     <i class="fa-solid fa-triangle-exclamation"></i>
     <span class="alertBox__description">
     실패 시 장비가 <span class="yellow">파괴</span>될 수 있습니다.
     </span>
     `;
+    }
   }
 }
 
@@ -2171,19 +2187,8 @@ function calculateChanceTime(result, userItem) {
   }
 }
 
-function updateAlertBoxChanceTime() {
-  starForceAlertBox.innerHTML = `
-    <div class="alertBox__blinkAnimation"></div>
-    <span class="alertBox__description">
-    <span id="yellow">CHANCE TIME !!</span>    
-    </span>
-    `;
-}
-
-function disposeChanceTime(result, userItem) {
-  calculateChanceTime(result, userItem);
+function disposeChanceTime(userItem) {
   if (userItem.checkChanceTime() === true) {
-    updateAlertBoxChanceTime();
     userItem.clearChanceNum();
   }
 }
@@ -2197,8 +2202,10 @@ reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
     (x) => x.id === parseInt(elemInReinforce.dataset.useritemid)
   );
   const result = reinforceStarforce(userItem);
+  disposeChanceTime(userItem);
   hideReinforceAdditionBox();
   animateItemReinforce();
+  calculateChanceTime(result, userItem);
   playSound(enchantSound);
   isReinforcing = true;
   setTimeout(() => {
@@ -2207,7 +2214,6 @@ reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
     animateReinforceResult(result);
     playResultSound(result);
     updateStarforceWindow();
-    disposeChanceTime(result, userItem);
     isReinforcing = false;
   }, 1000);
 });
