@@ -955,3 +955,56 @@ input[class='starforceOption__checkBox']:checked + label {
 #black {
   color: var(--color-black) !important;
 }
+
+#centerTwinkle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-color: rgb(250, 250, 97);
+  animation-duration: 1s;
+  animation-name: centertwinkle;
+}
+@keyframes centertwinkle {
+  from {
+    width: 10%;
+    height: 10%;
+    opacity: 90%;
+  }
+  40% {
+    width: 25%;
+    height: 25%;
+  }
+  50% {
+    opacity: 80%;
+  }
+  to {
+    width: 10%;
+    height: 10%;
+    opacity: 0;
+  }
+}
+
+#borderTwinkle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  background-color: rgba(247, 247, 151, 0.932);
+  transform: translate(-50%, -50%);
+  animation-duration: 1s;
+  animation-name: bordertwinkle;
+}
+@keyframes bordertwinkle {
+  from {
+    width: 30%;
+    height: 30%;
+    opacity: 70%;
+  }
+  to {
+    width: 90%;
+    height: 90%;
+    opacity: 0;
+  }
+}

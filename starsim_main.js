@@ -2096,6 +2096,18 @@ function playResultSound(result) {
   }
 }
 
+const animationBorderTwinkle = document.querySelector('#borderTwinkle');
+const animationCenterTwinkle = document.querySelector('#centerTwinkle');
+
+function startAnimateItemReinforce() {
+  showElem(animationBorderTwinkle);
+  showElem(animationCenterTwinkle);
+}
+function endAnimateItemReinforce() {
+  hideElem(animationBorderTwinkle);
+  hideElem(animationCenterTwinkle);
+}
+
 reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
   const item = findItemInArr(
     elemInReinforce.dataset.type,
@@ -2106,10 +2118,12 @@ reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
   );
   const result = reinforceStarforce(userItem);
   hideReinforceAdditionBox();
+  startAnimateItemReinforce();
   playSound(enchantSound);
   isReinforcing = true;
   setTimeout(() => {
     showElem(reinforceResultBox);
+    endAnimateItemReinforce();
     updateReinforceResultBox(result, userItem);
     playResultSound(result);
     updateStarforceWindow();
