@@ -2113,6 +2113,8 @@ function animateItemReinforce() {
 }
 
 const successAnimation = document.querySelector('.successAnimation');
+const failAnimation = document.querySelector('.failAnimation');
+const destroyAnimation = document.querySelector('.destroyAnimation');
 
 function animateReinforceResult(result) {
   switch (result) {
@@ -2122,8 +2124,12 @@ function animateReinforceResult(result) {
       break;
     case Result.failDiminish:
     case Result.failMaintain:
+      showElem(failAnimation);
+      hideAnimation(failAnimation, 1);
       break;
     case Result.destroy:
+      showElem(destroyAnimation);
+      hideAnimation(destroyAnimation, 1);
       break;
   }
 }

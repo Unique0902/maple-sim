@@ -1241,3 +1241,187 @@ input[class='starforceOption__checkBox']:checked + label {
   to {
   }
 }
+
+.failAnimation {
+  position: absolute;
+  top: 27.5%;
+  width: 110%;
+  left: -5%;
+  height: 45%;
+  pointer-events: none;
+}
+.failAnimation__upline,
+.failAnimation__downline {
+  background-color: rgb(250, 246, 180);
+  z-index: 3;
+  width: 100%;
+  position: absolute;
+  height: 2%;
+  animation-duration: 0.1s;
+  animation-delay: 0s;
+  animation-name: failline;
+}
+.failAnimation__upline {
+  top: 0%;
+  left: 0%;
+}
+.failAnimation__downline {
+  right: 0;
+  bottom: 0;
+}
+@keyframes failline {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.failAnimation__main {
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  top: 2%;
+  height: 96%;
+  background-color: rgba(0, 0, 0, 0.7);
+  animation-duration: 1s;
+  animation-name: failmain;
+}
+@keyframes failmain {
+  from {
+    height: 0%;
+    top: 50%;
+  }
+  10% {
+    height: 0%;
+    top: 50%;
+  }
+  40% {
+    height: 96%;
+    top: 2%;
+  }
+  to {
+    height: 96%;
+    top: 2%;
+  }
+}
+.failAnimation__img {
+  position: absolute;
+  height: 120%;
+  top: -10%;
+  width: 75%;
+  left: 12.5%;
+  animation-duration: 1s;
+  animation-name: failimg;
+}
+@keyframes failimg {
+  from {
+    height: 0%;
+    top: 50%;
+  }
+  40% {
+    height: 0%;
+    top: 50%;
+  }
+  80% {
+    height: 120%;
+    top: -10%;
+  }
+  to {
+    height: 120%;
+    top: -10%;
+  }
+}
+
+.destroyAnimation {
+  position: absolute;
+  top: 27.5%;
+  width: 110%;
+  left: -5%;
+  height: 45%;
+  pointer-events: none;
+}
+.destroyAnimation__upline,
+.destroyAnimation__downline {
+  background-color: rgb(250, 246, 180);
+  z-index: 3;
+  width: 100%;
+  position: absolute;
+  height: 2%;
+  animation-duration: 0.1s;
+  animation-delay: 0s;
+  animation-name: destroyline;
+}
+.destroyAnimation__upline {
+  top: 0%;
+  left: 0%;
+}
+.destroyAnimation__downline {
+  right: 0;
+  bottom: 0;
+}
+@keyframes destroyline {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.destroyAnimation__main {
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  top: 2%;
+  height: 96%;
+  background-color: rgba(0, 0, 0, 0.7);
+  animation-duration: 1s;
+  animation-name: destroymain;
+}
+@keyframes destroymain {
+  from {
+    height: 0%;
+    top: 50%;
+  }
+  10% {
+    height: 0%;
+    top: 50%;
+  }
+  40% {
+    height: 96%;
+    top: 2%;
+  }
+  to {
+    height: 96%;
+    top: 2%;
+  }
+}
+.destroyAnimation__img {
+  position: absolute;
+  height: 120%;
+  top: -10%;
+  width: 75%;
+  left: 12.5%;
+  animation-duration: 1s;
+  animation-name: destroyimg;
+}
+@keyframes destroyimg {
+  from {
+    height: 0%;
+    top: 50%;
+  }
+  40% {
+    height: 0%;
+    top: 50%;
+  }
+  80% {
+    height: 120%;
+    top: -10%;
+  }
+  to {
+    height: 120%;
+    top: -10%;
+  }
+}
