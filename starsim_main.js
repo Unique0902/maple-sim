@@ -2055,6 +2055,7 @@ reinforceCancelBtn.addEventListener('click', () => {
 const resultSuccessText = document.querySelector('#resultSuccessText');
 const resultMaintainText = document.querySelector('#resultMaintainText');
 const resultDiminishText = document.querySelector('#resultDiminishText');
+const resultDestroyText = document.querySelector('#resultDestroyText');
 
 function updateReinforceResultBox(result, userItem) {
   const item = userItem.itemInform;
@@ -2063,6 +2064,7 @@ function updateReinforceResultBox(result, userItem) {
   hideElem(resultSuccessText);
   hideElem(resultMaintainText);
   hideElem(resultDiminishText);
+  hideElem(resultDestroyText);
   switch (result) {
     case Result.success:
       showElem(resultSuccessText);
@@ -2074,6 +2076,7 @@ function updateReinforceResultBox(result, userItem) {
       showElem(resultDiminishText);
       break;
     case Result.destroy:
+      showElem(resultDestroyText);
       break;
   }
 }
