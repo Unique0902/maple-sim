@@ -47,6 +47,8 @@ const reinforceAdditionBoxCancelBtn = document.querySelector(
 const resultConfirmBtn = document.querySelector(
   '.reinforceResultBox__confirmBtn'
 );
+const starcatchCheckBox = document.querySelector('#unlockStarcatch');
+const preventDestroyCheckBox = document.querySelector('#preventDestruction');
 const resultBeforeImg = document.querySelector('.beforeImg');
 const resultAfterImg = document.querySelector('.afterImg');
 const reinforceResultBox = document.querySelector('.reinforceResultBox');
@@ -439,6 +441,9 @@ class UserItem {
     this.totalInt = item.int;
     this.totalLuk = item.luk;
     this.totalDex = item.dex;
+    this.isStarcatching = false;
+    this.isStarcatched = false;
+    this.isStarcatchSuccess = false;
     if (item.majorPower === 'attck') {
       this.totalAttackPower = item.attackPower;
     } else if (item.majorPower === 'magic') {
@@ -1966,7 +1971,10 @@ starforceBox.addEventListener('click', () => {
 });
 
 function reinforceStarforce(userItem) {
-  const successNum = calculateStarforceSuccess(userItem) / 100;
+  let successNum = calculateStarforceSuccess(userItem) / 100;
+  if (userItem.isStarcatched === true && userItem.isStarcatchSuccess === true) {
+    successNum *= 1.05;
+  }
   const destroyedNum = calculateStarforceDestroy(userItem) / 100;
   const sum = successNum + destroyedNum;
   const randomNum = Math.random();
@@ -2193,17 +2201,107 @@ function disposeChanceTime(userItem) {
   }
 }
 
-reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
-  const item = findItemInArr(
-    elemInReinforce.dataset.type,
-    elemInReinforce.dataset.iteminformid
-  );
-  const userItem = userItemArr.find(
-    (x) => x.id === parseInt(elemInReinforce.dataset.useritemid)
-  );
+const starcatchStopBtn = document.querySelector('.starcatchBox__stopBtn');
+const starcatchBox = document.querySelector('.starcatchBox');
+const starcatchItemImg = document.querySelector('.starcatchBox__itemImg');
+const starcatchCountAnimation = document.querySelector(
+  '.starcatchBox__countAnimations'
+);
+const starAnimation = document.querySelector('.starcatchBox__starAnimation');
+const starcatchCircleAnimation = document.querySelector(
+  '.starcatchBox__successCircleAnimation'
+);
+const starcatchSuccessPerAnimation = document.querySelector(
+  '.starcatchBox__successperAnimation'
+);
+const starcatchStar = document.querySelector('.starAnimation__star');
+const starcatchTarget = document.querySelector('.gameBlock__targetZone');
+
+function updateStarcatchBox(userItem) {
+  starcatchItemImg.setAttribute('src', userItem.itemInform.url);
+}
+function checkStarcatchResult(userItem) {
+  const left = starcatchStar.getBoundingClientRect().left;
+  const rightLeft = left + starcatchStar.getBoundingClientRect().width;
+  const min = starcatchTarget.getBoundingClientRect().left;
+  const max = min + starcatchTarget.getBoundingClientRect().width;
+  if (left >= min && rightLeft <= max) {
+    userItem.isStarcatchSuccess = true;
+  } else {
+    userItem.isStarcatchSuccess = false;
+  }
+}
+
+function disposeStarCatchAnimationLoc() {
+  const left = starcatchStar.getBoundingClientRect().left;
+  starcatchCircleAnimation.style.left = `${left}px`;
+}
+
+let starcatchFunc;
+
+function startStarcatch(userItem) {
+  updateStarcatchBox(userItem);
+  playSound(enchantStar1Sound);
+  showElem(starcatchBox);
+  showElem(starcatchCountAnimation);
+  setTimeout(() => {
+    showElem(starAnimation);
+    starcatchStopBtn.addEventListener(
+      'click',
+      (starcatchFunc = () => {
+        disposeStarCatchAnimationLoc();
+        checkStarcatchResult(userItem);
+        hideElem(starcatchCountAnimation);
+        hideElem(starAnimation);
+        showElem(starcatchCircleAnimation);
+        playSound(enchantStarStopSound);
+        if (userItem.isStarcatchSuccess === true) {
+          showElem(starcatchSuccessPerAnimation);
+        }
+        userItem.isStarcatching = false;
+        setTimeout(() => {
+          hideElem(starcatchCircleAnimation);
+          hideElem(starcatchSuccessPerAnimation);
+          hideElem(starcatchBox);
+        }, 1000);
+        starcatchStopBtn.removeEventListener('click', starcatchFunc);
+      })
+    );
+    let time = 0;
+    const intv = setInterval(() => {
+      time += 0.5;
+      if (userItem.isStarcatching === false) {
+        clearInterval(intv);
+      } else if (time >= 5) {
+        userItem.isStarcatch = false;
+        userItem.isStarcatchSuccess = false;
+        hideElem(starcatchCountAnimation);
+        hideElem(starAnimation);
+        hideElem(starcatchBox);
+        starcatchStopBtn.removeEventListener('click', starcatchFunc);
+        clearInterval(intv);
+      }
+    }, 500);
+  }, 1000);
+}
+
+function checkStarcatch(userItem) {
+  if (userItem.checkChanceTime === true) {
+    userItem.isStarcatching = false;
+    userItem.isStarcatched = false;
+  } else {
+    if (starcatchCheckBox.checked) {
+      userItem.isStarcatching = false;
+      userItem.isStarcatched = false;
+    } else {
+      userItem.isStarcatching = true;
+      userItem.isStarcatched = true;
+    }
+  }
+}
+function reinforceStarcatchBasic(userItem) {
   const result = reinforceStarforce(userItem);
   disposeChanceTime(userItem);
-  hideReinforceAdditionBox();
   animateItemReinforce();
   calculateChanceTime(result, userItem);
   playSound(enchantSound);
@@ -2216,6 +2314,32 @@ reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
     updateStarforceWindow();
     isReinforcing = false;
   }, 1000);
+}
+
+function reinforceonstarcatch(userItem) {
+  startStarcatch(userItem);
+  setTimeout(() => {
+    const observer = new MutationObserver(() => {
+      reinforceStarcatchBasic(userItem);
+      observer.disconnect();
+    });
+    const config = { attributes: true, attributeFilter: ['class'] };
+    observer.observe(starcatchBox, config);
+  }, 1000);
+}
+function starforce(userItem) {}
+
+reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
+  const userItem = userItemArr.find(
+    (x) => x.id === parseInt(elemInReinforce.dataset.useritemid)
+  );
+  hideReinforceAdditionBox();
+  checkStarcatch(userItem);
+  if (userItem.isStarcatching === true) {
+    reinforceonstarcatch(userItem);
+  } else {
+    reinforceStarcatchBasic(userItem);
+  }
 });
 
 reinforceAdditionBoxCancelBtn.addEventListener('click', () => {
@@ -2239,3 +2363,5 @@ const enchantSound = new Audio('./sound/Enchant.mp3');
 const enchantSuccessSound = new Audio('./sound/EnchantSuccess.mp3');
 const enchantFailSound = new Audio('./sound/EnchantFail.mp3');
 const enchantDestroySound = new Audio('./sound/EnchantDestroyed.mp3');
+const enchantStar1Sound = new Audio('./sound/EnchantStar1.mp3');
+const enchantStarStopSound = new Audio('./sound/EnchantStarStop.mp3');
