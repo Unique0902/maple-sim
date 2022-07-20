@@ -1447,3 +1447,279 @@ input[class='starforceOption__checkBox']:checked + label {
     opacity: 40%;
   }
 }
+.starcatchBox {
+  position: absolute;
+  width: 86%;
+  height: 94%;
+  bottom: 0%;
+  left: 7%;
+  background-color: gray;
+  border: 11px double black;
+  border-radius: var(--size-border-radius);
+}
+.starcatchBox__description {
+  border-radius: var(--size-border-radius);
+  height: 20%;
+  background: rgb(16, 19, 113);
+  background: linear-gradient(
+    180deg,
+    rgba(16, 19, 113, 1) 22%,
+    rgba(2, 2, 92, 1) 96%
+  );
+  color: var(--color-white);
+  font-size: 150%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 101%;
+  height: 21%;
+  position: relative;
+  left: -0.5%;
+  top: -1%;
+}
+.starcatchBox__text {
+  text-align: center;
+}
+.starcatchBox__main {
+  height: 100%;
+  background: rgb(6, 8, 60);
+  background: linear-gradient(
+    180deg,
+    rgba(6, 8, 60, 1) 41%,
+    rgba(105, 105, 108, 1) 78%,
+    rgba(25, 25, 40, 1) 94%
+  );
+}
+.starcatchBox__itemBlock {
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.starcatchBox__itemView {
+  width: 33%;
+  height: 92%;
+  border: solid 1px var(--color-black);
+  background: rgb(183, 216, 221);
+  background: linear-gradient(
+    184deg,
+    rgba(183, 216, 221, 1) 0%,
+    rgba(54, 181, 200, 1) 50%,
+    rgba(7, 126, 144, 1) 100%
+  );
+  border-radius: 8px;
+  position: relative;
+}
+.starcatchBox__borderBlock {
+  border: dashed 6px var(--color-white);
+  border-radius: var(--size-border-radius);
+  width: 80%;
+  height: 80%;
+  margin: 10%;
+}
+.starcatchBox__itemImg {
+  width: 90%;
+  height: 90%;
+  transform: translate(5.5%, 5.5%);
+}
+
+.starcatchBox__gameBlock {
+  height: 10%;
+  margin: 0 2.5%;
+  width: 95%;
+  border: 3px rgb(255, 254, 199) solid;
+  border-radius: var(--size-border-radius);
+  position: relative;
+}
+.gameBlock__targetZone {
+  width: 30%;
+  height: 100%;
+  margin: 0 35%;
+  border-right: solid 4px rgb(255, 116, 52);
+  border-left: solid 4px rgb(255, 116, 52);
+  background-color: rgb(255, 116, 52, 40%);
+}
+.starcatchBox__btnBlock {
+  height: 20%;
+  position: relative;
+}
+.starcatchBox__stopBtn {
+  position: absolute;
+  color: var(--color-white);
+  -webkit-text-stroke: 0.4px black;
+  font-weight: var(--weight-bold);
+  font-size: 250%;
+  width: 35%;
+  height: 70%;
+  left: 32.5%;
+  top: 15%;
+  border-radius: 5px;
+  background-color: rgb(253, 229, 69);
+}
+.starAnimation__star {
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 10%;
+  height: 140%;
+  animation-duration: 5s;
+  animation-name: starcatchstar;
+  animation-iteration-count: infinite;
+}
+@keyframes starcatchstar {
+  from {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(900%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.starcatchBox__countAnimations {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.starcatchBox__countAnimations img {
+  position: absolute;
+}
+
+.countStartAnimation {
+  width: 60%;
+  height: 60%;
+  left: 20%;
+  top: 20%;
+  opacity: 0;
+  animation-name: countstart;
+  animation-duration: 1s;
+}
+@keyframes countstart {
+  from {
+    opacity: 0;
+    width: 80%;
+    height: 80%;
+    left: 10%;
+    top: 10%;
+  }
+  30% {
+    opacity: 1;
+    width: 60%;
+    height: 60%;
+    left: 20%;
+    top: 20%;
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.count1Animation {
+  width: 40%;
+  height: 120%;
+  left: 30%;
+  top: 0%;
+  opacity: 0;
+  animation-name: count1;
+  animation-duration: 2s;
+  animation-delay: 4s;
+}
+@keyframes count1 {
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.count2Animation {
+  width: 40%;
+  height: 120%;
+  left: 30%;
+  top: 0%;
+  opacity: 0;
+  animation-name: count2;
+  animation-duration: 2s;
+  animation-delay: 3s;
+}
+@keyframes count2 {
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.count3Animation {
+  width: 40%;
+  height: 120%;
+  left: 30%;
+  top: 0%;
+  opacity: 0;
+  animation-name: count3;
+  animation-duration: 2s;
+  animation-delay: 2s;
+}
+@keyframes count3 {
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.count4Animation {
+  width: 40%;
+  height: 120%;
+  left: 30%;
+  top: 0%;
+  opacity: 0;
+  animation-name: count4;
+  animation-duration: 2s;
+  animation-delay: 1s;
+}
+@keyframes count4 {
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.count5Animation {
+  width: 40%;
+  height: 120%;
+  left: 30%;
+  top: 0%;
+  opacity: 0;
+  animation-name: count5;
+  animation-duration: 2s;
+}
+@keyframes count5 {
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+  }
+}

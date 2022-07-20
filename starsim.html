@@ -23,7 +23,7 @@
     <main>
       <section class="reinforceWindow">
         <div class="reinforceBox">
-          <div class="renforceBox__outerBox">
+          <div class="renforceBox__outerBox none">
             <div class="reinforceBox__borderBox">
               <img
                 src="picture/drag.png"
@@ -35,7 +35,7 @@
               </p>
             </div>
           </div>
-          <div class="starforceBox none">
+          <div class="starforceBox">
             <div class="starforceBox__reinforceSelects">
               <button class="starforceBox__reinforceSelect">
                 주문서
@@ -191,6 +191,43 @@
               </div>
               <div class="destroyAnimation__downline"></div>
             </div>
+          </div>
+          <div class="starcatchBox">
+            <div class="starcatchBox__main">
+              <div class="starcatchBox__description">
+                <div class="starcatchBox__text">
+                  별을 정확한 곳에 멈추면 <span id="yellow">강화 성공률이 증가</span>하며<br>
+                  연속해서 강화를 시도하면 <span id="yellow">난이도가 증가</span>합니다.  
+                </div>
+              </div>
+              <div class="starcatchBox__itemBlock">
+                <div class="starcatchBox__itemView">
+                  <div class="starcatchBox__borderBlock">
+                    <img src="picture/archer_hat_150.jpg" class="starcatchBox__itemImg">
+                  </div>
+                </div>
+                <div class="starcatchBox__countAnimations">
+                  <img src="texts/start.png" class="countStartAnimation">
+                  <img src="texts/1.png" class="count1Animation">
+                  <img src="texts/2.png" class="count2Animation">
+                  <img src="texts/3.png" class="count3Animation">
+                  <img src="texts/4.png" class="count4Animation">
+                  <img src="texts/5.png" class="count5Animation">
+                </div>
+              </div>
+                <div class="starcatchBox__gameBlock">
+                  <div class="starcatchBox__starAnimation">
+                    <img src="picture/star.png" class="starAnimation__star">
+                  </div>
+                  <div class="gameBlock__targetZone"></div>
+                </div>
+              <div class="starcatchBox__btnBlock">
+                <button class="starcatchBox__stopBtn">
+                  STOP!
+                </button>
+              </div>
+            </div>
+            
           </div>
         </div>
       </section>
