@@ -1138,6 +1138,8 @@ searchStartBtn.addEventListener('click', (e) => {
   }
   updateSearchedItemPage();
   showSearchedPage();
+  enchantSound.muted = true;
+  playSound(enchantSound);
 });
 
 searchedPageCancelBtn.addEventListener('click', () => {
@@ -2501,6 +2503,7 @@ function reinforceStarcatchBasic(userItem) {
   clearChanceTimeTimers();
   animateItemReinforce();
   calculateChanceTime(result, userItem);
+  enchantSound.muted = false;
   playSound(enchantSound);
   isReinforcing = true;
   setTimeout(() => {
