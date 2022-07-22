@@ -253,6 +253,23 @@ optionBtnBlock.addEventListener('click', (e) => {
   }
 });
 
+function returnMaxStarForce(level) {
+  //나중에 ITem 클래스에 추가
+  if (level < 95) {
+    return 5;
+  } else if (level >= 95 && level <= 107) {
+    return 8;
+  } else if (level >= 108 && level <= 117) {
+    return 10;
+  } else if (level >= 118 && level <= 127) {
+    return 15;
+  } else if (level >= 128 && level <= 137) {
+    return 20;
+  } else {
+    return 25;
+  }
+}
+
 class ClothItem {
   constructor(name, job, itemType, bodyPart, level, defenseStat) {
     this.name = name;
@@ -1969,31 +1986,9 @@ function updateStarforceWindow() {
     (x) => x.id === parseInt(elemInReinforce.dataset.useritemid)
   );
   const starNum = userItem.returnStarNum();
-  const level = item.level;
-  if (starNum >= 25 || starNum < 0) {
+  const maxStarNum = returnMaxStarForce(item.level);
+  if (starNum < 0 || starNum >= maxStarNum) {
     return;
-  } else {
-    if (level < 95) {
-      if (starNum >= 5) {
-        return;
-      }
-    } else if (level >= 95 && level <= 107) {
-      if (starNum >= 8) {
-        return;
-      }
-    } else if (level >= 108 && level <= 117) {
-      if (starNum >= 10) {
-        return;
-      }
-    } else if (level >= 118 && level <= 127) {
-      if (starNum >= 15) {
-        return;
-      }
-    } else if (level >= 128 && level <= 137) {
-      if (starNum <= 20) {
-        return;
-      }
-    }
   }
   starforceItemImg.setAttribute('src', item.url);
   starforceItemImg.setAttribute('data-useritemid', userItem.id);
