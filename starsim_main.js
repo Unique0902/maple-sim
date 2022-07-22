@@ -434,6 +434,7 @@ class UserItem {
   #starNum = 0;
   #isDestroyed = false;
   #chanceNum = 0;
+  #starforceNum = 0;
   constructor(item) {
     this.itemInform = item;
     this.id = ++userItemId;
@@ -442,6 +443,7 @@ class UserItem {
     this.totalLuk = item.luk;
     this.totalDex = item.dex;
     this.isStarcatching = false;
+    this.starcatchLevel = 1;
     this.isStarcatched = false;
     this.isStarcatchSuccess = false;
     if (item.majorPower === 'attck') {
@@ -450,6 +452,36 @@ class UserItem {
       this.totalMaigcPower = item.attackPower;
     }
   }
+  updateRecentReinforceTime = (nowdate) => {
+    this.recentReinforceTime = nowdate;
+  };
+  plusStarcatchLevel = () => {
+    if (this.starcatchLevel >= 5) {
+      return;
+    }
+    this.starcatchLevel++;
+  };
+  minusStarcatchLevel = () => {
+    if (this.starcatchLevel <= 1) {
+      return;
+    }
+    this.starcatchLevel--;
+  };
+  clearStarforceNum = () => {
+    this.#starforceNum = 0;
+  };
+  plusStarforceNum = () => {
+    this.#starforceNum++;
+  };
+  returnStarforceNum = () => {
+    return this.#starforceNum;
+  };
+  checkPlusStarcatchLev = () => {
+    if (this.#starforceNum >= 20) {
+      this.#starforceNum = 0;
+      this.plusStarcatchLevel();
+    }
+  };
   checkChanceTime = () => {
     if (this.#chanceNum >= 2) {
       return true;
@@ -1942,6 +1974,7 @@ function updateStarforceWindow() {
     }
   }
   starforceItemImg.setAttribute('src', item.url);
+  starforceItemImg.setAttribute('data-useritemid', userItem.id);
   updateAlertBox(userItem);
   updateReinforceDescription(userItem);
   updateNecessaryMoney(userItem);
@@ -2217,7 +2250,38 @@ const starcatchSuccessPerAnimation = document.querySelector(
 const starcatchStar = document.querySelector('.starAnimation__star');
 const starcatchTarget = document.querySelector('.gameBlock__targetZone');
 
+function updateStarcatchGameByLev(userItem) {
+  switch (userItem.starcatchLevel) {
+    case 1:
+      starcatchTarget.style.width = '30%';
+      starcatchTarget.style.margin = '0 35%';
+      starcatchStar.style['animation-duration'] = '4s';
+      break;
+    case 2:
+      starcatchTarget.style.width = '25%';
+      starcatchTarget.style.margin = '0 37.5%';
+      starcatchStar.style['animation-duration'] = '3.5s';
+      break;
+    case 3:
+      starcatchTarget.style.width = '20%';
+      starcatchTarget.style.margin = '0 40%';
+      starcatchStar.style['animation-duration'] = '3s';
+      break;
+    case 4:
+      starcatchTarget.style.width = '17%';
+      starcatchTarget.style.margin = '0 41.5%';
+      starcatchStar.style['animation-duration'] = '2.2s';
+      break;
+    case 5:
+      starcatchTarget.style.width = '14%';
+      starcatchTarget.style.margin = '0 43%';
+      starcatchStar.style['animation-duration'] = '1.5s';
+      break;
+  }
+}
+
 function updateStarcatchBox(userItem) {
+  updateStarcatchGameByLev(userItem);
   starcatchItemImg.setAttribute('src', userItem.itemInform.url);
 }
 function checkStarcatchResult(userItem) {
@@ -2239,9 +2303,28 @@ function disposeStarCatchAnimationLoc() {
 
 let starcatchFunc;
 
+function playStarEnchantStarSound(userItem) {
+  switch (userItem.starcatchLevel) {
+    case 1:
+      playSound(enchantStar1Sound);
+      break;
+    case 2:
+      playSound(enchantStar2Sound);
+      break;
+    case 3:
+      playSound(enchantStar3Sound);
+      break;
+    case 4:
+      playSound(enchantStar4Sound);
+      break;
+  }
+}
+
+let starcatchSpaceBar;
+
 function startStarcatch(userItem) {
   updateStarcatchBox(userItem);
-  playSound(enchantStar1Sound);
+  playStarEnchantStarSound(userItem);
   showElem(starcatchBox);
   showElem(starcatchCountAnimation);
   setTimeout(() => {
@@ -2265,8 +2348,33 @@ function startStarcatch(userItem) {
           hideElem(starcatchBox);
         }, 1000);
         starcatchStopBtn.removeEventListener('click', starcatchFunc);
+        document.removeEventListener('keydown', starcatchSpaceBar);
       })
     );
+    document.addEventListener(
+      'keydown',
+      (starcatchSpaceBar = (e) => {
+        if (e.keyCode == 32) {
+          disposeStarCatchAnimationLoc();
+          checkStarcatchResult(userItem);
+          hideElem(starcatchCountAnimation);
+          hideElem(starAnimation);
+          showElem(starcatchCircleAnimation);
+          playSound(enchantStarStopSound);
+          if (userItem.isStarcatchSuccess === true) {
+            showElem(starcatchSuccessPerAnimation);
+          }
+          userItem.isStarcatching = false;
+          setTimeout(() => {
+            hideElem(starcatchCircleAnimation);
+            hideElem(starcatchSuccessPerAnimation);
+            hideElem(starcatchBox);
+          }, 1000);
+          starcatchStopBtn.removeEventListener('click', starcatchFunc);
+          document.removeEventListener('keydown', starcatchSpaceBar);
+        }
+      })
+    ); // 코드 리팩토링 필요 너무 김 생략가능할듯 💩
     let time = 0;
     const intv = setInterval(() => {
       time += 0.5;
@@ -2285,8 +2393,41 @@ function startStarcatch(userItem) {
   }, 1000);
 }
 
+function checkStarcatchLevel(userItem) {
+  const nowTime = new Date();
+  const nowTimeMin = Math.floor(nowTime.getTime() / 60000);
+  if (userItem.recentReinforceTime) {
+    const recentTimeMin = Math.floor(
+      userItem.recentReinforceTime.getTime() / 60000
+    );
+    const diffMin = nowTimeMin - recentTimeMin;
+    if (diffMin >= 40) {
+      userItem.starcatchLevel = 1;
+      userItem.clearStarforceNum();
+    } else if (diffMin >= 10) {
+      for (let i = recentTimeMin; i <= nowTimeMin; i++) {
+        if (i % 10 === 0) {
+          userItem.minusStarcatchLevel();
+        }
+      }
+      userItem.clearStarforceNum();
+    } else if (diffMin > 0) {
+      for (let i = recentTimeMin; i <= nowTimeMin; i++) {
+        if (i % 10 === 0) {
+          userItem.minusStarcatchLevel();
+          userItem.clearStarforceNum();
+          break;
+        }
+      }
+    }
+  }
+  userItem.checkPlusStarcatchLev();
+  userItem.recentReinforceTime = nowTime;
+}
+
 function checkStarcatch(userItem) {
-  if (userItem.checkChanceTime === true) {
+  checkStarcatchLevel(userItem);
+  if (userItem.checkChanceTime() === true) {
     userItem.isStarcatching = false;
     userItem.isStarcatched = false;
   } else {
@@ -2299,9 +2440,37 @@ function checkStarcatch(userItem) {
     }
   }
 }
+
+let chanceTimeObserver;
+let chanceTimeTimer;
+
+function clearChanceTimeAfter5min(userItem) {
+  const nowTime = userItem.recentReinforceTime.getTime();
+  chanceTimeObserver = new MutationObserver(() => {
+    userItem.clearChanceNum();
+    clearTimeout(chanceTimeTimer);
+    chanceTimeObserver.disconnect();
+  });
+  const config = { attributes: true, attributeFilter: ['data-useritemid'] };
+  chanceTimeObserver.observe(starforceItemImg, config);
+  chanceTimeTimer = setTimeout(() => {
+    if (nowTime === userItem.recentReinforceTime.getTime()) {
+      userItem.clearChanceNum();
+      updateStarforceWindow();
+      chanceTimeObserver.disconnect();
+    }
+  }, 300000);
+}
+function clearChanceTimeTimers() {
+  if (chanceTimeObserver && chanceTimeTimer) {
+    chanceTimeObserver.disconnect();
+    clearTimeout(chanceTimeTimer);
+  }
+}
 function reinforceStarcatchBasic(userItem) {
   const result = reinforceStarforce(userItem);
   disposeChanceTime(userItem);
+  clearChanceTimeTimers();
   animateItemReinforce();
   calculateChanceTime(result, userItem);
   playSound(enchantSound);
@@ -2312,7 +2481,9 @@ function reinforceStarcatchBasic(userItem) {
     animateReinforceResult(result);
     playResultSound(result);
     updateStarforceWindow();
+    clearChanceTimeAfter5min(userItem);
     isReinforcing = false;
+    userItem.plusStarforceNum();
   }, 1000);
 }
 
@@ -2327,7 +2498,6 @@ function reinforceonstarcatch(userItem) {
     observer.observe(starcatchBox, config);
   }, 1000);
 }
-function starforce(userItem) {}
 
 reinforceAdditionBoxConfirmBtn.addEventListener('click', () => {
   const userItem = userItemArr.find(
@@ -2364,4 +2534,7 @@ const enchantSuccessSound = new Audio('./sound/EnchantSuccess.mp3');
 const enchantFailSound = new Audio('./sound/EnchantFail.mp3');
 const enchantDestroySound = new Audio('./sound/EnchantDestroyed.mp3');
 const enchantStar1Sound = new Audio('./sound/EnchantStar1.mp3');
+const enchantStar2Sound = new Audio('./sound/EnchantStar2.mp3');
+const enchantStar3Sound = new Audio('./sound/EnchantStar3.mp3');
+const enchantStar4Sound = new Audio('./sound/EnchantStar4.mp3');
 const enchantStarStopSound = new Audio('./sound/EnchantStarStop.mp3');
