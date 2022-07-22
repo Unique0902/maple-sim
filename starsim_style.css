@@ -707,7 +707,7 @@ footer {
 .starforceOption__checkBox {
   display: none;
 }
-input[class='starforceOption__checkBox'] + label {
+input.starforceOption__checkBox + label {
   display: block;
   width: 6%;
   height: 50%;
@@ -716,7 +716,7 @@ input[class='starforceOption__checkBox'] + label {
   margin-left: 0%;
   position: relative;
 }
-input[class='starforceOption__checkBox']:checked + label::after {
+input.starforceOption__checkBox:checked + label::after {
   content: '✔';
   color: red;
   text-align: center;
@@ -1808,4 +1808,9 @@ input[class='starforceOption__checkBox']:checked + label::after {
 
 .destroyed {
   opacity: 40%;
+}
+
+.disableCheck + label {
+  pointer-events: none !important;
+  background-color: #bdbdbd !important;
 }

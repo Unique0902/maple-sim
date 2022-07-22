@@ -1338,8 +1338,8 @@ function calculateStarforceSuccess(userItem) {
     return 100;
   }
   if (starNum >= 0 && starNum <= 2) {
-    return 0;
-    //return 95 - 5 * starNum;
+    // return 0;
+    return 95 - 5 * starNum;
   } else if (starNum >= 3 && starNum <= 14) {
     return 100 - 5 * starNum;
   } else if (starNum >= 15 && starNum <= 21) {
@@ -1358,8 +1358,8 @@ function calculateStarforceDestroy(userItem) {
     return 0;
   }
   if (starNum >= 0 && starNum <= 11) {
-    return 100;
-    //return 0;
+    // return 100;
+    return 0;
   } else if (starNum == 12) {
     return 0.6;
   } else if (starNum == 13) {
@@ -1948,6 +1948,18 @@ function updateAlertBox(userItem) {
   }
 }
 
+function updatePreventDestroyCheckBox(starNum) {
+  if (starNum >= 12 && starNum <= 16) {
+    if (preventDestroyCheckBox.classList.contains('disableCheck')) {
+      preventDestroyCheckBox.classList.remove('disableCheck');
+    }
+  } else {
+    if (!preventDestroyCheckBox.classList.contains('disableCheck')) {
+      preventDestroyCheckBox.classList.add('disableCheck');
+    }
+  }
+}
+
 function updateStarforceWindow() {
   const item = findItemInArr(
     elemInReinforce.dataset.type,
@@ -1988,6 +2000,7 @@ function updateStarforceWindow() {
   updateAlertBox(userItem);
   updateReinforceDescription(userItem);
   updateNecessaryMoney(userItem);
+  updatePreventDestroyCheckBox(starNum);
 }
 
 let isReinforcing = false;
@@ -2022,11 +2035,17 @@ starforceBox.addEventListener('click', () => {
 });
 
 function reinforceStarforce(userItem) {
+  const starNum = userItem.returnStarNum();
   let successNum = calculateStarforceSuccess(userItem) / 100;
   if (userItem.isStarcatched === true && userItem.isStarcatchSuccess === true) {
     successNum *= 1.05;
   }
-  const destroyedNum = calculateStarforceDestroy(userItem) / 100;
+  let destroyedNum = calculateStarforceDestroy(userItem) / 100;
+  if (starNum >= 12 && starNum >= 16) {
+    if (preventDestroyCheckBox.checked) {
+      destroyedNum = 0;
+    }
+  }
   const sum = successNum + destroyedNum;
   const randomNum = Math.random();
   if (randomNum < successNum) {
@@ -2036,7 +2055,6 @@ function reinforceStarforce(userItem) {
     userItem.destroy();
     return Result.destroy;
   } else {
-    const starNum = userItem.returnStarNum();
     if (
       (starNum >= 11 && starNum <= 14) ||
       (starNum >= 16 && starNum <= 19) ||
@@ -2443,6 +2461,8 @@ function checkStarcatchLevel(userItem) {
   userItem.recentReinforceTime = nowTime;
 }
 
+function checkPreventDestroy() {}
+
 function checkStarcatch(userItem) {
   checkStarcatchLevel(userItem);
   if (userItem.checkChanceTime() === true) {
@@ -2491,7 +2511,7 @@ function updateDestroyedItemImg(userItem) {
 }
 function moveToRestorePage() {}
 function disposeItemDestroyed(userItem) {
-  if (userItem.checkDestroyed) {
+  if (userItem.checkDestroyed()) {
     updateDestroyedItemImg(userItem);
     moveToRestorePage();
   }
@@ -2503,7 +2523,7 @@ function reinforceStarcatchBasic(userItem) {
   clearChanceTimeTimers();
   animateItemReinforce();
   calculateChanceTime(result, userItem);
-  enchantSound.muted = false;
+  enchantSound.muted = false; //수정해야됨 searchStart 이벤트랑
   playSound(enchantSound);
   isReinforcing = true;
   setTimeout(() => {
