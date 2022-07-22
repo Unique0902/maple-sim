@@ -510,6 +510,12 @@ class UserItem {
   destroy = () => {
     this.#isDestroyed = true;
   };
+  restoreDestroyed = () => {
+    this.#isDestroyed = false;
+  };
+  checkDestroyed = () => {
+    return this.#isDestroyed;
+  };
 }
 
 const userItemArr = [];
@@ -1275,7 +1281,7 @@ itemWindowTable.addEventListener('click', (e) => {
     return;
   }
   if (clickedImg === null) {
-    if (e.target.className === 'table__img') {
+    if (e.target.classList.contains('table__img')) {
       clickedImg = e.target;
       makeFollowedItemBox(e);
       showFollowedItemBox();
@@ -1330,7 +1336,8 @@ function calculateStarforceSuccess(userItem) {
     return 100;
   }
   if (starNum >= 0 && starNum <= 2) {
-    return 95 - 5 * starNum;
+    return 0;
+    //return 95 - 5 * starNum;
   } else if (starNum >= 3 && starNum <= 14) {
     return 100 - 5 * starNum;
   } else if (starNum >= 15 && starNum <= 21) {
@@ -1349,7 +1356,8 @@ function calculateStarforceDestroy(userItem) {
     return 0;
   }
   if (starNum >= 0 && starNum <= 11) {
-    return 0;
+    return 100;
+    //return 0;
   } else if (starNum == 12) {
     return 0.6;
   } else if (starNum == 13) {
@@ -1984,6 +1992,10 @@ let isReinforcing = false;
 
 reinforceOuterBox.addEventListener('click', () => {
   if (clickedImg != null) {
+    if (clickedImg.classList.contains('destroyed')) {
+      moveToRestorePage();
+      return;
+    }
     elemInReinforce = clickedImg;
     hideReinforceOuterBox();
     showStarforceBox();
@@ -1997,6 +2009,10 @@ starforceBox.addEventListener('click', () => {
     return;
   }
   if (clickedImg != null) {
+    if (clickedImg.classList.contains('destroyed')) {
+      moveToRestorePage();
+      return;
+    }
     elemInReinforce = clickedImg;
     removeClickedItem();
     updateStarforceWindow();
@@ -2467,6 +2483,18 @@ function clearChanceTimeTimers() {
     clearTimeout(chanceTimeTimer);
   }
 }
+
+function updateDestroyedItemImg(userItem) {
+  elemInReinforce.classList.add('destroyed');
+}
+function moveToRestorePage() {}
+function disposeItemDestroyed(userItem) {
+  if (userItem.checkDestroyed) {
+    updateDestroyedItemImg(userItem);
+    moveToRestorePage();
+  }
+}
+
 function reinforceStarcatchBasic(userItem) {
   const result = reinforceStarforce(userItem);
   disposeChanceTime(userItem);
@@ -2481,6 +2509,7 @@ function reinforceStarcatchBasic(userItem) {
     animateReinforceResult(result);
     playResultSound(result);
     updateStarforceWindow();
+    disposeItemDestroyed(userItem);
     clearChanceTimeAfter5min(userItem);
     isReinforcing = false;
     userItem.plusStarforceNum();
