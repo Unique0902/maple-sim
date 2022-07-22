@@ -1859,4 +1859,5 @@ input.starforceOption__checkBox:checked + label::after {
   height: 65%;
   border: solid gray 1px;
   background-color: greenyellow;
+  z-index: 2;
 }

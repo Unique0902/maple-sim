@@ -47,6 +47,10 @@ const reinforceAdditionBoxCancelBtn = document.querySelector(
 const resultConfirmBtn = document.querySelector(
   '.reinforceResultBox__confirmBtn'
 );
+const maxStarforceConfirmBtn = document.querySelector(
+  '.maxStarforceBox__confirmBtn'
+);
+const maxStarforceBox = document.querySelector('.maxStarforceBox');
 const starcatchCheckBox = document.querySelector('#unlockStarcatch');
 const preventDestroyCheckBox = document.querySelector('#preventDestruction');
 const resultBeforeImg = document.querySelector('.beforeImg');
@@ -463,12 +467,14 @@ class UserItem {
     this.starcatchLevel = 1;
     this.isStarcatched = false;
     this.isStarcatchSuccess = false;
+    this.isMaxStarforce = false;
     if (item.majorPower === 'attck') {
       this.totalAttackPower = item.attackPower;
     } else if (item.majorPower === 'magic') {
       this.totalMaigcPower = item.attackPower;
     }
   }
+
   updateRecentReinforceTime = (nowdate) => {
     this.recentReinforceTime = nowdate;
   };
@@ -1355,7 +1361,6 @@ function calculateStarforceSuccess(userItem) {
     return 100;
   }
   if (starNum >= 0 && starNum <= 2) {
-    // return 0;
     return 95 - 5 * starNum;
   } else if (starNum >= 3 && starNum <= 14) {
     return 100 - 5 * starNum;
@@ -2007,10 +2012,18 @@ reinforceOuterBox.addEventListener('click', () => {
       return;
     }
     elemInReinforce = clickedImg;
+    const userItem = userItemArr.find(
+      (x) => x.id === parseInt(elemInReinforce.dataset.useritemid)
+    );
     hideReinforceOuterBox();
-    showStarforceBox();
-    removeClickedItem();
-    updateStarforceWindow();
+    if (userItem.isMaxStarforce === true) {
+      showElem(magicalBox);
+      updateMagicalBox();
+    } else {
+      showStarforceBox();
+      removeClickedItem();
+      updateStarforceWindow();
+    }
   }
 });
 
@@ -2024,8 +2037,17 @@ starforceBox.addEventListener('click', () => {
       return;
     }
     elemInReinforce = clickedImg;
+    const userItem = userItemArr.find(
+      (x) => x.id === parseInt(elemInReinforce.dataset.useritemid)
+    );
     removeClickedItem();
-    updateStarforceWindow();
+    if (userItem.isMaxStarforce === true) {
+      hideStarforceBox();
+      showElem(magicalBox);
+      updateMagicalBox();
+    } else {
+      updateStarforceWindow();
+    }
   }
 });
 
@@ -2511,6 +2533,19 @@ function disposeItemDestroyed(userItem) {
     moveToRestorePage();
   }
 }
+function disposeMaxStarforce(userItem) {
+  const starNum = userItem.returnStarNum();
+  const maxStarNum = returnMaxStarForce(userItem.itemInform.level);
+  if (starNum >= maxStarNum) {
+    hideElem(starforceBox);
+    showElem(reinforceOuterBox);
+    showElem(maxStarforceBox);
+    userItem.isMaxStarforce = true;
+  }
+}
+maxStarforceConfirmBtn.addEventListener('click', () => {
+  hideElem(maxStarforceBox);
+});
 
 function reinforceStarcatchBasic(userItem) {
   const result = reinforceStarforce(userItem);
@@ -2527,6 +2562,7 @@ function reinforceStarcatchBasic(userItem) {
     animateReinforceResult(result);
     playResultSound(result);
     updateStarforceWindow();
+    disposeMaxStarforce(userItem);
     disposeItemDestroyed(userItem);
     clearChanceTimeAfter5min(userItem);
     isReinforcing = false;
