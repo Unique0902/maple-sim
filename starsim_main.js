@@ -461,6 +461,12 @@ class User {
   getMeso = (enterMeso) => {
     this.#meso += enterMeso;
   };
+  returnNowMeso = () => {
+    return this.#meso;
+  };
+  minusNowMeso = (enterMeso) => {
+    this.#meso -= enterMeso;
+  };
 }
 
 class UserItem {
@@ -711,6 +717,8 @@ const usersArr = [
   new User('bcde', '2345'),
   new User('cdef', '3456'),
 ];
+
+let nowUser = usersArr.find((x) => x.id === 'abcd');
 
 function clearOptions() {
   if (clothBtn.classList.contains('selected')) {
@@ -1958,50 +1966,61 @@ function calculateNecessaryMoney(userItem) {
 }
 
 function updateNecessaryMoney(userItem) {
-  const money = calculateNecessaryMoney(userItem);
+  const money = calculateNecessaryMoney(userItem).toLocaleString();
   leftMoneyBlock.innerText = `${money}`;
 }
 function updateAlertBox(userItem) {
   const starNum = userItem.returnStarNum();
-  if (userItem.checkChanceTime() === true) {
+  const necessaryMeso = calculateNecessaryMoney(userItem);
+  const nowMeso = nowUser.returnNowMeso();
+  if (nowMeso < necessaryMeso) {
     starForceAlertBox.innerHTML = `
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span class="alertBox__description">
+    강화에 필요한 <span class="yellow">메소</span>가 부족합니다.
+    </span>
+    `;
+  } else {
+    if (userItem.checkChanceTime() === true) {
+      starForceAlertBox.innerHTML = `
     <div class="alertBox__blinkAnimation"></div>
     <span class="alertBox__description">
     <span id="yellow">CHANCE TIME !!</span>    
     </span>
     `;
-  } else {
-    if (starNum >= 0 && starNum <= 10) {
-      starForceAlertBox.innerHTML = `
+    } else {
+      if (starNum >= 0 && starNum <= 10) {
+        starForceAlertBox.innerHTML = `
     <span class="alertBox__description">
     <span class="yellow">메소</span>를 사용하여 장비를 강화합니다.
     </span>
     `;
-    } else if (starNum === 11) {
-      starForceAlertBox.innerHTML = `
+      } else if (starNum === 11) {
+        starForceAlertBox.innerHTML = `
     <i class="fa-solid fa-triangle-exclamation"></i>
     <span class="alertBox__description">
     실패 시 <span class="yellow">강화 단계</span>가 <span class="yellow">하락</span>됩니다.
     </span>
     `;
-    } else if (
-      (starNum >= 12 && starNum <= 14) ||
-      (starNum >= 16 && starNum <= 19) ||
-      (starNum >= 21 && starNum <= 24)
-    ) {
-      starForceAlertBox.innerHTML = `
+      } else if (
+        (starNum >= 12 && starNum <= 14) ||
+        (starNum >= 16 && starNum <= 19) ||
+        (starNum >= 21 && starNum <= 24)
+      ) {
+        starForceAlertBox.innerHTML = `
     <i class="fa-solid fa-triangle-exclamation"></i>
     <span class="alertBox__description">
     실패 시 장비가 <span class="yellow">파괴</span>되거나 <span class="yellow">단계</span>가 <span class="yellow">하락</span>될 수 있습니다.
     </span>
     `;
-    } else if (starNum === 15 || starNum === 20) {
-      starForceAlertBox.innerHTML = `
+      } else if (starNum === 15 || starNum === 20) {
+        starForceAlertBox.innerHTML = `
     <i class="fa-solid fa-triangle-exclamation"></i>
     <span class="alertBox__description">
     실패 시 장비가 <span class="yellow">파괴</span>될 수 있습니다.
     </span>
     `;
+      }
     }
   }
 }
@@ -2073,6 +2092,29 @@ function updateDetailStarforce(starNum) {
     hideElem(detailStarforceLineRightDown);
   }
 }
+const reinforceBtnOpacityWrap = document.querySelector(
+  '.reinforceBtn__opacityWrap'
+);
+
+function updateReinforceBtn(userItem) {
+  const necessaryMeso = calculateNecessaryMoney(userItem);
+  const nowMeso = nowUser.returnNowMeso();
+  if (nowMeso < necessaryMeso) {
+    if (!reinforceStartBtn.classList.contains('disable')) {
+      reinforceStartBtn.classList.add('disable');
+    }
+    if (!reinforceBtnOpacityWrap.classList.contains('faint')) {
+      reinforceBtnOpacityWrap.classList.add('faint');
+    }
+  } else {
+    if (reinforceStartBtn.classList.contains('disable')) {
+      reinforceStartBtn.classList.remove('disable');
+    }
+    if (reinforceBtnOpacityWrap.classList.contains('faint')) {
+      reinforceBtnOpacityWrap.classList.remove('faint');
+    }
+  }
+}
 
 function updateStarforceWindow() {
   const item = findItemInArr(
@@ -2094,6 +2136,21 @@ function updateStarforceWindow() {
   updateReinforceDescription(userItem);
   updateNecessaryMoney(userItem);
   updatePreventDestroyCheckBox(starNum);
+  updateReinforceBtn(userItem);
+}
+
+const nowMoneyBlock = document.querySelector('.moneyBlock__nowMoney');
+
+function mainStart() {
+  nowUser.getMeso(10000000);
+  updateNowMeso();
+}
+
+mainStart();
+
+function updateNowMeso() {
+  const nowMeso = nowUser.returnNowMeso().toLocaleString();
+  nowMoneyBlock.innerText = `${nowMeso}`;
 }
 
 let isReinforcing = false;
@@ -2250,6 +2307,9 @@ function updateReinforceAdditionBox() {
 
 reinforceStartBtn.addEventListener('click', () => {
   if (clickedImg != null) {
+    return;
+  }
+  if (reinforceStartBtn.classList.contains('disable')) {
     return;
   }
   if (isReinforcing) {
@@ -2647,8 +2707,13 @@ function playChancetimeSound(userItem) {
     }, 400);
   }
 }
+function disposeStarforceUserMeso(userItem) {
+  const necessaryMeso = calculateNecessaryMoney(userItem);
+  nowUser.minusNowMeso(necessaryMeso);
+}
 
 function reinforceStarcatchBasic(userItem) {
+  disposeStarforceUserMeso(userItem);
   const result = reinforceStarforce(userItem);
   disposeChanceTime(userItem);
   clearChanceTimeTimers();
@@ -2663,6 +2728,7 @@ function reinforceStarcatchBasic(userItem) {
     animateReinforceResult(result);
     playResultSound(result);
     updateStarforceWindow();
+    updateNowMeso();
     playChancetimeSound(userItem);
     disposeMaxStarforce(userItem);
     disposeItemDestroyed(userItem);

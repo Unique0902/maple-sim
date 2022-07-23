@@ -1889,3 +1889,10 @@ input.starforceOption__checkBox:checked + label::after {
   background-color: greenyellow;
   z-index: 2;
 }
+
+.faint {
+  opacity: 50% !important;
+}
+.disable {
+  cursor: url(picture/maple_basic.cur), pointer;
+}
