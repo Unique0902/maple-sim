@@ -452,7 +452,7 @@ class WeaponItem {
 }
 
 class UserItem {
-  #starNum = 12;
+  #starNum = 0;
   #isDestroyed = false;
   #chanceNum = 0;
   #starforceNum = 0;
@@ -1999,6 +1999,62 @@ function updatePreventDestroyCheckBox(starNum) {
     }
   }
 }
+const detailStarforceBox = document.querySelector(
+  '.mainItemBlock__detailStarforce'
+);
+const detailStarforceDownBox = document.querySelector(
+  '.mainItemBlock__detailStarforce__downBox'
+);
+const detailStarforceLineRightDown = document.querySelector(
+  '.detailStarforce__lineRightDown'
+);
+const detailStarforceLineLeftDown = document.querySelector(
+  '.detailStarforce__lineLeftDown'
+);
+const detailStarforceLineRight = document.querySelector(
+  '.detailStarforce__lineRight'
+);
+const detailStarforceLineLeft = document.querySelector(
+  '.detailStarforce__lineLeft'
+);
+
+const detailStarforceText = document.querySelector('.detailStarforce__text');
+function updateDetailStarforce(starNum) {
+  if (starNum >= 10) {
+    showElem(detailStarforceLineRightDown);
+    showElem(detailStarforceLineLeftDown);
+    showElem(detailStarforceDownBox);
+    showElem(detailStarforceLineRight);
+    showElem(detailStarforceLineLeft);
+    detailStarforceBox.style['background-color'] = 'black';
+    detailStarforceDownBox.style['border-top'] = '12px solid black';
+    detailStarforceLineRight.style.border = 'dashed black 1.1px';
+    detailStarforceLineLeft.style.border = 'dashed black 1.1px';
+    detailStarforceLineRightDown.style.border = 'dashed black 1.3px';
+    detailStarforceLineLeftDown.style.border = 'dashed black 1.3px';
+    if (starNum <= 14) {
+      detailStarforceText.innerText = '10성+';
+      detailStarforceBox.style['background-color'] = 'red';
+      detailStarforceDownBox.style['border-top'] = '12px solid red';
+      detailStarforceLineRight.style.border = 'dashed red 1.1px';
+      detailStarforceLineLeft.style.border = 'dashed red 1.1px';
+      hideElem(detailStarforceLineRightDown);
+      hideElem(detailStarforceLineLeftDown);
+    } else if (starNum <= 19) {
+      detailStarforceText.innerText = '15성+';
+    } else {
+      detailStarforceText.innerText = '20성+';
+    }
+    showElem(detailStarforceBox);
+  } else {
+    hideElem(detailStarforceBox);
+    hideElem(detailStarforceDownBox);
+    hideElem(detailStarforceLineRight);
+    hideElem(detailStarforceLineLeft);
+    hideElem(detailStarforceLineRightDown);
+    hideElem(detailStarforceLineRightDown);
+  }
+}
 
 function updateStarforceWindow() {
   const item = findItemInArr(
@@ -2016,6 +2072,7 @@ function updateStarforceWindow() {
   starforceItemImg.setAttribute('src', item.url);
   starforceItemImg.setAttribute('data-useritemid', userItem.id);
   updateAlertBox(userItem);
+  updateDetailStarforce(starNum);
   updateReinforceDescription(userItem);
   updateNecessaryMoney(userItem);
   updatePreventDestroyCheckBox(starNum);
