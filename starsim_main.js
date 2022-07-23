@@ -452,7 +452,7 @@ class WeaponItem {
 }
 
 class UserItem {
-  #starNum = 0;
+  #starNum = 12;
   #isDestroyed = false;
   #chanceNum = 0;
   #starforceNum = 0;
@@ -1911,10 +1911,28 @@ function calculateNecessaryMoney(userItem) {
   if (starNum >= 0 && starNum <= 9) {
     return Math.round(((level ** 3 * (starNum + 1)) / 25 + 1000) / 100) * 100;
   } else if (starNum >= 10 && starNum <= 14) {
+    if (starNum >= 12) {
+      if (preventDestructionLabel.classList.contains('checked')) {
+        return (
+          2 *
+          Math.round(((level ** 3 * (starNum + 1) ** 2.7) / 400 + 1000) / 100) *
+          100
+        );
+      }
+    }
     return (
       Math.round(((level ** 3 * (starNum + 1) ** 2.7) / 400 + 1000) / 100) * 100
     );
   } else if (starNum >= 15 && starNum <= 24) {
+    if (starNum <= 16) {
+      if (preventDestructionLabel.classList.contains('checked')) {
+        return (
+          2 *
+          Math.round(((level ** 3 * (starNum + 1) ** 2.7) / 200 + 1000) / 100) *
+          100
+        );
+      }
+    }
     return (
       Math.round(((level ** 3 * (starNum + 1) ** 2.7) / 200 + 1000) / 100) * 100
     );
@@ -2601,6 +2619,26 @@ reinforceAdditionBoxCancelBtn.addEventListener('click', () => {
 
 resultConfirmBtn.addEventListener('click', () => {
   hideElem(reinforceResultBox);
+});
+
+const preventDestructionLabel = document.querySelector(
+  '#preventDestructionLabel'
+);
+
+preventDestructionLabel.addEventListener('click', () => {
+  const userItem = userItemArr.find(
+    (x) => x.id === parseInt(elemInReinforce.dataset.useritemid)
+  );
+  const starNum = userItem.returnStarNum();
+  if (starNum >= 12 && starNum <= 16) {
+    if (preventDestructionLabel.classList.contains('checked')) {
+      preventDestructionLabel.classList.remove('checked');
+      updateNecessaryMoney(userItem);
+    } else {
+      preventDestructionLabel.classList.add('checked');
+      updateNecessaryMoney(userItem);
+    }
+  }
 });
 
 function playSound(sound) {
