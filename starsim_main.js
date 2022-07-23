@@ -2622,6 +2622,14 @@ maxStarforceConfirmBtn.addEventListener('click', () => {
   hideElem(maxStarforceBox);
 });
 
+function playChancetimeSound(userItem) {
+  if (userItem.checkChanceTime() === true) {
+    setTimeout(() => {
+      playSound(enchantChanceTimeSound);
+    }, 400);
+  }
+}
+
 function reinforceStarcatchBasic(userItem) {
   const result = reinforceStarforce(userItem);
   disposeChanceTime(userItem);
@@ -2637,6 +2645,7 @@ function reinforceStarcatchBasic(userItem) {
     animateReinforceResult(result);
     playResultSound(result);
     updateStarforceWindow();
+    playChancetimeSound(userItem);
     disposeMaxStarforce(userItem);
     disposeItemDestroyed(userItem);
     clearChanceTimeAfter5min(userItem);
@@ -2716,3 +2725,4 @@ const enchantStar2Sound = new Audio('./sound/EnchantStar2.mp3');
 const enchantStar3Sound = new Audio('./sound/EnchantStar3.mp3');
 const enchantStar4Sound = new Audio('./sound/EnchantStar4.mp3');
 const enchantStarStopSound = new Audio('./sound/EnchantStarStop.mp3');
+const enchantChanceTimeSound = new Audio('./sound/EnchantChanceTime.mp3');
