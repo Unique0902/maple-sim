@@ -451,6 +451,18 @@ class WeaponItem {
   }
 }
 
+class User {
+  #meso = 0;
+  #money = 0;
+  constructor(id, pw) {
+    this.id = id;
+    this.pw = pw;
+  }
+  getMeso = (enterMeso) => {
+    this.#meso += enterMeso;
+  };
+}
+
 class UserItem {
   #starNum = 0;
   #isDestroyed = false;
@@ -693,6 +705,12 @@ const weaponItemArr = [
 // function makeNewItems(first,last,interval){
 
 // }
+
+const usersArr = [
+  new User('abcd', '1234'),
+  new User('bcde', '2345'),
+  new User('cdef', '3456'),
+];
 
 function clearOptions() {
   if (clothBtn.classList.contains('selected')) {
