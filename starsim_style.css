@@ -1903,3 +1903,41 @@ input.starforceOption__checkBox:checked + label::after {
 .disable {
   cursor: url(picture/maple_basic.cur), pointer;
 }
+
+.lowerBar {
+  position: absolute;
+  display: flex;
+  right: 5%;
+  justify-content: space-between;
+  width: 25%;
+  height: 5%;
+  bottom: 3%;
+}
+.lowerBar button {
+  border-radius: var(--size-border-radius);
+  width: 15%;
+}
+.lowerBar button i {
+  margin: auto;
+}
+
+.lowerBar__gift {
+  background-color: #febd23;
+}
+
+.lowerBar__calendar {
+  background-color: #3ce426;
+}
+
+.lowerBar__user,
+.lowerBar__community,
+.lowerBar__settings,
+.lowerBar__menu {
+  background: rgb(183, 216, 221);
+  background: linear-gradient(
+    184deg,
+    rgba(183, 216, 221, 1) 0%,
+    rgba(54, 181, 200, 1) 50%,
+    rgba(7, 126, 144, 1) 100%
+  );
+}
