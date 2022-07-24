@@ -50,6 +50,7 @@ const resultConfirmBtn = document.querySelector(
 const maxStarforceConfirmBtn = document.querySelector(
   '.maxStarforceBox__confirmBtn'
 );
+const reinforceWindow = document.querySelector('.reinforceWindow');
 const maxStarforceBox = document.querySelector('.maxStarforceBox');
 const starcatchCheckBox = document.querySelector('#unlockStarcatch');
 const preventDestroyCheckBox = document.querySelector('#preventDestruction');
@@ -2789,6 +2790,96 @@ preventDestructionLabel.addEventListener('click', () => {
       updateNecessaryMoney(userItem);
     }
   }
+});
+
+const additionBoxDescriptionBlock = document.querySelector(
+  '.reinforceAdditionBox__descriptionBlock'
+);
+let additionMouseMoveEvent;
+let lastWindowX;
+let lastWindowY;
+let dragWindowEvent;
+
+reinforceStartBtn.addEventListener(
+  'click',
+  (dragWindowEvent = () => {
+    const firstRect = reinforceAdditionBox.getBoundingClientRect();
+    firstLeft = firstRect.left;
+    firstTop = firstRect.top;
+    reinforceStartBtn.removeEventListener('click', dragWindowEvent);
+  })
+);
+
+let firstLeft;
+let firstTop;
+
+additionBoxDescriptionBlock.addEventListener('mousedown', (e) => {
+  const firstCurXLoc = e.clientX;
+  const firstCurYLoc = e.clientY;
+  const additionRect = reinforceAdditionBox.getBoundingClientRect();
+  const additionleft = additionRect.left;
+  const additiontop = additionRect.top;
+  const leftDiff = additionleft - firstLeft;
+  const topDiff = additiontop - firstTop;
+  document.removeEventListener('mousemove', additionMouseMoveEvent);
+  document.addEventListener(
+    'mousemove',
+    (additionMouseMoveEvent = (e) => {
+      const x = e.clientX;
+      const y = e.clientY;
+      reinforceAdditionBox.style.transform = `translate(${
+        x - firstCurXLoc + leftDiff
+      }px,${y - firstCurYLoc + topDiff}px)`;
+      lastWindowX = x - firstCurXLoc + leftDiff;
+      lastWindowY = y - firstCurYLoc + topDiff;
+    })
+  );
+  document.addEventListener(
+    'mouseup',
+    (mouseupEvent = () => {
+      document.removeEventListener('mousemove', additionMouseMoveEvent);
+      reinforceResultBox.style.transform = `translate(${lastWindowX}px,${lastWindowY}px)`;
+      document.removeEventListener('mouseup', mouseupEvent);
+    })
+  );
+});
+// 리팩토링 필요
+
+const resultBoxMainBlock = document.querySelector(
+  '.reinforceResultBox__mainBlock'
+);
+let resultMouseMoveEvent;
+let mouseupEvent;
+
+resultBoxMainBlock.addEventListener('mousedown', (e) => {
+  const firstCurXLoc = e.clientX;
+  const firstCurYLoc = e.clientY;
+  const resultRect = reinforceResultBox.getBoundingClientRect();
+  const resultLeft = resultRect.left;
+  const resultTop = resultRect.top;
+  const leftDiff = resultLeft - firstLeft;
+  const topDiff = resultTop - firstTop;
+  document.removeEventListener('mousemove', resultMouseMoveEvent);
+  document.addEventListener(
+    'mousemove',
+    (resultMouseMoveEvent = (e) => {
+      const x = e.clientX;
+      const y = e.clientY;
+      reinforceResultBox.style.transform = `translate(${
+        x - firstCurXLoc + leftDiff
+      }px,${y - firstCurYLoc + topDiff}px)`;
+      lastWindowX = x - firstCurXLoc + leftDiff;
+      lastWindowY = y - firstCurYLoc + topDiff;
+    })
+  );
+  document.addEventListener(
+    'mouseup',
+    (mouseupEvent = () => {
+      document.removeEventListener('mousemove', resultMouseMoveEvent);
+      reinforceAdditionBox.style.transform = `translate(${lastWindowX}px,${lastWindowY}px)`;
+      document.removeEventListener('mouseup', mouseupEvent);
+    })
+  );
 });
 
 function playSound(sound) {

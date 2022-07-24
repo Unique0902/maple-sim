@@ -89,6 +89,7 @@ main {
 .reinforceWindow {
   width: 70%;
   position: relative;
+  z-index: 4;
 }
 .reinforceBox {
   width: 80%;
@@ -364,6 +365,7 @@ td {
   width: 100%;
   height: 90%;
   transform: translateY(5%);
+  z-index: 3;
 }
 .itemWindow__moneyBlock {
   height: 10%;
@@ -415,6 +417,7 @@ footer {
   top: 15%;
   left: 5%;
   padding: 1%;
+  z-index: 5;
 }
 .searchedPageWindow.none {
   display: none;
@@ -817,6 +820,7 @@ input.starforceOption__checkBox:checked + label::after {
   top: 10px;
   left: 10px;
   pointer-events: none;
+  z-index: 5;
 }
 .followedItemBox img {
   width: 100%;
@@ -870,6 +874,7 @@ input.starforceOption__checkBox:checked + label::after {
   height: 63%;
   bottom: 2%;
   left: 6%;
+  z-index: 6;
 }
 .reinforceAdditionBox__descriptionBlock {
   background: rgb(183, 216, 221);
@@ -887,6 +892,7 @@ input.starforceOption__checkBox:checked + label::after {
   align-items: center;
 }
 .reinforceAdditionBox__description {
+  position: relative;
   text-align: center;
   width: 100%;
 }
@@ -920,6 +926,7 @@ input.starforceOption__checkBox:checked + label::after {
   height: 63%;
   bottom: 2%;
   left: 6%;
+  z-index: 6;
 }
 .reinforceResultBox__mainBlock {
   background: rgb(183, 216, 221);
