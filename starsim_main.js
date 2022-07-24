@@ -2140,7 +2140,7 @@ function updateStarforceWindow() {
   updateReinforceBtn(userItem);
 }
 
-const nowMoneyBlock = document.querySelector('.moneyBlock__nowMoney');
+const nowMoneyText = document.querySelector('#nowMoneyText');
 
 function mainStart() {
   nowUser.getMeso(10000000);
@@ -2151,7 +2151,7 @@ mainStart();
 
 function updateNowMeso() {
   const nowMeso = nowUser.returnNowMeso().toLocaleString();
-  nowMoneyBlock.innerText = `${nowMeso}`;
+  nowMoneyText.innerText = `${nowMeso}`;
 }
 
 let isReinforcing = false;

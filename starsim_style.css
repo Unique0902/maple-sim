@@ -53,6 +53,7 @@ body {
   height: 100vh;
   width: 100%;
   cursor: url(picture/maple_basic.cur), pointer;
+  background: url(picture/background_elinia.jpg);
 }
 
 a {
@@ -152,6 +153,7 @@ aside {
   background-color: rgb(69, 69, 69);
   color: var(--color-white);
   border-radius: var(--size-border-radius);
+  margin-right: 2%;
 }
 .optionSelect__header {
   display: flex;
@@ -322,14 +324,15 @@ input[type='number']::-webkit-inner-spin-button {
 }
 
 .itemWindow {
-  height: 50%;
-  width: 60%;
+  height: 74%;
+  width: 47%;
   margin: auto;
+  background-color: var(--color-white);
 }
 .itemDivisions {
   display: flex;
   justify-content: center;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 }
 .itemDivision {
   width: 41.4px;
@@ -377,6 +380,9 @@ td {
 .moneyBlock__title {
   background-color: gray;
   border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .moneyBlock__nowMoney {
   display: block;
@@ -385,6 +391,7 @@ td {
   margin-left: 2px;
   text-align: end;
   padding-right: 5px;
+  background-color: var(--color-white);
 }
 .mesoImg {
   height: 16px;
