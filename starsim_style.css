@@ -1989,7 +1989,7 @@ input.starforceOption__checkBox:checked + label::after {
   display: flex;
   flex-direction: column;
 }
-.settings__setting {
+.settings__settingList li {
   color: var(--color-white);
   height: 50%;
   margin: 3% 0;
