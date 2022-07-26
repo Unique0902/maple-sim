@@ -2901,3 +2901,14 @@ const enchantStar3Sound = new Audio('./sound/EnchantStar3.mp3');
 const enchantStar4Sound = new Audio('./sound/EnchantStar4.mp3');
 const enchantStarStopSound = new Audio('./sound/EnchantStarStop.mp3');
 const enchantChanceTimeSound = new Audio('./sound/EnchantChanceTime.mp3');
+
+const lowerBarSettingBtn = document.querySelector('.lowerBar__settings');
+const lowerBarSettingMenu = document.querySelector('.settings');
+
+lowerBarSettingBtn.addEventListener('click', () => {
+  if (lowerBarSettingMenu.classList.contains('none')) {
+    lowerBarSettingMenu.classList.remove('none');
+  } else {
+    lowerBarSettingMenu.classList.add('none');
+  }
+});

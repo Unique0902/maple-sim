@@ -1913,19 +1913,30 @@ input.starforceOption__checkBox:checked + label::after {
 
 .lowerBar {
   position: absolute;
-  display: flex;
   right: 5%;
-  justify-content: space-between;
   width: 25%;
   height: 5%;
   bottom: 3%;
 }
-.lowerBar button {
-  border-radius: var(--size-border-radius);
+.lowerBar__btnList {
+  position: relative;
+  left: 0;
+  top: -30%;
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+}
+.lowerBar__btn {
   width: 15%;
   position: relative;
 }
-.lowerBar button i {
+.lowerBar__btn button {
+  border-radius: var(--size-border-radius);
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.lowerBar__btn button i {
   margin: auto;
 }
 
@@ -1953,23 +1964,25 @@ input.starforceOption__checkBox:checked + label::after {
 .settings {
   position: absolute;
   width: 200%;
-  height: 200%;
+  height: 220%;
   border-radius: 6px;
   background-color: #313131c9;
   display: flex;
   flex-direction: column;
-  top: -220%;
+  top: -242%;
   left: -50%;
 }
 .settings__title {
   position: relative;
   top: 5%;
-  height: 34%;
+  height: 28%;
   color: #a8a8a8;
   font-weight: var(--weight-semi-bold);
   border-bottom: 1px black solid;
   display: inline-block;
   -webkit-text-stroke: 0.2px black;
+  text-align: center;
+  margin-bottom: 5%;
 }
 .settings__settingList {
   height: 58%;
@@ -1980,4 +1993,6 @@ input.starforceOption__checkBox:checked + label::after {
   color: var(--color-white);
   height: 50%;
   margin: 3% 0;
+  width: 100%;
+  text-align: center;
 }
