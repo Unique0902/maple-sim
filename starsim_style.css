@@ -168,6 +168,9 @@ aside {
 .optionSelct__buttons > .selected {
   background-color: #427585;
 }
+.selected {
+  background-color: #427585 !important;
+}
 .optionSelct__buttons {
   margin-left: 10%;
   margin-top: 2%;

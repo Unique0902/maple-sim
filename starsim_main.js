@@ -2921,13 +2921,43 @@ const optionWindowCalcelBtn = document.querySelector(
 const optionWindowConfirmBtn = document.querySelector(
   '.optionWindow__confirmBtn'
 );
+const soundMasterTarget = document.querySelector('#masterRangeTarget');
+const soundBgmTarget = document.querySelector('#bgmRangeTarget');
+const soundnormalTarget = document.querySelector('#normalRangeTarget');
+const soundMonsterTarget = document.querySelector('#monsterRangeTarget');
+const soundSkillTarget = document.querySelector('#skillRangeTarget');
+const soundVoiceTarget = document.querySelector('#voiceRangeTarget');
 
-function updateOptionWindow() {}
+function calculateSoundTargetLeft(sound) {
+  const soundOptionRangeTarget = document.querySelector('.option__rangeTarget');
+  const soundOptionRangeTargetRect =
+    soundOptionRangeTarget.getBoundingClientRect();
+  const soundOptionRangeBar = document.querySelector('.option__rangeBar');
+  const soundOptionRangeBarRect = soundOptionRangeBar.getBoundingClientRect();
+  const soundOptionRangeBarWidth = soundOptionRangeBarRect.width;
+  const targetLeng = soundOptionRangeTargetRect.width / 2;
+  return soundOptionRangeBarWidth * (sound / 100) - targetLeng;
+}
+
+function updateOptionWindow() {
+  const masterLeft = calculateSoundTargetLeft(systemSetting.sound.master);
+  const bgmLeft = calculateSoundTargetLeft(systemSetting.sound.bgm);
+  const normalLeft = calculateSoundTargetLeft(systemSetting.sound.normal);
+  const monsterLeft = calculateSoundTargetLeft(systemSetting.sound.monster);
+  const skillLeft = calculateSoundTargetLeft(systemSetting.sound.skill);
+  const voiceLeft = calculateSoundTargetLeft(systemSetting.sound.voice);
+  soundMasterTarget.style.transform = `translateX(${masterLeft}px)`;
+  soundBgmTarget.style.transform = `translateX(${bgmLeft}px)`;
+  soundnormalTarget.style.transform = `translateX(${normalLeft}px)`;
+  soundMonsterTarget.style.transform = `translateX(${monsterLeft}px)`;
+  soundSkillTarget.style.transform = `translateX(${skillLeft}px)`;
+  soundVoiceTarget.style.transform = `translateX(${voiceLeft}px)`;
+}
 function updateSettings() {}
 
 settingOptionBtn.addEventListener('click', () => {
-  updateOptionWindow();
   showElem(optionWindow);
+  updateOptionWindow();
   hideElem(lowerBarSettingMenu);
 });
 
