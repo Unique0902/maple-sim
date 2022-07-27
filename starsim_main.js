@@ -2899,7 +2899,8 @@ const enchantStar4Sound = new Audio('./sound/EnchantStar4.mp3');
 const enchantStarStopSound = new Audio('./sound/EnchantStarStop.mp3');
 const enchantChanceTimeSound = new Audio('./sound/EnchantChanceTime.mp3');
 
-const bgmSoundsArr = [];
+const eliniaBgm = new Audio('./bgm/elinia.mp3');
+const bgmSoundsArr = [eliniaBgm];
 
 const normalSoundsArr = [
   enchantSound,
@@ -3143,9 +3144,24 @@ class SoundSetting {
 class GameSetting {}
 class TalkSetting {}
 
+class System {
+  constructor() {
+    this.bgm = null;
+  }
+}
+
+const system = new System();
+
 const systemSetting = new SystemSetting(
   new GraphicSetting(),
   new SoundSetting(),
   new GameSetting(),
   new TalkSetting()
 );
+
+system.bgm = eliniaBgm;
+
+const bgmPlayBtn = document.querySelector('.bgmPlayBtn');
+bgmPlayBtn.addEventListener('click', () => {
+  playSound(system.bgm);
+});
