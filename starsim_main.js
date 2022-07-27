@@ -2912,3 +2912,20 @@ lowerBarSettingBtn.addEventListener('click', () => {
     lowerBarSettingMenu.classList.add('none');
   }
 });
+
+const settingOptionBtn = document.querySelector('.settings__option');
+const optionWindow = document.querySelector('.optionWindow');
+const optionWindowCalcelBtn = document.querySelector(
+  '.optionWindow__cancelBtn'
+);
+const optionWindowConfirmBtn = document.querySelector(
+  '.optionWindow__confirmBtn'
+);
+
+settingOptionBtn.addEventListener('click', () => {
+  showElem(optionWindow);
+});
+
+optionWindowCalcelBtn.addEventListener('click', () => {
+  hideElem(optionWindow);
+});
