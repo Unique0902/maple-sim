@@ -2130,6 +2130,7 @@ input.starforceOption__checkBox:checked + label::after {
   height: 30%;
   background-color: rgb(43, 43, 43);
   border-radius: var(--size-border-radius);
+  cursor: pointer;
 }
 .option__rangeTarget {
   position: absolute;
@@ -2142,6 +2143,7 @@ input.starforceOption__checkBox:checked + label::after {
   background-color: greenyellow;
   border: solid 1px rgb(75, 74, 74);
   box-shadow: 0 0 0 4px inset var(--color-white);
+  cursor: pointer;
 }
 .option__rangeValueRow {
   height: 20%;
@@ -2199,6 +2201,12 @@ input.muteCheckBox:checked + label.muteCheckLabel::after {
 
 #masterSound {
   border-bottom: gray solid 1px;
+}
+#bgmSound {
+  margin-top: 2%;
+}
+#skillSound {
+  margin-top: 2%;
 }
 #monsterSound {
   border-bottom: gray solid 1px;

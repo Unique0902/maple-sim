@@ -1188,8 +1188,6 @@ searchStartBtn.addEventListener('click', (e) => {
   }
   updateSearchedItemPage();
   showSearchedPage();
-  enchantSound.muted = true;
-  playSound(enchantSound);
 });
 
 searchedPageCancelBtn.addEventListener('click', () => {
@@ -2720,7 +2718,6 @@ function reinforceStarcatchBasic(userItem) {
   clearChanceTimeTimers();
   animateItemReinforce();
   calculateChanceTime(result, userItem);
-  enchantSound.muted = false; //수정해야됨 searchStart 이벤트랑
   playSound(enchantSound);
   isReinforcing = true;
   setTimeout(() => {
@@ -2902,6 +2899,33 @@ const enchantStar4Sound = new Audio('./sound/EnchantStar4.mp3');
 const enchantStarStopSound = new Audio('./sound/EnchantStarStop.mp3');
 const enchantChanceTimeSound = new Audio('./sound/EnchantChanceTime.mp3');
 
+const bgmSoundsArr = [];
+
+const normalSoundsArr = [
+  enchantSound,
+  enchantSuccessSound,
+  enchantFailSound,
+  enchantDestroySound,
+  enchantStar1Sound,
+  enchantStar2Sound,
+  enchantStar3Sound,
+  enchantStar4Sound,
+  enchantStarStopSound,
+  enchantChanceTimeSound,
+];
+
+const monsterSoundsArr = [];
+const skillSoundsArr = [];
+const voiceSoundsArr = [];
+
+const soundsArr = [
+  bgmSoundsArr,
+  normalSoundsArr,
+  monsterSoundsArr,
+  skillSoundsArr,
+  voiceSoundsArr,
+];
+
 const lowerBarSettingBtn = document.querySelector('.lowerBar__settings');
 const lowerBarSettingMenu = document.querySelector('.settings');
 
@@ -2927,6 +2951,12 @@ const soundnormalTarget = document.querySelector('#normalRangeTarget');
 const soundMonsterTarget = document.querySelector('#monsterRangeTarget');
 const soundSkillTarget = document.querySelector('#skillRangeTarget');
 const soundVoiceTarget = document.querySelector('#voiceRangeTarget');
+const masterMuteCheckBox = document.querySelector('#masterMuteCheckBox');
+const bgmMuteCheckBox = document.querySelector('#bgmMuteCheckBox');
+const normalMuteCheckBox = document.querySelector('#normalMuteCheckBox');
+const monsterMuteCheckBox = document.querySelector('#monsterMuteCheckBox');
+const skillMuteCheckBox = document.querySelector('#skillMuteCheckBox');
+const voiceMuteCheckBox = document.querySelector('#voiceMuteCheckBox');
 
 function calculateSoundTargetLeft(sound) {
   const soundOptionRangeTarget = document.querySelector('.option__rangeTarget');
@@ -2953,7 +2983,78 @@ function updateOptionWindow() {
   soundSkillTarget.style.transform = `translateX(${skillLeft}px)`;
   soundVoiceTarget.style.transform = `translateX(${voiceLeft}px)`;
 }
-function updateSettings() {}
+
+function calculateSoundPer(bar, target, leng) {
+  const soundOptionRangeTarget = document.querySelector('.option__rangeTarget');
+  const soundOptionRangeTargetRect =
+    soundOptionRangeTarget.getBoundingClientRect();
+  const barLeft = bar.getBoundingClientRect().left;
+  const targetLeft = target.getBoundingClientRect().left;
+  const targetLeng = soundOptionRangeTargetRect.width / 2;
+  const diff = targetLeft - barLeft + targetLeng;
+  return parseInt((diff / leng) * 100);
+}
+
+function applySoundSettings() {
+  normalSoundsArr.forEach((x) => {
+    x.volume = systemSetting.sound.normal / 100;
+    x.muted = normalMuteCheckBox.checked;
+  });
+  bgmSoundsArr.forEach((x) => {
+    x.volume = systemSetting.sound.bgm / 100;
+    x.muted = bgmMuteCheckBox.checked;
+  });
+  monsterSoundsArr.forEach((x) => {
+    x.volume = systemSetting.sound.monster / 100;
+    x.muted = monsterMuteCheckBox.checked;
+  });
+  skillSoundsArr.forEach((x) => {
+    x.volume = systemSetting.sound.skill / 100;
+    x.muted = skillMuteCheckBox.checked;
+  });
+  voiceSoundsArr.forEach((x) => {
+    x.volume = systemSetting.sound.voice / 100;
+    x.muted = voiceMuteCheckBox.checked;
+  });
+  soundsArr.forEach((x) =>
+    x.forEach((y) => {
+      y.volume *= systemSetting.sound.master / 100;
+      if (y.muted === false) {
+        y.muted = masterMuteCheckBox.checked;
+      }
+    })
+  );
+}
+
+function updateSoundSettings() {
+  const masterBar = document.querySelector('#masterRangeBar');
+  const masterTarget = document.querySelector('#masterRangeTarget');
+  const bgmBar = document.querySelector('#bgmRangeBar');
+  const bgmTarget = document.querySelector('#bgmRangeTarget');
+  const normalBar = document.querySelector('#normalRangeBar');
+  const normalTarget = document.querySelector('#normalRangeTarget');
+  const monsterBar = document.querySelector('#monsterRangeBar');
+  const monsterTarget = document.querySelector('#monsterRangeTarget');
+  const skillBar = document.querySelector('#skillRangeBar');
+  const skillTarget = document.querySelector('#skillRangeTarget');
+  const voiceBar = document.querySelector('#voiceRangeBar');
+  const voiceTarget = document.querySelector('#voiceRangeTarget');
+  const leng = calculateSoundTargetLeft(100) - calculateSoundTargetLeft(0);
+  systemSetting.sound.master = calculateSoundPer(masterBar, masterTarget, leng);
+  systemSetting.sound.bgm = calculateSoundPer(bgmBar, bgmTarget, leng);
+  systemSetting.sound.normal = calculateSoundPer(normalBar, normalTarget, leng);
+  systemSetting.sound.monster = calculateSoundPer(
+    monsterBar,
+    monsterTarget,
+    leng
+  );
+  systemSetting.sound.skill = calculateSoundPer(skillBar, skillTarget, leng);
+  systemSetting.sound.voice = calculateSoundPer(voiceBar, voiceTarget, leng);
+  applySoundSettings();
+}
+function updateSettings() {
+  updateSoundSettings();
+}
 
 settingOptionBtn.addEventListener('click', () => {
   showElem(optionWindow);
@@ -3004,6 +3105,19 @@ soundOptionBox.addEventListener('mousedown', (e) => {
         document.removeEventListener('mouseup', soundOptionMouseUpEvent);
       })
     );
+  } else if (e.target.className === 'option__rangeBar') {
+    const targetElem = e.target.children[0];
+    const soundOptionRangeBar = document.querySelector('.option__rangeBar');
+    const soundOptionRangeTarget = document.querySelector(
+      '.option__rangeTarget'
+    );
+    const soundOptionRangeTargetRect =
+      soundOptionRangeTarget.getBoundingClientRect();
+    const targetLeng = soundOptionRangeTargetRect.width / 2;
+    const x = e.clientX;
+    const soundOptionRangeBarRect = soundOptionRangeBar.getBoundingClientRect();
+    const left = x - soundOptionRangeBarRect.left - targetLeng;
+    targetElem.style.transform = `translateX(${left}px)`;
   }
 });
 
