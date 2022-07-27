@@ -2131,7 +2131,8 @@ input.starforceOption__checkBox:checked + label::after {
 .option__rangeTarget {
   position: absolute;
   width: 6%;
-  left: 40%;
+  left: 0%;
+  transform: translateX(1620%);
   height: 250%;
   top: -75%;
   border-radius: 50%;

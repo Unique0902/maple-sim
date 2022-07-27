@@ -2922,10 +2922,86 @@ const optionWindowConfirmBtn = document.querySelector(
   '.optionWindow__confirmBtn'
 );
 
+function updateOptionWindow() {}
+function updateSettings() {}
+
 settingOptionBtn.addEventListener('click', () => {
+  updateOptionWindow();
   showElem(optionWindow);
+  hideElem(lowerBarSettingMenu);
 });
 
 optionWindowCalcelBtn.addEventListener('click', () => {
   hideElem(optionWindow);
 });
+optionWindowConfirmBtn.addEventListener('click', () => {
+  updateSettings();
+  hideElem(optionWindow);
+});
+
+const soundOptionBox = document.querySelector('.optionWindow__soundBox');
+let soundOptionMouseMoveEvent;
+let soundOptionMouseUpEvent;
+
+soundOptionBox.addEventListener('mousedown', (e) => {
+  if (e.target.className === 'option__rangeTarget') {
+    const soundOptionRangeBar = document.querySelector('.option__rangeBar');
+    const soundOptionRangeTarget = document.querySelector(
+      '.option__rangeTarget'
+    );
+    const soundOptionRangeTargetRect =
+      soundOptionRangeTarget.getBoundingClientRect();
+    const targetLeng = soundOptionRangeTargetRect.width / 2;
+    const soundOptionRangeBarRect = soundOptionRangeBar.getBoundingClientRect();
+    const soundOptionRangeBarWidth = soundOptionRangeBarRect.width;
+    document.addEventListener(
+      'mousemove',
+      (soundOptionMouseMoveEvent = (e2) => {
+        const x = e2.clientX;
+        const left = x - soundOptionRangeBarRect.left - targetLeng;
+        if (
+          left >= -targetLeng &&
+          left <= soundOptionRangeBarWidth - targetLeng
+        ) {
+          e.target.style.transform = `translateX(${left}px)`;
+        }
+      })
+    );
+    document.addEventListener(
+      'mouseup',
+      (soundOptionMouseUpEvent = () => {
+        document.removeEventListener('mousemove', soundOptionMouseMoveEvent);
+        document.removeEventListener('mouseup', soundOptionMouseUpEvent);
+      })
+    );
+  }
+});
+
+class SystemSetting {
+  constructor(graphic, sound, game, talk) {
+    this.graphic = graphic;
+    this.sound = sound;
+    this.game = game;
+    this.talk = talk;
+  }
+}
+class GraphicSetting {}
+class SoundSetting {
+  constructor() {
+    this.master = 100;
+    this.bgm = 100;
+    this.normal = 100;
+    this.monster = 100;
+    this.skill = 100;
+    this.voice = 100;
+  }
+}
+class GameSetting {}
+class TalkSetting {}
+
+const systemSetting = new SystemSetting(
+  new GraphicSetting(),
+  new SoundSetting(),
+  new GameSetting(),
+  new TalkSetting()
+);
