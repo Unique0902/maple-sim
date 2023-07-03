@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <link rel="stylesheet" href="starCatchFrame.css" />
+    <title>스타포스 시뮬레이터</title>
+    <link rel="shortcut icon" href="#">
+    <script
+      src="https://kit.fontawesome.com/5e90eb26c9.js"
+      crossorigin="anonymous" defer
+    ></script>
+    <link rel="stylesheet" href="starsim_style.css" />
+    <script src="starForceLogic.js" defer></script>
+    <script src="starsim_main.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <a href="index.html" class="header__anchor"
+        ><h1>메인화면으로 돌아가기</h1></a
+      >
+    </header>
+    <main>
+      <section class="reinforceWindow">
+        <div class="reinforceBox">
+          <div class="renforceBox__outerBox">
+            <div class="reinforceBox__borderBox">
+              <img
+                src="picture/drag.png"
+                alt="dragout"
+                class="reinforceBox__img"
+              />
+              <p class="reinforceBox__description">
+                강화할 장비를<br />올려주세요.
+              </p>
+            </div>
+          </div>
+          <div class="starforceBox none">
+            <div class="starforceBox__reinforceSelects">
+              <button class="starforceBox__reinforceSelect">
+                주문서
+              </button>
+              <button class="starforceBox__reinforceSelect selected">
+                스타포스 강화
+              </button>
+              <button class="starforceBox__reinforceSelect">
+                장비전승
+              </button>
+            </div>
+            <div class="starforceBox__alertBox">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span class="alertBox__description">
+                실패 시 장비가 <span class="yellow">파괴</span>되거나 <span class="yellow">단계</span>가 <span class="yellow">하락</span>될 수 있습니다.
+              </span>
+            </div>
+            <div class="starforceBox__mainItemBlock">
+              <div class="mainItemBlock__itemView">
+                <div class="mainItemBlock__detailStarforce">
+                  <div class="detailStarforce__lineRight"></div>
+                  <div class="detailStarforce__text">10성+</div> 
+                  <div class="detailStarforce__lineLeft"></div>
+                  <div class="detailStarforce__lineRightDown"></div>
+                  <div class="detailStarforce__lineLeftDown"></div>
+                </div>
+                <div class="mainItemBlock__detailStarforce__downBox"></div>
+                <div class="mainItemBlock__borderBlock">
+                  <img src="picture/archer_hat_150.jpg" alt="" class="mainItemBlock__itemImg">
+                </div>
+                <div class="itemView__animationBlock">
+                  <div id="centerTwinkle" class="none"></div>
+                  <div id="borderTwinkle" class="none"></div>
+                </div>
+              </div>
+              <div class="mainItemBlock__reinforceDescription">
+                <span id="beforeStar">12</span>성> <span id="nextStar">13</span>성<br>
+                성공확률: <span id="successPer">40.0</span>%<br>
+                <span id="fail">실패(<span id="minOrMain">하락</span>)확률: <span id="failPer">40.0</span>%<br></span>
+                <span id="destroyed">파괴확률: <span id="destroyPer">40.0</span>%<br></span>
+                <br>
+                <span id="str">STR: +<span id="strStat">3</span><br></span>
+                <span id="dex">DEX: +<span id="dexStat">3</span><br></span>
+                <span id="int">INT: +<span id="intStat">3</span><br></span>
+                <span id="luk">LUK: +<span id="lukStat">3</span><br></span>
+                <span id="attack">공격력: +<span id="attackStat">3</span><br></span>
+                <span id="magic">마력: +<span id="magicStat">3</span><br></span>
+                <span id="maxHp">최대 HP: +<span id="maxHpStat">5</span><br></span>
+                <span id="maxMp">최대 MP: +<span id="maxMpStat">5</span><br></span>
+                <span id="defense">방어력: +<span id="defenseStat">5</span><br></span>
+                <span id="speed">이동속도: +<span id="speedStat">5</span><br></span>
+                <span id="jump">점프력: +<span id="jumpStat">5</span><br></span>
+              </div>
+            </div>
+            <div class="starforceBox__starforceOptions">
+              <div class="starforceOption">
+                <span class="starforceOption__title">스타캐치 해제</span>
+                <input type="checkbox" name="unlockStarcatch" class="starforceOption__checkBox" id="unlockStarcatch">
+                <label for="unlockStarcatch"></label>
+              </div>
+              <div class="starforceOption">
+                <span class="starforceOption__title">파괴방지</span>
+                <input type="checkbox" name="preventDestruction" class="starforceOption__checkBox" id="preventDestruction">
+                <label for="preventDestruction" id="preventDestructionLabel"></label>
+              </div>
+            </div>
+            <div class="starforceBox__necessaryMoneyBlock">
+              <div class="necessaryMoneyBlock__titleBox">
+                <i class="fa-solid fa-circle"></i>
+                <span class="necessaryMoneyBlock__title">필요한 메소:</span>
+              </div>
+              <div class="necessaryMoneyBlock__leftMoney">10,000</div>
+            </div>
+            <div class="starforceBox__reinforceBtns">
+              <button class="starforceBox__reinforceBtn">
+                <span class="reinforceBtn__opacityWrap">
+                  <i class="fa-solid fa-plus"></i>
+                  <span class="reinforceBtn__title">강화</span> 
+                </span>
+              </button>
+              <button class="starforceBox__cancelBtn">
+                <i class="fa-solid fa-rotate-left"></i>
+                <span class="cancelBtn__title">취소</span> 
+              </button>
+            </div>
+          </div>
+          <div class="reinforceAdditionBox none">
+            <div class="reinforceAdditionBox__descriptionBlock">
+              <div class="reinforceAdditionBox__description">
+                <span id="addition__moneyText">10000</span> 메소<br>
+                <br>
+                <span id="addition__diminishText">강화 실패 시 강화 단계가 하락됩니다.<br></span>
+                <span id="addition__destroyAndDiminishText">강화 실패 시 장비가 파괴되거나<br>
+                강화 단계가 하락될 수 있습니다.<br>
+                </span>
+                <span id="addition__destroyText">강화 실패 시 장비가 파괴될 수 있습니다.<br></span>
+                <span id="addition__reinforceTryText">강화를 시도하시겠습니까?</span>
+              </div>
+            </div>
+            <div class="reinforceAdditionBox__buttonsBlock">
+              <button class="reinforceAdditionBox__confirmBtn">
+                확인
+              </button>
+              <button class="reinforceAdditionBox__cancelBtn">
+                취소
+              </button>
+            </div>
+          </div>
+          <div class="reinforceResultBox none">
+            <div class="reinforceResultBox__mainBlock">
+              <div class="reinforceResultBox__imgChangeBlock">
+                <div class="imgChangeBlock__beforeBlock">
+                  <img src="picture/archer_hat_150.jpg" class="beforeImg" alt="">
+                </div>
+                <i class="fa-solid fa-angle-right"></i>
+                <div class="imgChangeBlock__afterBlock">
+                  <img src="picture/archer_hat_150.jpg" class="afterImg" alt="">
+                </div>
+              </div>
+              <div class="reinforceResultBox__description">
+                <span id="resultSuccessText">강화에 <span id="yellow">성공</span>하셨습니다.</span>
+                <span id="resultDiminishText" class="none">강화에 <span id="red">실패</span>하여 강화 단계가 <span id="red">하락</span>하였습니다.</span>
+                <span id="resultMaintainText" class="none">강화에 <span id="red">실패</span>하였습니다.</span>
+                <span id="resultDestroyText" class="none">강화에 <span id="black">실패</span>하여 장비가 <span id="black">파괴</span>되었습니다.</span>
+              </div>
+            </div>
+            <div class="reinforceResultBox__buttonsBlock">
+              <button class="reinforceResultBox__confirmBtn">
+                확인
+              </button>
+            </div>
+            <div class="successAnimation none">
+              <div class="successAnimation__upline"></div>
+              <div class="successAnimation__main">
+                <img src="texts/success.png" class="successAnimation__img">
+              </div>
+              <div class="successAnimation__downline"></div>
+              <div class="successAnimation__effectCircle">
+              </div>
+              <div class="successAnimation__effectStars">
+                <img src="picture/star1.png" id="star1">
+                <img src="picture/star2.png" id="star2">
+                <img src="picture/star3.png" id="star3">
+                <img src="picture/star4.png" id="star4">
+              </div>
+            </div>
+            <div class="failAnimation none">
+              <div class="failAnimation__upline"></div>
+              <div class="failAnimation__main">
+                <img src="texts/failed.png" class="failAnimation__img">
+              </div>
+              <div class="failAnimation__downline"></div>
+            </div>
+            <div class="destroyAnimation none">
+              <div class="destroyAnimation__upline"></div>
+              <div class="destroyAnimation__main">
+                <img src="texts/destroyed.png" class="destroyAnimation__img">
+              </div>
+              <div class="destroyAnimation__downline"></div>
+            </div>
+          </div>
+          <div class="starcatchBox none">
+            <div class="starcatchBox__main">
+              <div class="starcatchBox__description">
+                <div class="starcatchBox__text">
+                  별을 정확한 곳에 멈추면 <span id="yellow">강화 성공률이 증가</span>하며<br>
+                  연속해서 강화를 시도하면 <span id="yellow">난이도가 증가</span>합니다.  
+                </div>
+              </div>
+              <div class="starcatchBox__itemBlock">
+                <div class="starcatchBox__itemView">
+                  <div class="starcatchBox__borderBlock">
+                    <img src="picture/archer_hat_150.jpg" class="starcatchBox__itemImg">
+                  </div>
+                </div>
+                <div class="starcatchBox__countAnimations none">
+                  <img src="texts/start.png" class="countStartAnimation">
+                  <img src="texts/1.png" class="count1Animation">
+                  <img src="texts/2.png" class="count2Animation">
+                  <img src="texts/3.png" class="count3Animation">
+                  <img src="texts/4.png" class="count4Animation">
+                  <img src="texts/5.png" class="count5Animation">
+                </div>
+              </div>
+                <div class="starcatchBox__gameBlock">
+                  <div class="starcatchBox__starAnimation none">
+                    <img src="picture/star.png" class="starAnimation__star">
+                  </div>
+                  <div class="gameBlock__targetZone"></div>                
+                  <div class="starcatchBox__successCircleAnimation none"></div>
+                  <div class="starcatchBox__successperAnimation none">
+                    <img src="texts/starcatchSuccess.png" class="starcatchPerImg">
+                  </div>
+                </div>
+              <div class="starcatchBox__btnBlock">
+                <button class="starcatchBox__stopBtn">
+                  STOP!
+                </button>
+              </div>
+            </div>
+            
+          </div>
+          <div class="maxStarforceBox none">
+            <div class="maxStarforceBox__mainBlock">
+              <div class="maxStarforceBox__description">
+                <span id="maxStarforceText">강화에 성공하셨습니다.<br>
+                장비가 한계까지 강화되어<br>
+                더 이상 강화할 수 없습니다.
+                </span>
+              </div>
+            </div>
+            <div class="maxStarforceBox__buttonsBlock">
+              <button class="maxStarforceBox__confirmBtn">
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <aside>
+        <section class="itemSelectWindow">
+          <div class="itemSelctWindow__optionSelect">
+            <div class="optionSelect__header">
+              <div class="optionSelect__title">아이템 분류</div>
+              <div class="optionSelct__buttons">
+                <button class="clothBtn selected">방어구</button>
+                <button class="weaponBtn">무기</button>
+              </div>
+            </div>
+            <div class="itemSlectWindow__selects">
+              <div class="jobOption">
+                <select name="job" id="job">
+                        <option>전체</option>
+                        <option>전사</option>
+                        <option>마법사</option>
+                        <option>궁수</option>
+                        <option>도적</option>
+                        <option>해적</option>
+                </select>
+            </div>
+            <div class="itemOptions">
+                <div class="itemType">
+                    <select name="itemType" id="itemType">
+                        <option selected>전체</option>
+                        <option>방어구</option>
+                        <option>장신구</option>
+                        <option>기타</option>
+                    </select>
+                </div>
+                <div class="bodyPartOption">
+                    <select name="bodyPart" id="bodyPart">
+                        <option selected>전체</option>
+                    </select>
+                </div>
+            </div>
+            </div>
+           
+          </div>
+          <div class="line"></div>
+          <div class="itemSelectWindow__nameSearch">
+            <label class="nameSearch__title">아이템이름</label>
+              <span class="nameSearch__searchImg"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <input type="search" maxlength="30" class="nameSearch__searchBlock"></input>
+          </div>
+          <div class="itemSelectWindow__levelLimit">
+            <label class="levelLimit__title">레벨범위</label>
+            <div class="levelLimit__option">
+              <input type="number" class="levelLimit__frontLevel">
+              <span class="levelLimit__borderline">-</span>
+              <input type="number" class="levelLimit__backLevel">
+            </div>
+          </div>
+          <div class="searchBtns">
+            <button class="searchClearBtn">초기화</button>
+            <button class="searchStartBtn">검색시작</button>
+          </div>
+        </section>
+        <section class="itemWindow">
+          <ul class="itemDivisions">
+            <li class="itemDivision sel">장비</li>
+            <li class="itemDivision">소비</li>
+            <li class="itemDivision">기타</li>
+            <li class="itemDivision">설치</li>
+            <li class="itemDivision">캐시</li>
+          </ul>
+          <div class="itemWindow__items">
+            <table class="items__table">
+
+              <tbody>
+                <tr id="tr1">
+                  <td class="tr1" id="td1"></td>
+                  <td class="tr1" id="td2"></td>
+                  <td class="tr1" id="td3"></td>
+                  <td class="tr1" id="td4"></td>
+                </tr>
+                <tr id="tr2">
+                  <td class="tr2" id="td1"></td>
+                  <td class="tr2" id="td2"></td>
+                  <td class="tr2" id="td3"></td>
+                  <td class="tr2" id="td4"></td>
+                </tr>
+                <tr id="tr3">
+                  <td class="tr3" id="td1"></td>
+                  <td class="tr3" id="td2"></td>
+                  <td class="tr3" id="td3"></td>
+                  <td class="tr3" id="td4"></td>
+                </tr>
+                <tr id="tr4">
+                  <td class="tr4" id="td1"></td>
+                  <td class="tr4" id="td2"></td>
+                  <td class="tr4" id="td3"></td>
+                  <td class="tr4" id="td4"></td>
+                </tr>
+                <tr id="tr5">
+                  <td class="tr5" id="td1"></td>
+                  <td class="tr5" id="td2"></td>
+                  <td class="tr5" id="td3"></td>
+                  <td class="tr5" id="td4"></td>
+                </tr>
+                <tr id="tr6">
+                  <td class="tr6" id="td1"></td>
+                  <td class="tr6" id="td2"></td>
+                  <td class="tr6" id="td3"></td>
+                  <td class="tr6" id="td4"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="itemWindow__moneyBlock">
+            <span class="moneyBlock__title"
+              ><img src="picture/mapleCoin-removebg-preview.png" alt="meso" class="mesoImg" />메소</span
+            >
+            <span class="moneyBlock__nowMoney"><span id="nowMoneyText">000</span></span>
+          </div>
+          <div class="followedItemBox">
+            
+          </div>
+        </section>
+      </aside>
+    </main>
+    <footer>
+      <section class="optionWindow">
+        <div class="optionWindow__title">
+          Event Options
+        </div>
+        <ul class="reinforceEvents">
+          <li class="reinforceEvent">
+            <input type="checkbox" id="onePlusOne">
+            <label for="onePlusOne" class="onePLusOne_label">10성
+               이하 에서 스타포스 강화 시 1+1
+            </label>
+          </li>
+          <li class="reinforceEvent">
+            <input type="checkbox" id="discount30">
+            <label for="discount30" class="discount30_label">스타포스
+                   강화 비용 30% 할인
+            </label>
+          </li>
+          <li class="reinforceEvent">
+            <input type="checkbox" id="reinforceEvent">
+            <label for="reinforceEvent" class="reinforceEvent_label">5성, 10성, 15성에서 강화 시도 시 성공확률 100%
+            </label>
+          </li>
+        </ul>
+      </section>
+      <section class="lowerBar">
+        <button class="lowerBar__cashshop">
+          <i class="fa-solid fa-gift"></i>
+        </button>
+        <button class="lowerBar__calendar">
+          <i class="fa-solid fa-calendar-check"></i>
+        </button>
+        <button class="lowerBar__charactor">
+          <i class="fa-solid fa-user"></i>
+        </button>
+        <button class="lowerBar__community">
+          <i class="fa-solid fa-users"></i>
+        </button>
+        <button class="lowerBar__settings">
+          <i class="fa-solid fa-gear"></i>
+          <div class="settings none">
+            <span class="settings__title">SETIING</span>
+            <ul class="settings__settingList">
+              <li class="settings__setting">옵션</li>
+              <li class="settings__setting">단축키 세팅</li>
+            </ul>
+          </div>
+        </button>
+        <button class="lowerBar__menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </section>
+    </footer>
+    <section class="searchedPageWindow none">
+      <div class="searchedPageWindow__header">
+        <div class="searchedPageWindow__title">
+          | 검색결과
+        </div>
+        <button class="searchedPageWindow__previousBtn"><</button>
+        <div class="searchedPageWindow__pageInformation">0 / 0</div>
+        <button class="searchedPageWindow__nextBtn">></button>
+        <button class="searchedPageWindow__cancelBtn">X</button>
+      </div>
+      <div class="searchedPageWindow__itemTableSubBlock">
+        <div class="itemTableSubBlock__itemName">
+          아이템 이름
+        </div>
+        <div class="itemTableSubBlock__levelLimit">
+          레벨 제한
+        </div>
+      </div>
+      <div class="searchedPageWindow__itemTable">
+          
+      </div>
+    </section>
+    
+  </body>
+</html>
